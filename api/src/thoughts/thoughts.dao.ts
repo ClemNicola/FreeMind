@@ -12,20 +12,6 @@ type ThoughtsWhereFilter = {
   legitimate?: boolean;
 };
 
-function buildWhere(
-  userId: string,
-  filters: FilterThoughtDto,
-): ThoughtsWhereFilter {
-  return {
-    userId,
-    ...(filters.mood != null && { mood: filters.mood }),
-    ...(filters.time != null && { time: filters.time }),
-    ...(filters.legitimate !== undefined && {
-      legitimate: filters.legitimate,
-    }),
-  };
-}
-
 @Injectable()
 export class ThoughtsDao {
   constructor(private readonly prisma: PrismaService) {}
@@ -34,6 +20,10 @@ export class ThoughtsDao {
     const where: ThoughtsWhereFilter = {
       userId,
     };
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    if (filters.mood) where.mood = filters.mood;
+    if (filters.time) where.time = filters.time;
+    if (filters.legitimate !== undefined) where.legitimate = filters.legitimate;
 
     return this.prisma.thought.findMany({
       where,
