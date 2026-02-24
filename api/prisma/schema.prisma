@@ -1,0 +1,44 @@
+generator client {
+  provider        = "prisma-client"
+  output          = "../src/generated/prisma"
+  moduleFormat    = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id String @id @default(uuid())
+  email String @unique
+  password String
+  salt String
+  emailVerified Boolean @default(false)
+  emailVerificationToken String?  
+  emailVerificationExpires DateTime?
+  resetToken            String?   
+  resetTokenExpires     DateTime?
+  seedPhraseHash        String
+  refreshToken          String? 
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+  thoughts              Thought[]
+}
+
+model Thought {
+  id String @id @default(uuid())
+  current String
+  context String
+  trigger String
+  time TimeEnum
+  legitimate Boolean
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum TimeEnum {
+  PAST
+  FUTURE
+}
