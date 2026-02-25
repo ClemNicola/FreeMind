@@ -20,7 +20,7 @@ export class ThoughtsDao {
     const where: ThoughtsWhereFilter = {
       userId,
     };
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
     if (filters.mood) where.mood = filters.mood;
     if (filters.time) where.time = filters.time;
     if (filters.legitimate !== undefined) where.legitimate = filters.legitimate;
