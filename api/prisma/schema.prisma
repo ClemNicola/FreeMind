@@ -32,6 +32,7 @@ model Thought {
   trigger String
   time TimeEnum
   legitimate Boolean
+  mood MoodEnum
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   userId String
@@ -41,4 +42,19 @@ model Thought {
 enum TimeEnum {
   PAST
   FUTURE
+}
+
+enum MoodEnum {
+  DEPRESSION
+  ANGER
+  SHAME
+  REGRETS
+  TRAUMA
+  ADDICTIONS
+  PARANOIA
+  ANXIETY
+  FEAR
+  ANTICIPATION
+  WORRY
+  STRESS
 }
