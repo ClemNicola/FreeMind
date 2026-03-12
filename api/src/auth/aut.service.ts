@@ -1,8 +1,14 @@
-import { Injectable } from '@nestjs/common';
-import { UsersService } from 'src/users/users.service';
-import { UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import type { User } from '../generated/prisma/client';
+import { UsersService } from '../users/users.service';
+
+type AuthTokens = { accessToken: string; refreshToken: string };
 
 @Injectable()
 export class AuthService {
@@ -11,7 +17,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async signIn(email: string, password: string) {
+  async signIn(email: string, password: string): Promise<AuthTokens> {
     const user = await this.usersService.findByEmail(email);
     if (!user) {
       throw new UnauthorizedException('Invalid credentials');
@@ -29,13 +35,16 @@ export class AuthService {
     return { accessToken, refreshToken };
   }
 
-  async signUp(email: string, password: string) {
+  async signUp(email: string, password: string): Promise<User> {
     const user = await this.usersService.create(email, password);
     return user;
   }
 
-  async signOut(userId: string) {
+  async signOut(userId: string): Promise<void> {
+    const user = await this.usersService.findById(userId);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
     await this.usersService.update(userId, { refreshToken: null });
-    return { message: 'Signed out successfully' };
   }
 }

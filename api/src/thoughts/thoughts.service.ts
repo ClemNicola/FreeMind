@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import type { Thought } from '../generated/prisma/client';
 import { ThoughtsDao } from './thoughts.dao';
 import { CreateThoughtDto } from './dto/create-thought.dto';
 import { UpdateThoughtDto } from './dto/update-thought.dto';
@@ -8,11 +9,14 @@ import { FilterThoughtDto } from './dto/filter-thought.dto';
 export class ThoughtsService {
   constructor(private readonly thoughtsDao: ThoughtsDao) {}
 
-  findAll(userId: string, filters: FilterThoughtDto = {}) {
+  async findAll(
+    userId: string,
+    filters: FilterThoughtDto = {},
+  ): Promise<Thought[]> {
     return this.thoughtsDao.findAllByUserId(userId, filters);
   }
 
-  async findOne(id: string, userId: string) {
+  async findOne(id: string, userId: string): Promise<Thought> {
     const thought = await this.thoughtsDao.findById(id);
     if (!thought || thought.userId !== userId) {
       throw new NotFoundException(`Thought ${id} not found`);
@@ -20,16 +24,20 @@ export class ThoughtsService {
     return thought;
   }
 
-  create(userId: string, dto: CreateThoughtDto) {
+  async create(userId: string, dto: CreateThoughtDto): Promise<Thought> {
     return this.thoughtsDao.create(userId, dto);
   }
 
-  async update(id: string, userId: string, dto: UpdateThoughtDto) {
+  async update(
+    id: string,
+    userId: string,
+    dto: UpdateThoughtDto,
+  ): Promise<Thought> {
     await this.findOne(id, userId);
     return this.thoughtsDao.update(id, dto);
   }
 
-  async remove(id: string, userId: string) {
+  async remove(id: string, userId: string): Promise<Thought> {
     await this.findOne(id, userId);
     return this.thoughtsDao.delete(id);
   }
