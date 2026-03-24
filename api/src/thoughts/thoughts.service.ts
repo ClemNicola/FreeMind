@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ForbiddenException,
+} from '@nestjs/common';
 import type { Thought } from '../generated/prisma/client';
 import { ThoughtsDao } from './thoughts.dao';
 import { CreateThoughtDto } from './dto/create-thought.dto';
@@ -33,12 +37,18 @@ export class ThoughtsService {
     userId: string,
     dto: UpdateThoughtDto,
   ): Promise<Thought> {
-    await this.findOne(id, userId);
+    const thought = await this.findOne(id, userId);
+    if (thought.userId !== userId) {
+      throw new ForbiddenException(`Thought ${id} not found`);
+    }
     return this.thoughtsDao.update(id, dto);
   }
 
   async remove(id: string, userId: string): Promise<Thought> {
-    await this.findOne(id, userId);
+    const thought = await this.findOne(id, userId);
+    if (thought.userId !== userId) {
+      throw new ForbiddenException(`Thought ${id} not found`);
+    }
     return this.thoughtsDao.delete(id);
   }
 }
