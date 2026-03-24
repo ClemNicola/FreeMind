@@ -7,46 +7,55 @@ import {
   Param,
   Body,
   Query,
-  Headers,
+  Request,
 } from '@nestjs/common';
 import { ThoughtsService } from './thoughts.service';
 import { CreateThoughtDto } from './dto/create-thought.dto';
 import { UpdateThoughtDto } from './dto/update-thought.dto';
 import { FilterThoughtDto } from './dto/filter-thought.dto';
+import { UseGuards } from '@nestjs/common';
+import { AuthGuard } from 'src/auth/auth.guard';
+
+type AuthenticatedRequest = Request & { user: { sub: string; email: string } };
 
 @Controller('thoughts')
 export class ThoughtsController {
   constructor(private readonly thoughtsService: ThoughtsService) {}
 
   @Get()
+  @UseGuards(AuthGuard)
   findAll(
-    @Headers('x-user-id') userId: string,
+    @Request() req: AuthenticatedRequest,
     @Query() filters: FilterThoughtDto,
   ) {
-    return this.thoughtsService.findAll(userId, filters);
+    return this.thoughtsService.findAll(req.user.sub, filters);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string, @Headers('x-user-id') userId: string) {
-    return this.thoughtsService.findOne(id, userId);
+  @UseGuards(AuthGuard)
+  findOne(@Param('id') id: string, @Request() req: AuthenticatedRequest) {
+    return this.thoughtsService.findOne(id, req.user.sub);
   }
 
   @Post()
-  create(@Headers('x-user-id') userId: string, @Body() dto: CreateThoughtDto) {
-    return this.thoughtsService.create(userId, dto);
+  @UseGuards(AuthGuard)
+  create(@Request() req: AuthenticatedRequest, @Body() dto: CreateThoughtDto) {
+    return this.thoughtsService.create(req.user.sub, dto);
   }
 
   @Patch(':id')
+  @UseGuards(AuthGuard)
   update(
     @Param('id') id: string,
-    @Headers('x-user-id') userId: string,
+    @Request() req: AuthenticatedRequest,
     @Body() dto: UpdateThoughtDto,
   ) {
-    return this.thoughtsService.update(id, userId, dto);
+    return this.thoughtsService.update(id, req.user.sub, dto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string, @Headers('x-user-id') userId: string) {
-    return this.thoughtsService.remove(id, userId);
+  @UseGuards(AuthGuard)
+  remove(@Param('id') id: string, @Request() req: AuthenticatedRequest) {
+    return this.thoughtsService.remove(id, req.user.sub);
   }
 }

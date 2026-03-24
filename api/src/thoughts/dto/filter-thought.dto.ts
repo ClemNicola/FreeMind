@@ -1,7 +1,15 @@
-import { MoodEnum, TimeEnum } from '../../generated/prisma/client';
+import { IsOptional, IsString } from 'class-validator';
 
 export class FilterThoughtDto {
-  mood?: MoodEnum;
-  time?: TimeEnum;
-  legitimate?: boolean;
+  @IsOptional()
+  @IsString()
+  moodIndex?: string;
+
+  @IsOptional()
+  @IsString()
+  timeIndex?: string;
+
+  @IsOptional()
+  @IsString()
+  legitimateIndex?: string;
 }

@@ -1,10 +1,21 @@
-import { TimeEnum, MoodEnum } from '../../generated/prisma/client';
+import { IsString } from 'class-validator';
 
 export class CreateThoughtDto {
-  current: string;
-  context: string;
-  trigger: string;
-  time: TimeEnum;
-  legitimate: boolean;
-  mood: MoodEnum;
+  @IsString()
+  ciphertext: string;
+
+  @IsString()
+  iv: string;
+
+  @IsString()
+  authTag: string;
+
+  @IsString()
+  timeIndex: string;
+
+  @IsString()
+  legitimateIndex: string;
+
+  @IsString()
+  moodIndex: string;
 }
