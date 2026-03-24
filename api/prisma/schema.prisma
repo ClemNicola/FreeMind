@@ -13,6 +13,7 @@ model User {
   email String @unique
   password String
   salt String
+  wrappedMasterKey String
   emailVerified Boolean @default(false)
   emailVerificationToken String?  
   emailVerificationExpires DateTime?
@@ -27,34 +28,20 @@ model User {
 
 model Thought {
   id String @id @default(uuid())
-  current String
-  context String
-  trigger String
-  time TimeEnum
-  legitimate Boolean
-  mood MoodEnum
+  ciphertext String
+  iv String
+  authTag String
+  timeIndex String 
+  legitimateIndex String
+  moodIndex String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   userId String
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
 
-enum TimeEnum {
-  PAST
-  FUTURE
-}
-
-enum MoodEnum {
-  DEPRESSION
-  ANGER
-  SHAME
-  REGRETS
-  TRAUMA
-  ADDICTIONS
-  PARANOIA
-  ANXIETY
-  FEAR
-  ANTICIPATION
-  WORRY
-  STRESS
+  @@index([userId, moodIndex])
+  @@index([userId, timeIndex])
+  @@index([userId, legitimateIndex])
+  @@index([userId, moodIndex, timeIndex])
+  
 }
