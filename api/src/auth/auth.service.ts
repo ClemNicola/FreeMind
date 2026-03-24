@@ -5,10 +5,15 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import type { User } from '../generated/prisma/client';
 import { UsersService } from '../users/users.service';
+import { SignUpDto } from './dto/signup.dto';
 
-type AuthTokens = { accessToken: string; refreshToken: string };
+type AuthTokens = {
+  accessToken: string;
+  refreshToken: string;
+  wrappedMasterKey: string;
+  salt: string;
+};
 
 @Injectable()
 export class AuthService {
@@ -32,12 +37,33 @@ export class AuthService {
     const refreshToken = await this.jwtService.signAsync(payload, {
       expiresIn: '7d',
     });
-    return { accessToken, refreshToken };
+    return {
+      accessToken,
+      refreshToken,
+      wrappedMasterKey: user.wrappedMasterKey,
+      salt: user.salt,
+    };
   }
 
-  async signUp(email: string, password: string): Promise<User> {
-    const user = await this.usersService.create(email, password);
-    return user;
+  async signUp(dto: SignUpDto): Promise<AuthTokens> {
+    const hashedPassword = await bcrypt.hash(dto.password, 8);
+    console.log('hashedPassword', typeof hashedPassword);
+    const user = await this.usersService.create({
+      ...dto,
+      password: hashedPassword,
+    });
+    console.log('user', user);
+    const payload = { sub: user.id, email: user.email };
+    const accessToken = await this.jwtService.signAsync(payload);
+    const refreshToken = await this.jwtService.signAsync(payload, {
+      expiresIn: '7d',
+    });
+    return {
+      accessToken,
+      refreshToken,
+      wrappedMasterKey: user.wrappedMasterKey,
+      salt: user.salt,
+    };
   }
 
   async signOut(userId: string): Promise<void> {

@@ -29,6 +29,8 @@ export class ThoughtsService {
   }
 
   async create(userId: string, dto: CreateThoughtDto): Promise<Thought> {
+    console.log('userId', userId);
+    console.log('dto', dto);
     return this.thoughtsDao.create(userId, dto);
   }
 

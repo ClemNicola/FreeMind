@@ -7,4 +7,10 @@ export class SignUpDto {
   @IsString()
   @MinLength(8)
   password: string;
+
+  @IsString()
+  wrappedMasterKey: string;
+
+  @IsString()
+  seedPhraseHash: string;
 }

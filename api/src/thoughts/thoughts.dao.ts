@@ -34,6 +34,8 @@ export class ThoughtsDao {
   }
 
   create(userId: string, data: CreateThoughtDto) {
+    console.log('userId', userId);
+    console.log('data', data);
     return this.prisma.thought.create({
       data: {
         ...data,
