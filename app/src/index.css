@@ -1,3 +1,25 @@
+/* index.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@theme {
+  --font-general: "GeneralSans", sans-serif;
+  --font-mogi: "LCMogi-VF", sans-serif;
+}
+
+@font-face {
+  font-family: "GeneralSans";
+  src: url("./fonts/general/GeneralSans-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "LCMogi";
+  src: url("./fonts/mogi/LCMogi-VF.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
