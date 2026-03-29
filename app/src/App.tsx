@@ -2,13 +2,12 @@ import "./index.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 const queryClient = new QueryClient();
 
-function App() {
+function App({ children }: { children: React.ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
-      <h1 className="text-6xl underline font-mogi font-extrabold">MINDY</h1>
-      <h3 className="text-2xl font-general font-light">
-        Get rid of your intrusive thoughts, find peace.
-      </h3>
+      <div className="bg-beige/90 min-h-screen overscroll-none">
+        <div className="max-w-7xl mx-auto py-4">{children}</div>
+      </div>
     </QueryClientProvider>
   );
 }
