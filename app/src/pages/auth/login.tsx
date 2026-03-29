@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { Formik, Form, Field } from "formik";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import mindyLogo from "../../../public/img/mindy.webp";
+import mindyLogo from "/img/mindy.webp";
 import { useAuthControllerSignIn } from "../../api/generated";
 import { toast } from "react-hot-toast";
 
 export default function LoginPage() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { mutate: signIn } = useAuthControllerSignIn();
 
@@ -23,7 +25,7 @@ export default function LoginPage() {
           const { accessToken, refreshToken } = response.data;
           storage.setItem("accessToken", accessToken);
           storage.setItem("refreshToken", refreshToken);
-          toast.success("Login successful");
+          toast.success(t("login.successToast"));
           navigate("/dashboard");
         },
         onError: (error) => {
@@ -39,26 +41,26 @@ export default function LoginPage() {
         <div className="text-dark_blue md:pt-10">
           <h1 className="text-5xl font-mogi text-brown md:hidden">Mindy</h1>
           <h1 className="text-5xl font-semibold hidden md:block">
-            Welcome back!
+            {t("login.welcomeBack")}
           </h1>
           <div className="flex flex-col gap-1 mt-4 md:mt-0">
             <p className="text-2xl font-bold text-dark_blue md:hidden">
-              Welcome back!
+              {t("login.welcomeBack")}
             </p>
             <p className="text-base md:text-lg font-light text-dark_blue md:pt-4">
-              Please enter your details below.
+              {t("login.subtitle")}
             </p>
           </div>
         </div>
         <LoginForm handleSubmit={handleSubmit} />
         <div className="text-center text-dark_blue font-medium">
           <p>
-            Don't have an account yet ?{" "}
+            {t("login.noAccount")}{" "}
             <Link
               className="text-dark_blue font-bold hover:underline cursor-pointer transition-all duration-300"
               to="/signup"
             >
-              Create one
+              {t("login.createOne")}
             </Link>
           </p>
         </div>
@@ -66,11 +68,11 @@ export default function LoginPage() {
       <div className="hidden md:flex flex-col items-center justify-center text-brown py-10">
         <h1 className="text-9xl font-semibold font-mogi">MINDY</h1>
         <p className="text-3xl font-general font-medium pt-4">
-          Free your mind.
+          {t("login.tagline")}
         </p>
         <img
           src={mindyLogo}
-          alt="mindy logo"
+          alt={t("login.logoAlt")}
           className="w-1/2 object-contain"
         />
       </div>
@@ -87,6 +89,7 @@ const LoginForm = ({
     rememberMe: boolean;
   }) => Promise<void>;
 }) => {
+  const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -95,11 +98,11 @@ const LoginForm = ({
       validate={(values) => {
         const errors: { email?: string; password?: string } = {};
         if (!values.email) {
-          errors.email = "Required";
+          errors.email = t("login.validation.emailRequired");
         } else if (
           !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
         ) {
-          errors.email = "Invalid email address";
+          errors.email = t("login.validation.invalidEmail");
         }
         return errors;
       }}
@@ -112,12 +115,12 @@ const LoginForm = ({
               htmlFor="email"
               className="text-sm md:text-base font-semibold text-dark_blue"
             >
-              Email
+              {t("login.email")}
             </label>
             <Field
               name="email"
               type="email"
-              placeholder="Enter your email"
+              placeholder={t("login.emailPlaceholder")}
               className="border border-dark_blue rounded-md p-3 md:p-2 bg-transparent placeholder:text-dark_blue/50"
             />
           </div>
@@ -126,13 +129,13 @@ const LoginForm = ({
               htmlFor="password"
               className="text-sm md:text-base font-semibold text-dark_blue"
             >
-              Password
+              {t("login.password")}
             </label>
             <div className="relative">
               <Field
                 name="password"
                 type={showPassword ? "text" : "password"}
-                placeholder="Enter your password"
+                placeholder={t("login.passwordPlaceholder")}
                 className="border border-dark_blue rounded-md p-3 md:p-2 pr-10 w-full bg-transparent placeholder:text-dark_blue/50"
               />
               <button
@@ -151,17 +154,17 @@ const LoginForm = ({
                 type="checkbox"
                 className="accent-dark_blue w-4 h-4 cursor-pointer"
               />
-              <span className="font-light">Remember me</span>
+              <span className="font-light">{t("login.rememberMe")}</span>
             </label>
             <Link to="/forgot" className="font-light hover:underline">
-              Forgot password?
+              {t("login.forgotPassword")}
             </Link>
           </div>
           <button
             type="submit"
-            className="bg-dark_blue p-4 text-white rounded-md font-bold text-lg hover:bg-dark_blue/80 transition-all duration-300 mt-2 md:mt-8"
+            className="bg-dark_blue p-4 text-white rounded-full font-bold text-lg hover:bg-dark_blue/80 transition-all duration-300 mt-2 md:mt-8"
           >
-            Login
+            {t("login.submit")}
           </button>
         </div>
       </Form>
