@@ -4,7 +4,9 @@ export const apiInstance = async <T>(
   url: string,
   options?: RequestInit,
 ): Promise<T> => {
-  const token = localStorage.getItem("accessToken");
+  const token =
+    sessionStorage.getItem("accessToken") ||
+    localStorage.getItem("accessToken");
 
   const response = await fetch(`${BASE_URL}${url}`, {
     ...options,
