@@ -13,6 +13,7 @@ import { SignUpDto } from './dto/signup.dto';
 import { AuthGuard } from './auth.guard';
 import { Public } from './decorators/public.decorator';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { AuthTokensDto } from './dto/auth-tokens.dto';
 @ApiTags('Auth')
 @ApiBearerAuth()
 @Controller('auth')
@@ -22,8 +23,12 @@ export class AuthController {
   @Public()
   @HttpCode(HttpStatus.OK)
   @Post('signin')
-  @ApiResponse({ status: HttpStatus.OK, description: 'Sign in successful' })
-  signIn(@Body() dto: SignInDto) {
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Sign in successful',
+    type: AuthTokensDto,
+  })
+  signIn(@Body() dto: SignInDto): Promise<AuthTokensDto> {
     return this.authService.signIn(dto.email, dto.password);
   }
 
@@ -33,8 +38,9 @@ export class AuthController {
   @ApiResponse({
     status: HttpStatus.CREATED,
     description: 'Sign up successful',
+    type: AuthTokensDto,
   })
-  signUp(@Body() dto: SignUpDto) {
+  signUp(@Body() dto: SignUpDto): Promise<AuthTokensDto> {
     return this.authService.signUp(dto);
   }
 
