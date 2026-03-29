@@ -1,0 +1,32 @@
+{
+  "login": {
+    "welcomeBack": "Bon retour !",
+    "subtitle": "Saisissez vos informations ci-dessous.",
+    "noAccount": "Pas encore de compte ?",
+    "createOne": "Créer un compte",
+    "tagline": "Libérez votre esprit.",
+    "logoAlt": "Logo Mindy",
+    "email": "E-mail",
+    "password": "Mot de passe",
+    "emailPlaceholder": "Votre adresse e-mail",
+    "passwordPlaceholder": "Votre mot de passe",
+    "rememberMe": "Se souvenir de moi",
+    "forgotPassword": "Mot de passe oublié ?",
+    "submit": "Connexion",
+    "successToast": "Connexion réussie",
+    "validation": {
+      "emailRequired": "Obligatoire",
+      "invalidEmail": "Adresse e-mail invalide"
+    }
+  },
+  "signup": {
+    "successToast": "Compte créé avec succès",
+    "confirmPassword": "Confirmer le mot de passe",
+    "confirmPasswordPlaceholder": "Confirmez votre mot de passe",
+    "errors": {
+      "allFields": "Tous les champs doivent être remplis",
+      "passwordMismatch": "Les mots de passe ne correspondent pas",
+      "emailAlreadyUsed": "E-mail déjà utilisé"
+    }
+  }
+}
