@@ -5,7 +5,10 @@
  * API for the Mental Health app
  * OpenAPI spec version: 1.0
  */
-import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQuery
+} from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -18,10 +21,10 @@ import type {
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
-  UseQueryResult,
-} from "@tanstack/react-query";
+  UseQueryResult
+} from '@tanstack/react-query';
 
-import { apiInstance } from "./api";
+import { apiInstance } from './api';
 export interface SignInDto {
   email: string;
   password: string;
@@ -37,6 +40,7 @@ export interface AuthTokensDto {
 export interface SignUpDto {
   email: string;
   password: string;
+  salt: string;
   wrappedMasterKey: string;
   seedPhraseHash: string;
 }
@@ -60,970 +64,689 @@ export interface UpdateThoughtDto {
 }
 
 export type ThoughtsControllerFindAllParams = {
-  moodIndex?: string;
-  timeIndex?: string;
-  legitimateIndex?: string;
+moodIndex?: string;
+timeIndex?: string;
+legitimateIndex?: string;
 };
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
-export type authControllerSignInResponse200 = {
-  data: AuthTokensDto;
-  status: 200;
-};
 
-export type authControllerSignInResponseSuccess =
-  authControllerSignInResponse200 & {
-    headers: Headers;
-  };
-export type authControllerSignInResponse = authControllerSignInResponseSuccess;
+
+export type authControllerSignInResponse200 = {
+  data: AuthTokensDto
+  status: 200
+}
+
+export type authControllerSignInResponseSuccess = (authControllerSignInResponse200) & {
+  headers: Headers;
+};
+;
+
+export type authControllerSignInResponse = (authControllerSignInResponseSuccess)
 
 export const getAuthControllerSignInUrl = () => {
-  return `/auth/signin`;
-};
 
-export const authControllerSignIn = async (
-  signInDto: SignInDto,
-  options?: RequestInit,
-): Promise<authControllerSignInResponse> => {
-  return apiInstance<authControllerSignInResponse>(
-    getAuthControllerSignInUrl(),
-    {
-      ...options,
-      method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
-      body: JSON.stringify(signInDto),
-    },
-  );
-};
 
-export const getAuthControllerSignInMutationOptions = <
-  TError = unknown,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof authControllerSignIn>>,
-    TError,
-    { data: SignInDto },
-    TContext
-  >;
-  request?: SecondParameter<typeof apiInstance>;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof authControllerSignIn>>,
-  TError,
-  { data: SignInDto },
-  TContext
-> => {
-  const mutationKey = ["authControllerSignIn"];
-  const { mutation: mutationOptions, request: requestOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, request: undefined };
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof authControllerSignIn>>,
-    { data: SignInDto }
-  > = (props) => {
-    const { data } = props ?? {};
 
-    return authControllerSignIn(data, requestOptions);
-  };
+  return `/auth/signin`
+}
 
-  return { mutationFn, ...mutationOptions };
-};
+export const authControllerSignIn = async (signInDto: SignInDto, options?: RequestInit): Promise<authControllerSignInResponse> => {
 
-export type AuthControllerSignInMutationResult = NonNullable<
-  Awaited<ReturnType<typeof authControllerSignIn>>
->;
-export type AuthControllerSignInMutationBody = SignInDto;
-export type AuthControllerSignInMutationError = unknown;
+  return apiInstance<authControllerSignInResponse>(getAuthControllerSignInUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      signInDto,)
+  }
+);}
 
-export const useAuthControllerSignIn = <TError = unknown, TContext = unknown>(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof authControllerSignIn>>,
-      TError,
-      { data: SignInDto },
-      TContext
-    >;
-    request?: SecondParameter<typeof apiInstance>;
-  },
-  queryClient?: QueryClient,
-): UseMutationResult<
-  Awaited<ReturnType<typeof authControllerSignIn>>,
-  TError,
-  { data: SignInDto },
-  TContext
-> => {
-  return useMutation(
-    getAuthControllerSignInMutationOptions(options),
-    queryClient,
-  );
-};
+
+
+
+export const getAuthControllerSignInMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authControllerSignIn>>, TError,{data: SignInDto}, TContext>, request?: SecondParameter<typeof apiInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof authControllerSignIn>>, TError,{data: SignInDto}, TContext> => {
+
+const mutationKey = ['authControllerSignIn'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof authControllerSignIn>>, {data: SignInDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  authControllerSignIn(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type AuthControllerSignInMutationResult = NonNullable<Awaited<ReturnType<typeof authControllerSignIn>>>
+    export type AuthControllerSignInMutationBody = SignInDto
+    export type AuthControllerSignInMutationError = unknown
+
+    export const useAuthControllerSignIn = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authControllerSignIn>>, TError,{data: SignInDto}, TContext>, request?: SecondParameter<typeof apiInstance>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof authControllerSignIn>>,
+        TError,
+        {data: SignInDto},
+        TContext
+      > => {
+      return useMutation(getAuthControllerSignInMutationOptions(options), queryClient);
+    }
 
 export type authControllerSignUpResponse201 = {
-  data: AuthTokensDto;
-  status: 201;
-};
+  data: AuthTokensDto
+  status: 201
+}
 
-export type authControllerSignUpResponseSuccess =
-  authControllerSignUpResponse201 & {
-    headers: Headers;
-  };
-export type authControllerSignUpResponse = authControllerSignUpResponseSuccess;
+export type authControllerSignUpResponseSuccess = (authControllerSignUpResponse201) & {
+  headers: Headers;
+};
+;
+
+export type authControllerSignUpResponse = (authControllerSignUpResponseSuccess)
 
 export const getAuthControllerSignUpUrl = () => {
-  return `/auth/signup`;
-};
 
-export const authControllerSignUp = async (
-  signUpDto: SignUpDto,
-  options?: RequestInit,
-): Promise<authControllerSignUpResponse> => {
-  return apiInstance<authControllerSignUpResponse>(
-    getAuthControllerSignUpUrl(),
-    {
-      ...options,
-      method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
-      body: JSON.stringify(signUpDto),
-    },
-  );
-};
 
-export const getAuthControllerSignUpMutationOptions = <
-  TError = unknown,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof authControllerSignUp>>,
-    TError,
-    { data: SignUpDto },
-    TContext
-  >;
-  request?: SecondParameter<typeof apiInstance>;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof authControllerSignUp>>,
-  TError,
-  { data: SignUpDto },
-  TContext
-> => {
-  const mutationKey = ["authControllerSignUp"];
-  const { mutation: mutationOptions, request: requestOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, request: undefined };
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof authControllerSignUp>>,
-    { data: SignUpDto }
-  > = (props) => {
-    const { data } = props ?? {};
 
-    return authControllerSignUp(data, requestOptions);
-  };
+  return `/auth/signup`
+}
 
-  return { mutationFn, ...mutationOptions };
-};
+export const authControllerSignUp = async (signUpDto: SignUpDto, options?: RequestInit): Promise<authControllerSignUpResponse> => {
 
-export type AuthControllerSignUpMutationResult = NonNullable<
-  Awaited<ReturnType<typeof authControllerSignUp>>
->;
-export type AuthControllerSignUpMutationBody = SignUpDto;
-export type AuthControllerSignUpMutationError = unknown;
+  return apiInstance<authControllerSignUpResponse>(getAuthControllerSignUpUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      signUpDto,)
+  }
+);}
 
-export const useAuthControllerSignUp = <TError = unknown, TContext = unknown>(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof authControllerSignUp>>,
-      TError,
-      { data: SignUpDto },
-      TContext
-    >;
-    request?: SecondParameter<typeof apiInstance>;
-  },
-  queryClient?: QueryClient,
-): UseMutationResult<
-  Awaited<ReturnType<typeof authControllerSignUp>>,
-  TError,
-  { data: SignUpDto },
-  TContext
-> => {
-  return useMutation(
-    getAuthControllerSignUpMutationOptions(options),
-    queryClient,
-  );
-};
+
+
+
+export const getAuthControllerSignUpMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authControllerSignUp>>, TError,{data: SignUpDto}, TContext>, request?: SecondParameter<typeof apiInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof authControllerSignUp>>, TError,{data: SignUpDto}, TContext> => {
+
+const mutationKey = ['authControllerSignUp'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof authControllerSignUp>>, {data: SignUpDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  authControllerSignUp(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type AuthControllerSignUpMutationResult = NonNullable<Awaited<ReturnType<typeof authControllerSignUp>>>
+    export type AuthControllerSignUpMutationBody = SignUpDto
+    export type AuthControllerSignUpMutationError = unknown
+
+    export const useAuthControllerSignUp = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authControllerSignUp>>, TError,{data: SignUpDto}, TContext>, request?: SecondParameter<typeof apiInstance>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof authControllerSignUp>>,
+        TError,
+        {data: SignUpDto},
+        TContext
+      > => {
+      return useMutation(getAuthControllerSignUpMutationOptions(options), queryClient);
+    }
 
 export type authControllerSignOutResponse204 = {
-  data: void;
-  status: 204;
-};
+  data: void
+  status: 204
+}
 
-export type authControllerSignOutResponseSuccess =
-  authControllerSignOutResponse204 & {
-    headers: Headers;
-  };
-export type authControllerSignOutResponse =
-  authControllerSignOutResponseSuccess;
+export type authControllerSignOutResponseSuccess = (authControllerSignOutResponse204) & {
+  headers: Headers;
+};
+;
+
+export type authControllerSignOutResponse = (authControllerSignOutResponseSuccess)
 
 export const getAuthControllerSignOutUrl = () => {
-  return `/auth/signout`;
-};
 
-export const authControllerSignOut = async (
-  options?: RequestInit,
-): Promise<authControllerSignOutResponse> => {
-  return apiInstance<authControllerSignOutResponse>(
-    getAuthControllerSignOutUrl(),
-    {
-      ...options,
-      method: "POST",
-    },
-  );
-};
 
-export const getAuthControllerSignOutMutationOptions = <
-  TError = unknown,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof authControllerSignOut>>,
-    TError,
-    void,
-    TContext
-  >;
-  request?: SecondParameter<typeof apiInstance>;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof authControllerSignOut>>,
-  TError,
-  void,
-  TContext
-> => {
-  const mutationKey = ["authControllerSignOut"];
-  const { mutation: mutationOptions, request: requestOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, request: undefined };
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof authControllerSignOut>>,
-    void
-  > = () => {
-    return authControllerSignOut(requestOptions);
-  };
 
-  return { mutationFn, ...mutationOptions };
-};
+  return `/auth/signout`
+}
 
-export type AuthControllerSignOutMutationResult = NonNullable<
-  Awaited<ReturnType<typeof authControllerSignOut>>
->;
+export const authControllerSignOut = async ( options?: RequestInit): Promise<authControllerSignOutResponse> => {
 
-export type AuthControllerSignOutMutationError = unknown;
+  return apiInstance<authControllerSignOutResponse>(getAuthControllerSignOutUrl(),
+  {
+    ...options,
+    method: 'POST'
 
-export const useAuthControllerSignOut = <TError = unknown, TContext = unknown>(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof authControllerSignOut>>,
-      TError,
-      void,
-      TContext
-    >;
-    request?: SecondParameter<typeof apiInstance>;
-  },
-  queryClient?: QueryClient,
-): UseMutationResult<
-  Awaited<ReturnType<typeof authControllerSignOut>>,
-  TError,
-  void,
-  TContext
-> => {
-  return useMutation(
-    getAuthControllerSignOutMutationOptions(options),
-    queryClient,
-  );
-};
+
+  }
+);}
+
+
+
+
+export const getAuthControllerSignOutMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authControllerSignOut>>, TError,void, TContext>, request?: SecondParameter<typeof apiInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof authControllerSignOut>>, TError,void, TContext> => {
+
+const mutationKey = ['authControllerSignOut'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof authControllerSignOut>>, void> = () => {
+
+
+          return  authControllerSignOut(requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type AuthControllerSignOutMutationResult = NonNullable<Awaited<ReturnType<typeof authControllerSignOut>>>
+
+    export type AuthControllerSignOutMutationError = unknown
+
+    export const useAuthControllerSignOut = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authControllerSignOut>>, TError,void, TContext>, request?: SecondParameter<typeof apiInstance>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof authControllerSignOut>>,
+        TError,
+        void,
+        TContext
+      > => {
+      return useMutation(getAuthControllerSignOutMutationOptions(options), queryClient);
+    }
 
 export type thoughtsControllerFindAllResponse200 = {
-  data: void;
-  status: 200;
+  data: void
+  status: 200
+}
+
+export type thoughtsControllerFindAllResponseSuccess = (thoughtsControllerFindAllResponse200) & {
+  headers: Headers;
 };
+;
 
-export type thoughtsControllerFindAllResponseSuccess =
-  thoughtsControllerFindAllResponse200 & {
-    headers: Headers;
-  };
-export type thoughtsControllerFindAllResponse =
-  thoughtsControllerFindAllResponseSuccess;
+export type thoughtsControllerFindAllResponse = (thoughtsControllerFindAllResponseSuccess)
 
-export const getThoughtsControllerFindAllUrl = (
-  params?: ThoughtsControllerFindAllParams,
-) => {
+export const getThoughtsControllerFindAllUrl = (params?: ThoughtsControllerFindAllParams,) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
+
     if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
+      normalizedParams.append(key, value === null ? 'null' : value.toString())
     }
   });
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0
-    ? `/thoughts?${stringifiedParams}`
-    : `/thoughts`;
-};
+  return stringifiedParams.length > 0 ? `/thoughts?${stringifiedParams}` : `/thoughts`
+}
 
-export const thoughtsControllerFindAll = async (
-  params?: ThoughtsControllerFindAllParams,
-  options?: RequestInit,
-): Promise<thoughtsControllerFindAllResponse> => {
-  return apiInstance<thoughtsControllerFindAllResponse>(
-    getThoughtsControllerFindAllUrl(params),
-    {
-      ...options,
-      method: "GET",
-    },
-  );
-};
+export const thoughtsControllerFindAll = async (params?: ThoughtsControllerFindAllParams, options?: RequestInit): Promise<thoughtsControllerFindAllResponse> => {
 
-export const getThoughtsControllerFindAllQueryKey = (
-  params?: ThoughtsControllerFindAllParams,
+  return apiInstance<thoughtsControllerFindAllResponse>(getThoughtsControllerFindAllUrl(params),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getThoughtsControllerFindAllQueryKey = (params?: ThoughtsControllerFindAllParams,) => {
+    return [
+    `/thoughts`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+
+export const getThoughtsControllerFindAllQueryOptions = <TData = Awaited<ReturnType<typeof thoughtsControllerFindAll>>, TError = unknown>(params?: ThoughtsControllerFindAllParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof thoughtsControllerFindAll>>, TError, TData>>, request?: SecondParameter<typeof apiInstance>}
 ) => {
-  return [`/thoughts`, ...(params ? [params] : [])] as const;
-};
 
-export const getThoughtsControllerFindAllQueryOptions = <
-  TData = Awaited<ReturnType<typeof thoughtsControllerFindAll>>,
-  TError = unknown,
->(
-  params?: ThoughtsControllerFindAllParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof thoughtsControllerFindAll>>,
-        TError,
-        TData
-      >
-    >;
-    request?: SecondParameter<typeof apiInstance>;
-  },
-) => {
-  const { query: queryOptions, request: requestOptions } = options ?? {};
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
-  const queryKey =
-    queryOptions?.queryKey ?? getThoughtsControllerFindAllQueryKey(params);
+  const queryKey =  queryOptions?.queryKey ?? getThoughtsControllerFindAllQueryKey(params);
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof thoughtsControllerFindAll>>
-  > = ({ signal }) =>
-    thoughtsControllerFindAll(params, { signal, ...requestOptions });
 
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof thoughtsControllerFindAll>>,
-    TError,
-    TData
-  > & { queryKey: DataTag<QueryKey, TData, TError> };
-};
 
-export type ThoughtsControllerFindAllQueryResult = NonNullable<
-  Awaited<ReturnType<typeof thoughtsControllerFindAll>>
->;
-export type ThoughtsControllerFindAllQueryError = unknown;
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof thoughtsControllerFindAll>>> = ({ signal }) => thoughtsControllerFindAll(params, { signal, ...requestOptions });
 
-export function useThoughtsControllerFindAll<
-  TData = Awaited<ReturnType<typeof thoughtsControllerFindAll>>,
-  TError = unknown,
->(
-  params: undefined | ThoughtsControllerFindAllParams,
-  options: {
-    query: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof thoughtsControllerFindAll>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof thoughtsControllerFindAll>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type ThoughtsControllerFindAllQueryResult = NonNullable<Awaited<ReturnType<typeof thoughtsControllerFindAll>>>
+export type ThoughtsControllerFindAllQueryError = unknown
+
+
+export function useThoughtsControllerFindAll<TData = Awaited<ReturnType<typeof thoughtsControllerFindAll>>, TError = unknown>(
+ params: undefined |  ThoughtsControllerFindAllParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof thoughtsControllerFindAll>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof thoughtsControllerFindAll>>,
           TError,
           Awaited<ReturnType<typeof thoughtsControllerFindAll>>
-        >,
-        "initialData"
-      >;
-    request?: SecondParameter<typeof apiInstance>;
-  },
-  queryClient?: QueryClient,
-): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>;
-};
-export function useThoughtsControllerFindAll<
-  TData = Awaited<ReturnType<typeof thoughtsControllerFindAll>>,
-  TError = unknown,
->(
-  params?: ThoughtsControllerFindAllParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof thoughtsControllerFindAll>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiInstance>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useThoughtsControllerFindAll<TData = Awaited<ReturnType<typeof thoughtsControllerFindAll>>, TError = unknown>(
+ params?: ThoughtsControllerFindAllParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof thoughtsControllerFindAll>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof thoughtsControllerFindAll>>,
           TError,
           Awaited<ReturnType<typeof thoughtsControllerFindAll>>
-        >,
-        "initialData"
-      >;
-    request?: SecondParameter<typeof apiInstance>;
-  },
-  queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>;
-};
-export function useThoughtsControllerFindAll<
-  TData = Awaited<ReturnType<typeof thoughtsControllerFindAll>>,
-  TError = unknown,
->(
-  params?: ThoughtsControllerFindAllParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof thoughtsControllerFindAll>>,
-        TError,
-        TData
-      >
-    >;
-    request?: SecondParameter<typeof apiInstance>;
-  },
-  queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>;
-};
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiInstance>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useThoughtsControllerFindAll<TData = Awaited<ReturnType<typeof thoughtsControllerFindAll>>, TError = unknown>(
+ params?: ThoughtsControllerFindAllParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof thoughtsControllerFindAll>>, TError, TData>>, request?: SecondParameter<typeof apiInstance>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
-export function useThoughtsControllerFindAll<
-  TData = Awaited<ReturnType<typeof thoughtsControllerFindAll>>,
-  TError = unknown,
->(
-  params?: ThoughtsControllerFindAllParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof thoughtsControllerFindAll>>,
-        TError,
-        TData
-      >
-    >;
-    request?: SecondParameter<typeof apiInstance>;
-  },
-  queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>;
-} {
-  const queryOptions = getThoughtsControllerFindAllQueryOptions(
-    params,
-    options,
-  );
+export function useThoughtsControllerFindAll<TData = Awaited<ReturnType<typeof thoughtsControllerFindAll>>, TError = unknown>(
+ params?: ThoughtsControllerFindAllParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof thoughtsControllerFindAll>>, TError, TData>>, request?: SecondParameter<typeof apiInstance>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
-    TData,
-    TError
-  > & { queryKey: DataTag<QueryKey, TData, TError> };
+  const queryOptions = getThoughtsControllerFindAllQueryOptions(params,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
+
+
+
+
 
 export type thoughtsControllerCreateResponse201 = {
-  data: void;
-  status: 201;
-};
+  data: void
+  status: 201
+}
 
-export type thoughtsControllerCreateResponseSuccess =
-  thoughtsControllerCreateResponse201 & {
-    headers: Headers;
-  };
-export type thoughtsControllerCreateResponse =
-  thoughtsControllerCreateResponseSuccess;
+export type thoughtsControllerCreateResponseSuccess = (thoughtsControllerCreateResponse201) & {
+  headers: Headers;
+};
+;
+
+export type thoughtsControllerCreateResponse = (thoughtsControllerCreateResponseSuccess)
 
 export const getThoughtsControllerCreateUrl = () => {
-  return `/thoughts`;
-};
 
-export const thoughtsControllerCreate = async (
-  createThoughtDto: CreateThoughtDto,
-  options?: RequestInit,
-): Promise<thoughtsControllerCreateResponse> => {
-  return apiInstance<thoughtsControllerCreateResponse>(
-    getThoughtsControllerCreateUrl(),
-    {
-      ...options,
-      method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
-      body: JSON.stringify(createThoughtDto),
-    },
-  );
-};
 
-export const getThoughtsControllerCreateMutationOptions = <
-  TError = unknown,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof thoughtsControllerCreate>>,
-    TError,
-    { data: CreateThoughtDto },
-    TContext
-  >;
-  request?: SecondParameter<typeof apiInstance>;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof thoughtsControllerCreate>>,
-  TError,
-  { data: CreateThoughtDto },
-  TContext
-> => {
-  const mutationKey = ["thoughtsControllerCreate"];
-  const { mutation: mutationOptions, request: requestOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, request: undefined };
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof thoughtsControllerCreate>>,
-    { data: CreateThoughtDto }
-  > = (props) => {
-    const { data } = props ?? {};
 
-    return thoughtsControllerCreate(data, requestOptions);
-  };
+  return `/thoughts`
+}
 
-  return { mutationFn, ...mutationOptions };
-};
+export const thoughtsControllerCreate = async (createThoughtDto: CreateThoughtDto, options?: RequestInit): Promise<thoughtsControllerCreateResponse> => {
 
-export type ThoughtsControllerCreateMutationResult = NonNullable<
-  Awaited<ReturnType<typeof thoughtsControllerCreate>>
->;
-export type ThoughtsControllerCreateMutationBody = CreateThoughtDto;
-export type ThoughtsControllerCreateMutationError = unknown;
+  return apiInstance<thoughtsControllerCreateResponse>(getThoughtsControllerCreateUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      createThoughtDto,)
+  }
+);}
 
-export const useThoughtsControllerCreate = <
-  TError = unknown,
-  TContext = unknown,
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof thoughtsControllerCreate>>,
-      TError,
-      { data: CreateThoughtDto },
-      TContext
-    >;
-    request?: SecondParameter<typeof apiInstance>;
-  },
-  queryClient?: QueryClient,
-): UseMutationResult<
-  Awaited<ReturnType<typeof thoughtsControllerCreate>>,
-  TError,
-  { data: CreateThoughtDto },
-  TContext
-> => {
-  return useMutation(
-    getThoughtsControllerCreateMutationOptions(options),
-    queryClient,
-  );
-};
+
+
+
+export const getThoughtsControllerCreateMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof thoughtsControllerCreate>>, TError,{data: CreateThoughtDto}, TContext>, request?: SecondParameter<typeof apiInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof thoughtsControllerCreate>>, TError,{data: CreateThoughtDto}, TContext> => {
+
+const mutationKey = ['thoughtsControllerCreate'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof thoughtsControllerCreate>>, {data: CreateThoughtDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  thoughtsControllerCreate(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type ThoughtsControllerCreateMutationResult = NonNullable<Awaited<ReturnType<typeof thoughtsControllerCreate>>>
+    export type ThoughtsControllerCreateMutationBody = CreateThoughtDto
+    export type ThoughtsControllerCreateMutationError = unknown
+
+    export const useThoughtsControllerCreate = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof thoughtsControllerCreate>>, TError,{data: CreateThoughtDto}, TContext>, request?: SecondParameter<typeof apiInstance>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof thoughtsControllerCreate>>,
+        TError,
+        {data: CreateThoughtDto},
+        TContext
+      > => {
+      return useMutation(getThoughtsControllerCreateMutationOptions(options), queryClient);
+    }
 
 export type thoughtsControllerFindOneResponse200 = {
-  data: void;
-  status: 200;
+  data: void
+  status: 200
+}
+
+export type thoughtsControllerFindOneResponseSuccess = (thoughtsControllerFindOneResponse200) & {
+  headers: Headers;
 };
+;
 
-export type thoughtsControllerFindOneResponseSuccess =
-  thoughtsControllerFindOneResponse200 & {
-    headers: Headers;
-  };
-export type thoughtsControllerFindOneResponse =
-  thoughtsControllerFindOneResponseSuccess;
+export type thoughtsControllerFindOneResponse = (thoughtsControllerFindOneResponseSuccess)
 
-export const getThoughtsControllerFindOneUrl = (id: string) => {
-  return `/thoughts/${id}`;
-};
+export const getThoughtsControllerFindOneUrl = (id: string,) => {
 
-export const thoughtsControllerFindOne = async (
-  id: string,
-  options?: RequestInit,
-): Promise<thoughtsControllerFindOneResponse> => {
-  return apiInstance<thoughtsControllerFindOneResponse>(
-    getThoughtsControllerFindOneUrl(id),
-    {
-      ...options,
-      method: "GET",
-    },
-  );
-};
 
-export const getThoughtsControllerFindOneQueryKey = (id: string) => {
-  return [`/thoughts/${id}`] as const;
-};
 
-export const getThoughtsControllerFindOneQueryOptions = <
-  TData = Awaited<ReturnType<typeof thoughtsControllerFindOne>>,
-  TError = unknown,
->(
-  id: string,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof thoughtsControllerFindOne>>,
-        TError,
-        TData
-      >
-    >;
-    request?: SecondParameter<typeof apiInstance>;
-  },
+
+  return `/thoughts/${id}`
+}
+
+export const thoughtsControllerFindOne = async (id: string, options?: RequestInit): Promise<thoughtsControllerFindOneResponse> => {
+
+  return apiInstance<thoughtsControllerFindOneResponse>(getThoughtsControllerFindOneUrl(id),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getThoughtsControllerFindOneQueryKey = (id: string,) => {
+    return [
+    `/thoughts/${id}`
+    ] as const;
+    }
+
+
+export const getThoughtsControllerFindOneQueryOptions = <TData = Awaited<ReturnType<typeof thoughtsControllerFindOne>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof thoughtsControllerFindOne>>, TError, TData>>, request?: SecondParameter<typeof apiInstance>}
 ) => {
-  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-  const queryKey =
-    queryOptions?.queryKey ?? getThoughtsControllerFindOneQueryKey(id);
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof thoughtsControllerFindOne>>
-  > = ({ signal }) =>
-    thoughtsControllerFindOne(id, { signal, ...requestOptions });
+  const queryKey =  queryOptions?.queryKey ?? getThoughtsControllerFindOneQueryKey(id);
 
-  return {
-    queryKey,
-    queryFn,
-    enabled: !!id,
-    ...queryOptions,
-  } as UseQueryOptions<
-    Awaited<ReturnType<typeof thoughtsControllerFindOne>>,
-    TError,
-    TData
-  > & { queryKey: DataTag<QueryKey, TData, TError> };
-};
 
-export type ThoughtsControllerFindOneQueryResult = NonNullable<
-  Awaited<ReturnType<typeof thoughtsControllerFindOne>>
->;
-export type ThoughtsControllerFindOneQueryError = unknown;
 
-export function useThoughtsControllerFindOne<
-  TData = Awaited<ReturnType<typeof thoughtsControllerFindOne>>,
-  TError = unknown,
->(
-  id: string,
-  options: {
-    query: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof thoughtsControllerFindOne>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof thoughtsControllerFindOne>>> = ({ signal }) => thoughtsControllerFindOne(id, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof thoughtsControllerFindOne>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type ThoughtsControllerFindOneQueryResult = NonNullable<Awaited<ReturnType<typeof thoughtsControllerFindOne>>>
+export type ThoughtsControllerFindOneQueryError = unknown
+
+
+export function useThoughtsControllerFindOne<TData = Awaited<ReturnType<typeof thoughtsControllerFindOne>>, TError = unknown>(
+ id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof thoughtsControllerFindOne>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof thoughtsControllerFindOne>>,
           TError,
           Awaited<ReturnType<typeof thoughtsControllerFindOne>>
-        >,
-        "initialData"
-      >;
-    request?: SecondParameter<typeof apiInstance>;
-  },
-  queryClient?: QueryClient,
-): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>;
-};
-export function useThoughtsControllerFindOne<
-  TData = Awaited<ReturnType<typeof thoughtsControllerFindOne>>,
-  TError = unknown,
->(
-  id: string,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof thoughtsControllerFindOne>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiInstance>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useThoughtsControllerFindOne<TData = Awaited<ReturnType<typeof thoughtsControllerFindOne>>, TError = unknown>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof thoughtsControllerFindOne>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof thoughtsControllerFindOne>>,
           TError,
           Awaited<ReturnType<typeof thoughtsControllerFindOne>>
-        >,
-        "initialData"
-      >;
-    request?: SecondParameter<typeof apiInstance>;
-  },
-  queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>;
-};
-export function useThoughtsControllerFindOne<
-  TData = Awaited<ReturnType<typeof thoughtsControllerFindOne>>,
-  TError = unknown,
->(
-  id: string,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof thoughtsControllerFindOne>>,
-        TError,
-        TData
-      >
-    >;
-    request?: SecondParameter<typeof apiInstance>;
-  },
-  queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>;
-};
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiInstance>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useThoughtsControllerFindOne<TData = Awaited<ReturnType<typeof thoughtsControllerFindOne>>, TError = unknown>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof thoughtsControllerFindOne>>, TError, TData>>, request?: SecondParameter<typeof apiInstance>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
-export function useThoughtsControllerFindOne<
-  TData = Awaited<ReturnType<typeof thoughtsControllerFindOne>>,
-  TError = unknown,
->(
-  id: string,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof thoughtsControllerFindOne>>,
-        TError,
-        TData
-      >
-    >;
-    request?: SecondParameter<typeof apiInstance>;
-  },
-  queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>;
-} {
-  const queryOptions = getThoughtsControllerFindOneQueryOptions(id, options);
+export function useThoughtsControllerFindOne<TData = Awaited<ReturnType<typeof thoughtsControllerFindOne>>, TError = unknown>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof thoughtsControllerFindOne>>, TError, TData>>, request?: SecondParameter<typeof apiInstance>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
-    TData,
-    TError
-  > & { queryKey: DataTag<QueryKey, TData, TError> };
+  const queryOptions = getThoughtsControllerFindOneQueryOptions(id,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
 
+
+
+
+
 export type thoughtsControllerUpdateResponse200 = {
-  data: void;
-  status: 200;
+  data: void
+  status: 200
+}
+
+export type thoughtsControllerUpdateResponseSuccess = (thoughtsControllerUpdateResponse200) & {
+  headers: Headers;
 };
+;
 
-export type thoughtsControllerUpdateResponseSuccess =
-  thoughtsControllerUpdateResponse200 & {
-    headers: Headers;
-  };
-export type thoughtsControllerUpdateResponse =
-  thoughtsControllerUpdateResponseSuccess;
+export type thoughtsControllerUpdateResponse = (thoughtsControllerUpdateResponseSuccess)
 
-export const getThoughtsControllerUpdateUrl = (id: string) => {
-  return `/thoughts/${id}`;
-};
+export const getThoughtsControllerUpdateUrl = (id: string,) => {
 
-export const thoughtsControllerUpdate = async (
-  id: string,
-  updateThoughtDto: UpdateThoughtDto,
-  options?: RequestInit,
-): Promise<thoughtsControllerUpdateResponse> => {
-  return apiInstance<thoughtsControllerUpdateResponse>(
-    getThoughtsControllerUpdateUrl(id),
-    {
-      ...options,
-      method: "PATCH",
-      headers: { "Content-Type": "application/json", ...options?.headers },
-      body: JSON.stringify(updateThoughtDto),
-    },
-  );
-};
 
-export const getThoughtsControllerUpdateMutationOptions = <
-  TError = unknown,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof thoughtsControllerUpdate>>,
-    TError,
-    { id: string; data: UpdateThoughtDto },
-    TContext
-  >;
-  request?: SecondParameter<typeof apiInstance>;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof thoughtsControllerUpdate>>,
-  TError,
-  { id: string; data: UpdateThoughtDto },
-  TContext
-> => {
-  const mutationKey = ["thoughtsControllerUpdate"];
-  const { mutation: mutationOptions, request: requestOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, request: undefined };
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof thoughtsControllerUpdate>>,
-    { id: string; data: UpdateThoughtDto }
-  > = (props) => {
-    const { id, data } = props ?? {};
 
-    return thoughtsControllerUpdate(id, data, requestOptions);
-  };
+  return `/thoughts/${id}`
+}
 
-  return { mutationFn, ...mutationOptions };
-};
+export const thoughtsControllerUpdate = async (id: string,
+    updateThoughtDto: UpdateThoughtDto, options?: RequestInit): Promise<thoughtsControllerUpdateResponse> => {
 
-export type ThoughtsControllerUpdateMutationResult = NonNullable<
-  Awaited<ReturnType<typeof thoughtsControllerUpdate>>
->;
-export type ThoughtsControllerUpdateMutationBody = UpdateThoughtDto;
-export type ThoughtsControllerUpdateMutationError = unknown;
+  return apiInstance<thoughtsControllerUpdateResponse>(getThoughtsControllerUpdateUrl(id),
+  {
+    ...options,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      updateThoughtDto,)
+  }
+);}
 
-export const useThoughtsControllerUpdate = <
-  TError = unknown,
-  TContext = unknown,
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof thoughtsControllerUpdate>>,
-      TError,
-      { id: string; data: UpdateThoughtDto },
-      TContext
-    >;
-    request?: SecondParameter<typeof apiInstance>;
-  },
-  queryClient?: QueryClient,
-): UseMutationResult<
-  Awaited<ReturnType<typeof thoughtsControllerUpdate>>,
-  TError,
-  { id: string; data: UpdateThoughtDto },
-  TContext
-> => {
-  return useMutation(
-    getThoughtsControllerUpdateMutationOptions(options),
-    queryClient,
-  );
-};
+
+
+
+export const getThoughtsControllerUpdateMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof thoughtsControllerUpdate>>, TError,{id: string;data: UpdateThoughtDto}, TContext>, request?: SecondParameter<typeof apiInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof thoughtsControllerUpdate>>, TError,{id: string;data: UpdateThoughtDto}, TContext> => {
+
+const mutationKey = ['thoughtsControllerUpdate'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof thoughtsControllerUpdate>>, {id: string;data: UpdateThoughtDto}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  thoughtsControllerUpdate(id,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type ThoughtsControllerUpdateMutationResult = NonNullable<Awaited<ReturnType<typeof thoughtsControllerUpdate>>>
+    export type ThoughtsControllerUpdateMutationBody = UpdateThoughtDto
+    export type ThoughtsControllerUpdateMutationError = unknown
+
+    export const useThoughtsControllerUpdate = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof thoughtsControllerUpdate>>, TError,{id: string;data: UpdateThoughtDto}, TContext>, request?: SecondParameter<typeof apiInstance>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof thoughtsControllerUpdate>>,
+        TError,
+        {id: string;data: UpdateThoughtDto},
+        TContext
+      > => {
+      return useMutation(getThoughtsControllerUpdateMutationOptions(options), queryClient);
+    }
 
 export type thoughtsControllerRemoveResponse204 = {
-  data: void;
-  status: 204;
+  data: void
+  status: 204
+}
+
+export type thoughtsControllerRemoveResponseSuccess = (thoughtsControllerRemoveResponse204) & {
+  headers: Headers;
 };
+;
 
-export type thoughtsControllerRemoveResponseSuccess =
-  thoughtsControllerRemoveResponse204 & {
-    headers: Headers;
-  };
-export type thoughtsControllerRemoveResponse =
-  thoughtsControllerRemoveResponseSuccess;
+export type thoughtsControllerRemoveResponse = (thoughtsControllerRemoveResponseSuccess)
 
-export const getThoughtsControllerRemoveUrl = (id: string) => {
-  return `/thoughts/${id}`;
-};
+export const getThoughtsControllerRemoveUrl = (id: string,) => {
 
-export const thoughtsControllerRemove = async (
-  id: string,
-  options?: RequestInit,
-): Promise<thoughtsControllerRemoveResponse> => {
-  return apiInstance<thoughtsControllerRemoveResponse>(
-    getThoughtsControllerRemoveUrl(id),
-    {
-      ...options,
-      method: "DELETE",
-    },
-  );
-};
 
-export const getThoughtsControllerRemoveMutationOptions = <
-  TError = unknown,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof thoughtsControllerRemove>>,
-    TError,
-    { id: string },
-    TContext
-  >;
-  request?: SecondParameter<typeof apiInstance>;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof thoughtsControllerRemove>>,
-  TError,
-  { id: string },
-  TContext
-> => {
-  const mutationKey = ["thoughtsControllerRemove"];
-  const { mutation: mutationOptions, request: requestOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, request: undefined };
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof thoughtsControllerRemove>>,
-    { id: string }
-  > = (props) => {
-    const { id } = props ?? {};
 
-    return thoughtsControllerRemove(id, requestOptions);
-  };
+  return `/thoughts/${id}`
+}
 
-  return { mutationFn, ...mutationOptions };
-};
+export const thoughtsControllerRemove = async (id: string, options?: RequestInit): Promise<thoughtsControllerRemoveResponse> => {
 
-export type ThoughtsControllerRemoveMutationResult = NonNullable<
-  Awaited<ReturnType<typeof thoughtsControllerRemove>>
->;
+  return apiInstance<thoughtsControllerRemoveResponse>(getThoughtsControllerRemoveUrl(id),
+  {
+    ...options,
+    method: 'DELETE'
 
-export type ThoughtsControllerRemoveMutationError = unknown;
 
-export const useThoughtsControllerRemove = <
-  TError = unknown,
-  TContext = unknown,
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof thoughtsControllerRemove>>,
-      TError,
-      { id: string },
-      TContext
-    >;
-    request?: SecondParameter<typeof apiInstance>;
-  },
-  queryClient?: QueryClient,
-): UseMutationResult<
-  Awaited<ReturnType<typeof thoughtsControllerRemove>>,
-  TError,
-  { id: string },
-  TContext
-> => {
-  return useMutation(
-    getThoughtsControllerRemoveMutationOptions(options),
-    queryClient,
-  );
-};
+  }
+);}
+
+
+
+
+export const getThoughtsControllerRemoveMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof thoughtsControllerRemove>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof apiInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof thoughtsControllerRemove>>, TError,{id: string}, TContext> => {
+
+const mutationKey = ['thoughtsControllerRemove'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof thoughtsControllerRemove>>, {id: string}> = (props) => {
+          const {id} = props ?? {};
+
+          return  thoughtsControllerRemove(id,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type ThoughtsControllerRemoveMutationResult = NonNullable<Awaited<ReturnType<typeof thoughtsControllerRemove>>>
+
+    export type ThoughtsControllerRemoveMutationError = unknown
+
+    export const useThoughtsControllerRemove = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof thoughtsControllerRemove>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof apiInstance>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof thoughtsControllerRemove>>,
+        TError,
+        {id: string},
+        TContext
+      > => {
+      return useMutation(getThoughtsControllerRemoveMutationOptions(options), queryClient);
+    }

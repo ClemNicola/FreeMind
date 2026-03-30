@@ -6,43 +6,68 @@ import { Link, useNavigate } from "react-router-dom";
 import mindyLogo from "/img/mindy.webp";
 import { useAuthControllerSignUp } from "../../api/generated";
 import { toast } from "react-hot-toast";
+import {
+  deriveMasterKey,
+  generateSalt,
+  wrapMasterKey,
+  toBase64,
+} from "../../services/crypto";
+import { generateSeedPhrase, hashSeedPhrase } from "../../services/seedPhrase";
 
 export default function Signup() {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const [isEncrypting, setIsEncrypting] = useState(false);
 
-  const { mutate: signUp } = useAuthControllerSignUp();
+  const { mutate: signUp, isPending } = useAuthControllerSignUp();
+
+  const isLoading = isEncrypting || isPending;
 
   const handleSubmit = async (values: {
     email: string;
     password: string;
     confirmPassword: string;
-    wrappedMasterKey: string;
-    seedPhraseHash: string;
   }) => {
-    signUp(
-      {
-        data: {
-          email: values.email,
-          password: values.password,
-          wrappedMasterKey: values.wrappedMasterKey,
-          seedPhraseHash: values.seedPhraseHash,
+    try {
+      setIsEncrypting(true);
+      const salt = generateSalt();
+      const masterKey = await deriveMasterKey(values.password, salt);
+
+      const seedPhrase = generateSeedPhrase();
+      const recoveryKey = await deriveMasterKey(seedPhrase, salt);
+      const wrappedMasterKey = await wrapMasterKey(masterKey, recoveryKey);
+      const seedPhraseHash = await hashSeedPhrase(seedPhrase);
+      signUp(
+        {
+          data: {
+            email: values.email,
+            password: values.password,
+            salt: toBase64(salt),
+            wrappedMasterKey: JSON.stringify(wrappedMasterKey),
+            seedPhraseHash,
+          },
         },
-      },
-      {
-        onSuccess: (response) => {
-          const { accessToken, refreshToken } = response.data;
-          sessionStorage.setItem("accessToken", accessToken);
-          sessionStorage.setItem("refreshToken", refreshToken);
-          toast.success(t("signup.successToast"));
-          navigate("/signup/phrase");
+        {
+          onSuccess: (response) => {
+            setIsEncrypting(false);
+            const { accessToken, refreshToken } = response.data;
+            sessionStorage.setItem("accessToken", accessToken);
+            sessionStorage.setItem("refreshToken", refreshToken);
+            toast.success(t("signup.successToast"));
+            navigate("/signup/phrase");
+          },
+          onError: (error) => {
+            setIsEncrypting(false);
+            console.error(error);
+          },
         },
-        onError: (error) => {
-          console.error(error);
-        },
-      },
-    );
+      );
+    } catch (error) {
+      setIsEncrypting(false);
+      console.error(error);
+    }
   };
+
   return (
     <div className="md:grid md:grid-cols-2 min-h-screen">
       <div className="flex flex-col justify-between min-h-screen px-8 py-12 md:px-20 md:py-10 md:bg-white font-general">
@@ -55,7 +80,12 @@ export default function Signup() {
             The platform that helps you get rid of your intrusive thoughts.
           </p>
         </div>
-        <SignupForm handleSubmit={handleSubmit} />
+        <SignupForm
+          handleSubmit={handleSubmit}
+          isEncrypting={isEncrypting}
+          isPending={isPending}
+          isLoading={isLoading}
+        />
         <div className="text-center text-dark_blue">
           <p className="font-normal md:text-lg text-sm">
             Already have an account?{" "}
@@ -85,14 +115,18 @@ export default function Signup() {
 
 const SignupForm = ({
   handleSubmit,
+  isLoading,
+  isEncrypting,
+  isPending,
 }: {
   handleSubmit: (values: {
     email: string;
     password: string;
     confirmPassword: string;
-    wrappedMasterKey: string;
-    seedPhraseHash: string;
   }) => Promise<void>;
+  isEncrypting: boolean;
+  isPending: boolean;
+  isLoading: boolean;
 }) => {
   const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
@@ -104,8 +138,6 @@ const SignupForm = ({
         email: "",
         password: "",
         confirmPassword: "",
-        wrappedMasterKey: "",
-        seedPhraseHash: "",
       }}
       validate={(values) => {
         const errors: {
@@ -203,8 +235,13 @@ const SignupForm = ({
           <button
             type="submit"
             className="bg-dark_blue p-4 text-white rounded-full font-bold text-lg hover:bg-dark_blue/80 transition-all duration-300 mt-2 md:mt-8"
+            disabled={isLoading}
           >
-            Continue
+            {isEncrypting
+              ? t("signup.encrypting")
+              : isPending
+                ? t("signup.creating")
+                : t("signup.submit")}
           </button>
         </div>
       </Form>

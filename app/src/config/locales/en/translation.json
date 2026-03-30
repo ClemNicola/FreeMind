@@ -23,6 +23,9 @@
     "successToast": "Account created successfully",
     "confirmPassword": "Confirm password",
     "confirmPasswordPlaceholder": "Confirm your password",
+    "encrypting": "Securing your account...",
+    "creating": "Creating account...",
+    "submit": "Continue",
     "errors": {
       "allFields": "All fields must be filled",
       "passwordMismatch": "Passwords do not match",

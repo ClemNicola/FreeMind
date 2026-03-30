@@ -1,10 +1,5 @@
 import { generateMnemonic, validateMnemonic } from "bip39";
-
-function bufToHex(buf: Uint8Array): string {
-  return Array.from(buf)
-    .map((b) => b.toString(16).padStart(2, "0"))
-    .join("");
-}
+import { bufToHex } from "./blindIndex";
 
 export function generateSeedPhrase(): string {
   return generateMnemonic(128);

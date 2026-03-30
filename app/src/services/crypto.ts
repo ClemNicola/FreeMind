@@ -9,7 +9,7 @@ async function initArgon2id() {
   return argon2id;
 }
 
-function toBase64(bytes: Uint8Array): string {
+export function toBase64(bytes: Uint8Array): string {
   let binary = "";
   for (const byte of bytes) binary += String.fromCharCode(byte);
   return btoa(binary);
@@ -51,18 +51,42 @@ export async function deriveMasterKey(
   );
 }
 
-export async function wrapMasterKey(masterKey: CryptoKey): Promise<string> {
+export async function wrapMasterKey(
+  masterKey: CryptoKey,
+  wrappingKey: CryptoKey,
+): Promise<string> {
+  const iv = window.crypto.getRandomValues(new Uint8Array(12));
   const raw = await window.crypto.subtle.exportKey("raw", masterKey);
-  return toBase64(new Uint8Array(raw));
+
+  const encrypted = await window.crypto.subtle.encrypt(
+    { name: "AES-GCM", iv, tagLength: 128 },
+    wrappingKey,
+    raw,
+  );
+
+  const result = new Uint8Array(iv.length + encrypted.byteLength);
+  result.set(iv, 0);
+  result.set(new Uint8Array(encrypted), iv.length);
+  return toBase64(result);
 }
 
 export async function unwrapMasterKey(
   wrappedBase64: string,
+  wrappingKey: CryptoKey,
 ): Promise<CryptoKey> {
-  const raw = fromBase64(wrappedBase64);
+  const data = fromBase64(wrappedBase64);
+  const iv = data.slice(0, 12);
+  const encrypted = data.slice(12);
+
+  const raw = await window.crypto.subtle.decrypt(
+    { name: "AES-GCM", iv: iv as Uint8Array<ArrayBuffer>, tagLength: 128 },
+    wrappingKey,
+    encrypted,
+  );
+
   return window.crypto.subtle.importKey(
     "raw",
-    raw as Uint8Array<ArrayBuffer>,
+    raw,
     { name: "AES-GCM" },
     false,
     ["encrypt", "decrypt"],
