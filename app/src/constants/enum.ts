@@ -16,3 +16,8 @@ export const MOOD_ENUM = {
   WORRY: "WORRY", //PAST
   STRESS: "STRESS", //FUTURE
 };
+
+export const LEGITIMATE_ENUM = {
+  YES: "YES",
+  NO: "NO",
+};
