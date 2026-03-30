@@ -47,12 +47,14 @@ export class AuthService {
 
   async signUp(dto: SignUpDto): Promise<AuthTokens> {
     const hashedPassword = await bcrypt.hash(dto.password, 10);
-    console.log('hashedPassword', typeof hashedPassword);
     const user = await this.usersService.create({
-      ...dto,
+      email: dto.email,
       password: hashedPassword,
+      salt: dto.salt,
+      wrappedMasterKey: dto.wrappedMasterKey,
+      seedPhraseHash: dto.seedPhraseHash,
     });
-    console.log('user', user);
+
     const payload = { sub: user.id, email: user.email };
     const accessToken = await this.jwtService.signAsync(payload);
     const refreshToken = await this.jwtService.signAsync(payload, {
@@ -61,8 +63,8 @@ export class AuthService {
     return {
       accessToken,
       refreshToken,
-      wrappedMasterKey: user.wrappedMasterKey,
       salt: user.salt,
+      wrappedMasterKey: user.wrappedMasterKey,
     };
   }
 

@@ -13,6 +13,10 @@ export class SignUpDto {
 
   @IsString()
   @ApiProperty()
+  salt: string;
+
+  @IsString()
+  @ApiProperty()
   wrappedMasterKey: string;
 
   @IsString()
