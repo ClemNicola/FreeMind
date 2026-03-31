@@ -1,13 +1,6 @@
-import loadArgon2idWasm from "argon2id";
-
-let argon2id: Awaited<ReturnType<typeof loadArgon2idWasm>> | null = null;
-
-async function initArgon2id() {
-  if (!argon2id) {
-    argon2id = await loadArgon2idWasm();
-  }
-  return argon2id;
-}
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
+import argon2 from "argon2-browser/dist/argon2-bundled.min.js";
 
 export function toBase64(bytes: Uint8Array): string {
   let binary = "";
@@ -30,21 +23,19 @@ export async function deriveMasterKey(
   password: string,
   salt: Uint8Array,
 ): Promise<CryptoKey> {
-  const encoder = new TextEncoder();
-  const argon2id = await initArgon2id();
-
-  const hash = argon2id({
-    password: encoder.encode(password),
+  const result = await argon2.hash({
+    pass: password,
     salt,
+    time: 4,
+    mem: 65536,
+    hashLen: 32,
     parallelism: 1,
-    passes: 4,
-    memorySize: 65536,
-    tagLength: 32,
+    type: argon2.ArgonType.Argon2id,
   });
 
   return window.crypto.subtle.importKey(
     "raw",
-    new Uint8Array(hash),
+    new Uint8Array(result.hash),
     { name: "AES-GCM" },
     true,
     ["encrypt", "decrypt", "wrapKey", "unwrapKey"],
@@ -54,7 +45,7 @@ export async function deriveMasterKey(
 export async function wrapMasterKey(
   masterKey: CryptoKey,
   wrappingKey: CryptoKey,
-): Promise<string> {
+): Promise<{ wrapped: string; iv: string }> {
   const iv = window.crypto.getRandomValues(new Uint8Array(12));
   const raw = await window.crypto.subtle.exportKey("raw", masterKey);
 
@@ -64,24 +55,23 @@ export async function wrapMasterKey(
     raw,
   );
 
-  const result = new Uint8Array(iv.length + encrypted.byteLength);
-  result.set(iv, 0);
-  result.set(new Uint8Array(encrypted), iv.length);
-  return toBase64(result);
+  return {
+    wrapped: toBase64(new Uint8Array(encrypted)),
+    iv: toBase64(iv),
+  };
 }
 
 export async function unwrapMasterKey(
-  wrappedBase64: string,
+  wrappedData: { wrapped: string; iv: string },
   wrappingKey: CryptoKey,
 ): Promise<CryptoKey> {
-  const data = fromBase64(wrappedBase64);
-  const iv = data.slice(0, 12);
-  const encrypted = data.slice(12);
+  const iv = fromBase64(wrappedData.iv);
+  const encrypted = fromBase64(wrappedData.wrapped);
 
   const raw = await window.crypto.subtle.decrypt(
     { name: "AES-GCM", iv: iv as Uint8Array<ArrayBuffer>, tagLength: 128 },
     wrappingKey,
-    encrypted,
+    encrypted as Uint8Array<ArrayBuffer>,
   );
 
   return window.crypto.subtle.importKey(
