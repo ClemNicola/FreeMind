@@ -1,3 +1,6 @@
+import { Buffer } from "buffer";
+globalThis.Buffer = Buffer;
+
 import { generateMnemonic, validateMnemonic } from "bip39";
 import { bufToHex } from "./blindIndex";
 

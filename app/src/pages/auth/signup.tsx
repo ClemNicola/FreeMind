@@ -5,7 +5,9 @@ import { FiEye, FiEyeOff } from "react-icons/fi";
 import { Link, useNavigate } from "react-router-dom";
 import mindyLogo from "/img/mindy.webp";
 import { useAuthControllerSignUp } from "../../api/generated";
+import SeedPhrase from "../../components/SeedPhrase";
 import { toast } from "react-hot-toast";
+
 import {
   deriveMasterKey,
   generateSalt,
@@ -18,6 +20,8 @@ export default function Signup() {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const [isEncrypting, setIsEncrypting] = useState(false);
+  const [step, setStep] = useState<string | null>(null);
+  const [seedPhrase, setSeedPhrase] = useState<string | null>(null);
 
   const { mutate: signUp, isPending } = useAuthControllerSignUp();
 
@@ -34,6 +38,7 @@ export default function Signup() {
       const masterKey = await deriveMasterKey(values.password, salt);
 
       const seedPhrase = generateSeedPhrase();
+      setSeedPhrase(seedPhrase);
       const recoveryKey = await deriveMasterKey(seedPhrase, salt);
       const wrappedMasterKey = await wrapMasterKey(masterKey, recoveryKey);
       const seedPhraseHash = await hashSeedPhrase(seedPhrase);
@@ -53,8 +58,7 @@ export default function Signup() {
             const { accessToken, refreshToken } = response.data;
             sessionStorage.setItem("accessToken", accessToken);
             sessionStorage.setItem("refreshToken", refreshToken);
-            toast.success(t("signup.successToast"));
-            navigate("/signup/phrase");
+            setStep("phrase");
           },
           onError: (error) => {
             setIsEncrypting(false);
@@ -67,6 +71,19 @@ export default function Signup() {
       console.error(error);
     }
   };
+
+  if (step === "phrase" && seedPhrase) {
+    return (
+      <SeedPhrase
+        seedPhrase={seedPhrase}
+        onConfirm={() => {
+          setStep(null);
+          toast.success(t("signup.successToast"));
+          navigate("/dashboard");
+        }}
+      />
+    );
+  }
 
   return (
     <div className="md:grid md:grid-cols-2 min-h-screen">
