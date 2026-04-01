@@ -21,5 +21,11 @@ export const apiInstance = async <T>(
     throw new Error(`${response.status}: ${response.statusText}`);
   }
 
-  return response.json();
+  const data = await response.json();
+
+  return {
+    data,
+    status: response.status,
+    headers: response.headers,
+  } as T;
 };
