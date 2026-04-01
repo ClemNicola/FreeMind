@@ -31,5 +31,12 @@
       "passwordMismatch": "Les mots de passe ne correspondent pas",
       "emailAlreadyUsed": "E-mail déjà utilisé"
     }
+  },
+  "seedPhrase": {
+    "title": "Voici votre phrase de récupération.",
+    "warning": "* Conservez cette phrase en lieu sûr. Si vous oubliez votre mot de passe et que vous n'avez pas cette phrase de récupération, vos données ne pourront pas être récupérées.",
+    "copy": "Copier",
+    "copied": "Copié",
+    "goToAccount": "Accéder à mon compte !"
   }
 }

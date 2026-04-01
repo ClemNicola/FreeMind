@@ -22,37 +22,41 @@ export default function SeedPhrase({
   };
 
   return (
-    <div className="flex flex-col justify-center items-center">
-      <h2 className="text-3xl font-general font-medium">
-        Please find attached your
-        <span className="font-mogi text-brown">Mindy</span> recovery phrase.
-      </h2>
+    <div className="grid min-h-screen place-items-center">
+      <div className="flex flex-col justify-center items-center gap-6">
+        <span className="font-mogi text-brown text-6xl">Mindy</span>
+        <h2 className="text-3xl font-general font-medium">
+          {t("seedPhrase.title")}
+        </h2>
+        <p className="max-w-xl text-center text-base font-semibold font-general text-brown/80 leading-relaxed px-2">
+          {t("seedPhrase.warning")}
+        </p>
 
-      <div className="flex gap-4 my-4 flex-wrap justify-center items-center">
-        {words.map((word, index) => {
-          return (
-            <div
-              key={index}
-              className="flex items-center gap-4 rounded-xl border border-dark_blue p-4"
-            >
-              <p className="text-lg font-general font-medium">{word}</p>
-            </div>
-          );
-        })}
+        <div className="flex gap-4 items-center">
+          <div className="flex gap-4 my-4 flex-wrap justify-center items-center p-4 border border-dark_blue rounded-xl">
+            {words.map((word, index) => {
+              return (
+                <div key={index} className="flex items-center gap-4">
+                  <p className="text-lg font-general font-medium">{word}</p>
+                </div>
+              );
+            })}
+          </div>
+          <button
+            onClick={handleCopy}
+            className="border border-dark_blue text-dark_blue flex items-center gap-2 hover:bg-dark_blue/80 hover:text-white transition-all duration-300 p-4 rounded-xl"
+          >
+            <FiCopy size={20} />
+            {copied ? t("seedPhrase.copied") : t("seedPhrase.copy")}
+          </button>
+        </div>
         <button
-          onClick={handleCopy}
-          className="border border-dark_blue text-dark_blue px-4 py-2 rounded-xl hover:bg-dark_blue hover:text-white transition-all duration-300"
+          onClick={onConfirm}
+          className="bg-dark_blue text-white py-4 px-6 rounded-full font-general font-medium text-xl hover:bg-dark_blue/80 transition-all duration-300"
         >
-          <FiCopy size={20} />
-          {copied ? "Copied" : "Copy"}
+          {t("seedPhrase.goToAccount")}
         </button>
       </div>
-      <button
-        onClick={onConfirm}
-        className="bg-dark_blue text-white px-4 py-2 rounded-full"
-      >
-        {t("signup.continue")}
-      </button>
     </div>
   );
 }

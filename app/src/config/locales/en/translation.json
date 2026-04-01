@@ -31,5 +31,12 @@
       "passwordMismatch": "Passwords do not match",
       "emailAlreadyUsed": "Email already in use"
     }
+  },
+  "seedPhrase": {
+    "title": "Please find attached your recovery phrase.",
+    "warning": "* Store this phrase somewhere safe. If you forget your password and do not have this recovery phrase, your data cannot be recovered.",
+    "copy": "Copy",
+    "copied": "Copied",
+    "goToAccount": "Go to your account!"
   }
 }
