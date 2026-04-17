@@ -45,6 +45,19 @@ export interface SignUpDto {
   seedPhraseHash: string;
 }
 
+export interface ThoughtDto {
+  id: string;
+  ciphertext: string;
+  iv: string;
+  authTag: string;
+  timeIndex: string;
+  legitimateIndex: string;
+  moodIndex: string;
+  userId: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface CreateThoughtDto {
   ciphertext: string;
   iv: string;
@@ -304,7 +317,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     }
 
 export type thoughtsControllerFindAllResponse200 = {
-  data: void
+  data: ThoughtDto[]
   status: 200
 }
 
@@ -416,7 +429,7 @@ export function useThoughtsControllerFindAll<TData = Awaited<ReturnType<typeof t
 
 
 export type thoughtsControllerCreateResponse201 = {
-  data: void
+  data: ThoughtDto
   status: 201
 }
 
@@ -493,7 +506,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     }
 
 export type thoughtsControllerFindOneResponse200 = {
-  data: void
+  data: ThoughtDto
   status: 200
 }
 
@@ -598,7 +611,7 @@ export function useThoughtsControllerFindOne<TData = Awaited<ReturnType<typeof t
 
 
 export type thoughtsControllerUpdateResponse200 = {
-  data: void
+  data: ThoughtDto
   status: 200
 }
 
