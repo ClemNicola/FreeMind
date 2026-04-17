@@ -15,6 +15,7 @@ import { ThoughtsService } from './thoughts.service';
 import { CreateThoughtDto } from './dto/create-thought.dto';
 import { UpdateThoughtDto } from './dto/update-thought.dto';
 import { FilterThoughtDto } from './dto/filter-thought.dto';
+import { ThoughtDto } from './dto/thought.dto';
 import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { ApiBearerAuth, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -33,6 +34,7 @@ export class ThoughtsController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Get all thoughts successful',
+    type: [ThoughtDto],
   })
   @ApiQuery({ name: 'moodIndex', required: false })
   @ApiQuery({ name: 'timeIndex', required: false })
@@ -50,6 +52,7 @@ export class ThoughtsController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Get thought successful',
+    type: ThoughtDto,
   })
   findOne(@Param('id') id: string, @Request() req: AuthenticatedRequest) {
     return this.thoughtsService.findOne(id, req.user.sub);
@@ -61,6 +64,7 @@ export class ThoughtsController {
   @ApiResponse({
     status: HttpStatus.CREATED,
     description: 'Create thought successful',
+    type: ThoughtDto,
   })
   create(@Request() req: AuthenticatedRequest, @Body() dto: CreateThoughtDto) {
     return this.thoughtsService.create(req.user.sub, dto);
@@ -72,6 +76,7 @@ export class ThoughtsController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Update thought successful',
+    type: ThoughtDto,
   })
   update(
     @Param('id') id: string,
