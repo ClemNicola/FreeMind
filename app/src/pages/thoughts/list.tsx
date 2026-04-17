@@ -2,6 +2,7 @@ import { useThoughtsControllerFindAll } from "../../api/generated";
 import type { ThoughtDto } from "../../api/generated";
 import useSessionStore from "../../hooks/useSessionStore";
 import { Link } from "react-router-dom";
+import { FiPlus } from "react-icons/fi";
 
 export default function ThoughtsList() {
   const accessToken = useSessionStore((s) => s.accessToken);
@@ -22,9 +23,12 @@ export default function ThoughtsList() {
           </h1>
           <Link
             to="/thoughts/new"
-            className="bg-dark_blue py-4 px-12 text-white rounded-full font-semibold text-3xl hover:bg-dark_blue/80 transition-all duration-300 mt-2 md:mt-8"
+            className="bg-dark_blue py-4 px-8 text-white rounded-full font-semibold text-3xl hover:bg-dark_blue/80 transition-all duration-300 mt-2 md:mt-8"
           >
-            Create a new thought
+            <span className="flex items-center gap-4">
+              <FiPlus size={24} />
+              Add a new thought
+            </span>
           </Link>
         </div>
       ) : (

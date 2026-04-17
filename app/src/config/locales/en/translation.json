@@ -42,5 +42,37 @@
     "copy": "Copy",
     "copied": "Copied",
     "goToAccount": "Go to your account!"
+  },
+  "createThought": {
+    "stepProgress": "Step {{current}} of {{total}}",
+    "back": "Back",
+    "next": "Next",
+    "submit": "Save",
+    "successToast": "Thought saved",
+    "errorToast": "Could not save your thought",
+    "mood": {
+      "title": "How are you feeling?",
+      "subtitle": "Pick the emotion that fits best right now.",
+      "placeholder": "Select a mood",
+      "empty": "No matching mood.",
+      "timeIndexLabel": "This feeling is about the"
+    }
+  },
+  "timeIndex": {
+    "PAST": "past",
+    "FUTURE": "future"
+  },
+  "mood": {
+    "DEPRESSION": "Depression",
+    "ANGER": "Anger",
+    "SHAME": "Shame",
+    "REGRETS": "Regrets",
+    "ADDICTIONS": "Addictions",
+    "PARANOIA": "Paranoia",
+    "ANXIETY": "Anxiety",
+    "FEAR_OF_UNCERTAINTY": "Fear of uncertainty",
+    "ANTICIPATION": "Anticipation",
+    "WORRY": "Worry",
+    "STRESS": "Stress"
   }
 }

@@ -139,10 +139,15 @@ const LoginForm = ({
 }) => {
   const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
+  const isDev = import.meta.env.DEV;
 
   return (
     <Formik
-      initialValues={{ email: "", password: "", rememberMe: false }}
+      initialValues={{
+        email: isDev ? "clement@test1.com" : "",
+        password: isDev ? "Test1234" : "",
+        rememberMe: false,
+      }}
       validate={(values) => {
         const errors: { email?: string; password?: string } = {};
         if (!values.email) {

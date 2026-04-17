@@ -42,5 +42,37 @@
     "copy": "Copier",
     "copied": "Copié",
     "goToAccount": "Accéder à mon compte !"
+  },
+  "createThought": {
+    "stepProgress": "Étape {{current}} sur {{total}}",
+    "back": "Retour",
+    "next": "Suivant",
+    "submit": "Enregistrer",
+    "successToast": "Pensée enregistrée",
+    "errorToast": "Impossible d'enregistrer votre pensée",
+    "mood": {
+      "title": "Comment vous sentez-vous ?",
+      "subtitle": "Choisissez l'émotion qui vous correspond le mieux maintenant.",
+      "placeholder": "Choisir une humeur",
+      "empty": "Aucune humeur correspondante.",
+      "timeIndexLabel": "Cette émotion concerne le"
+    }
+  },
+  "timeIndex": {
+    "PAST": "passé",
+    "FUTURE": "futur"
+  },
+  "mood": {
+    "DEPRESSION": "Dépression",
+    "ANGER": "Colère",
+    "SHAME": "Honte",
+    "REGRETS": "Regrets",
+    "ADDICTIONS": "Addictions",
+    "PARANOIA": "Paranoïa",
+    "ANXIETY": "Anxiété",
+    "FEAR_OF_UNCERTAINTY": "Peur de l'incertitude",
+    "ANTICIPATION": "Anticipation",
+    "WORRY": "Inquiétude",
+    "STRESS": "Stress"
   }
 }

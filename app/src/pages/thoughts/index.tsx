@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import ThoughtsList from "./list";
 import ThoughtView from "./view";
-import ThoughtCreate from "./create";
+import ThoughtCreate from "./create/index";
 
 export default function Thoughts() {
   return (
