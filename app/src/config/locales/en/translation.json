@@ -1,0 +1,42 @@
+{
+  "login": {
+    "welcomeBack": "Welcome back!",
+    "subtitle": "Please enter your details below.",
+    "noAccount": "Don't have an account yet?",
+    "createOne": "Create one",
+    "tagline": "Free your mind.",
+    "logoAlt": "Mindy logo",
+    "email": "Email",
+    "password": "Password",
+    "emailPlaceholder": "Enter your email",
+    "passwordPlaceholder": "Enter your password",
+    "rememberMe": "Remember me",
+    "forgotPassword": "Forgot password?",
+    "submit": "Login",
+    "successToast": "Login successful",
+    "validation": {
+      "emailRequired": "Required",
+      "invalidEmail": "Invalid email address"
+    }
+  },
+  "signup": {
+    "successToast": "Account created successfully",
+    "confirmPassword": "Confirm password",
+    "confirmPasswordPlaceholder": "Confirm your password",
+    "encrypting": "Securing your account...",
+    "creating": "Creating account...",
+    "submit": "Continue",
+    "errors": {
+      "allFields": "All fields must be filled",
+      "passwordMismatch": "Passwords do not match",
+      "emailAlreadyUsed": "Email already in use"
+    }
+  },
+  "seedPhrase": {
+    "title": "Please find attached your recovery phrase.",
+    "warning": "* Store this phrase somewhere safe. If you forget your password and do not have this recovery phrase, your data cannot be recovered.",
+    "copy": "Copy",
+    "copied": "Copied",
+    "goToAccount": "Go to your account!"
+  }
+}

@@ -4,7 +4,9 @@ export const apiInstance = async <T>(
   url: string,
   options?: RequestInit,
 ): Promise<T> => {
-  const token = localStorage.getItem("accessToken");
+  const token =
+    sessionStorage.getItem("accessToken") ||
+    localStorage.getItem("accessToken");
 
   const response = await fetch(`${BASE_URL}${url}`, {
     ...options,
@@ -19,5 +21,11 @@ export const apiInstance = async <T>(
     throw new Error(`${response.status}: ${response.statusText}`);
   }
 
-  return response.json();
+  const data = await response.json();
+
+  return {
+    data,
+    status: response.status,
+    headers: response.headers,
+  } as T;
 };

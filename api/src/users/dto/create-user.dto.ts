@@ -11,6 +11,10 @@ export class CreateUserDto {
   password: string;
 
   @IsString()
+  @ApiProperty()
+  salt: string;
+
+  @IsString()
   @MinLength(32)
   @ApiProperty()
   wrappedMasterKey: string;

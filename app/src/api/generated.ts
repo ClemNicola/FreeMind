@@ -30,9 +30,17 @@ export interface SignInDto {
   password: string;
 }
 
+export interface AuthTokensDto {
+  accessToken: string;
+  refreshToken: string;
+  wrappedMasterKey: string;
+  salt: string;
+}
+
 export interface SignUpDto {
   email: string;
   password: string;
+  salt: string;
   wrappedMasterKey: string;
   seedPhraseHash: string;
 }
@@ -61,8 +69,12 @@ timeIndex?: string;
 legitimateIndex?: string;
 };
 
+type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
+
+
+
 export type authControllerSignInResponse200 = {
-  data: void
+  data: AuthTokensDto
   status: 200
 }
 
@@ -97,15 +109,15 @@ export const authControllerSignIn = async (signInDto: SignInDto, options?: Reque
 
 
 export const getAuthControllerSignInMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authControllerSignIn>>, TError,{data: SignInDto}, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authControllerSignIn>>, TError,{data: SignInDto}, TContext>, request?: SecondParameter<typeof apiInstance>}
 ): UseMutationOptions<Awaited<ReturnType<typeof authControllerSignIn>>, TError,{data: SignInDto}, TContext> => {
 
 const mutationKey = ['authControllerSignIn'];
-const {mutation: mutationOptions} = options ?
+const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
       : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
+      : {mutation: { mutationKey, }, request: undefined};
 
 
 
@@ -113,7 +125,7 @@ const {mutation: mutationOptions} = options ?
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof authControllerSignIn>>, {data: SignInDto}> = (props) => {
           const {data} = props ?? {};
 
-          return  authControllerSignIn(data,)
+          return  authControllerSignIn(data,requestOptions)
         }
 
 
@@ -128,7 +140,7 @@ const {mutation: mutationOptions} = options ?
     export type AuthControllerSignInMutationError = unknown
 
     export const useAuthControllerSignIn = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authControllerSignIn>>, TError,{data: SignInDto}, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authControllerSignIn>>, TError,{data: SignInDto}, TContext>, request?: SecondParameter<typeof apiInstance>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof authControllerSignIn>>,
         TError,
@@ -139,7 +151,7 @@ const {mutation: mutationOptions} = options ?
     }
 
 export type authControllerSignUpResponse201 = {
-  data: void
+  data: AuthTokensDto
   status: 201
 }
 
@@ -174,15 +186,15 @@ export const authControllerSignUp = async (signUpDto: SignUpDto, options?: Reque
 
 
 export const getAuthControllerSignUpMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authControllerSignUp>>, TError,{data: SignUpDto}, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authControllerSignUp>>, TError,{data: SignUpDto}, TContext>, request?: SecondParameter<typeof apiInstance>}
 ): UseMutationOptions<Awaited<ReturnType<typeof authControllerSignUp>>, TError,{data: SignUpDto}, TContext> => {
 
 const mutationKey = ['authControllerSignUp'];
-const {mutation: mutationOptions} = options ?
+const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
       : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
+      : {mutation: { mutationKey, }, request: undefined};
 
 
 
@@ -190,7 +202,7 @@ const {mutation: mutationOptions} = options ?
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof authControllerSignUp>>, {data: SignUpDto}> = (props) => {
           const {data} = props ?? {};
 
-          return  authControllerSignUp(data,)
+          return  authControllerSignUp(data,requestOptions)
         }
 
 
@@ -205,7 +217,7 @@ const {mutation: mutationOptions} = options ?
     export type AuthControllerSignUpMutationError = unknown
 
     export const useAuthControllerSignUp = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authControllerSignUp>>, TError,{data: SignUpDto}, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authControllerSignUp>>, TError,{data: SignUpDto}, TContext>, request?: SecondParameter<typeof apiInstance>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof authControllerSignUp>>,
         TError,
@@ -250,15 +262,15 @@ export const authControllerSignOut = async ( options?: RequestInit): Promise<aut
 
 
 export const getAuthControllerSignOutMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authControllerSignOut>>, TError,void, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authControllerSignOut>>, TError,void, TContext>, request?: SecondParameter<typeof apiInstance>}
 ): UseMutationOptions<Awaited<ReturnType<typeof authControllerSignOut>>, TError,void, TContext> => {
 
 const mutationKey = ['authControllerSignOut'];
-const {mutation: mutationOptions} = options ?
+const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
       : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
+      : {mutation: { mutationKey, }, request: undefined};
 
 
 
@@ -266,7 +278,7 @@ const {mutation: mutationOptions} = options ?
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof authControllerSignOut>>, void> = () => {
 
 
-          return  authControllerSignOut()
+          return  authControllerSignOut(requestOptions)
         }
 
 
@@ -281,7 +293,7 @@ const {mutation: mutationOptions} = options ?
     export type AuthControllerSignOutMutationError = unknown
 
     export const useAuthControllerSignOut = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authControllerSignOut>>, TError,void, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof authControllerSignOut>>, TError,void, TContext>, request?: SecondParameter<typeof apiInstance>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof authControllerSignOut>>,
         TError,
@@ -340,16 +352,16 @@ export const getThoughtsControllerFindAllQueryKey = (params?: ThoughtsController
     }
 
 
-export const getThoughtsControllerFindAllQueryOptions = <TData = Awaited<ReturnType<typeof thoughtsControllerFindAll>>, TError = unknown>(params?: ThoughtsControllerFindAllParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof thoughtsControllerFindAll>>, TError, TData>>, }
+export const getThoughtsControllerFindAllQueryOptions = <TData = Awaited<ReturnType<typeof thoughtsControllerFindAll>>, TError = unknown>(params?: ThoughtsControllerFindAllParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof thoughtsControllerFindAll>>, TError, TData>>, request?: SecondParameter<typeof apiInstance>}
 ) => {
 
-const {query: queryOptions} = options ?? {};
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getThoughtsControllerFindAllQueryKey(params);
 
 
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof thoughtsControllerFindAll>>> = ({ signal }) => thoughtsControllerFindAll(params, { signal });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof thoughtsControllerFindAll>>> = ({ signal }) => thoughtsControllerFindAll(params, { signal, ...requestOptions });
 
 
 
@@ -369,7 +381,7 @@ export function useThoughtsControllerFindAll<TData = Awaited<ReturnType<typeof t
           TError,
           Awaited<ReturnType<typeof thoughtsControllerFindAll>>
         > , 'initialData'
-      >, }
+      >, request?: SecondParameter<typeof apiInstance>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useThoughtsControllerFindAll<TData = Awaited<ReturnType<typeof thoughtsControllerFindAll>>, TError = unknown>(
@@ -379,16 +391,16 @@ export function useThoughtsControllerFindAll<TData = Awaited<ReturnType<typeof t
           TError,
           Awaited<ReturnType<typeof thoughtsControllerFindAll>>
         > , 'initialData'
-      >, }
+      >, request?: SecondParameter<typeof apiInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useThoughtsControllerFindAll<TData = Awaited<ReturnType<typeof thoughtsControllerFindAll>>, TError = unknown>(
- params?: ThoughtsControllerFindAllParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof thoughtsControllerFindAll>>, TError, TData>>, }
+ params?: ThoughtsControllerFindAllParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof thoughtsControllerFindAll>>, TError, TData>>, request?: SecondParameter<typeof apiInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
 export function useThoughtsControllerFindAll<TData = Awaited<ReturnType<typeof thoughtsControllerFindAll>>, TError = unknown>(
- params?: ThoughtsControllerFindAllParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof thoughtsControllerFindAll>>, TError, TData>>, }
+ params?: ThoughtsControllerFindAllParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof thoughtsControllerFindAll>>, TError, TData>>, request?: SecondParameter<typeof apiInstance>}
  , queryClient?: QueryClient
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
@@ -439,15 +451,15 @@ export const thoughtsControllerCreate = async (createThoughtDto: CreateThoughtDt
 
 
 export const getThoughtsControllerCreateMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof thoughtsControllerCreate>>, TError,{data: CreateThoughtDto}, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof thoughtsControllerCreate>>, TError,{data: CreateThoughtDto}, TContext>, request?: SecondParameter<typeof apiInstance>}
 ): UseMutationOptions<Awaited<ReturnType<typeof thoughtsControllerCreate>>, TError,{data: CreateThoughtDto}, TContext> => {
 
 const mutationKey = ['thoughtsControllerCreate'];
-const {mutation: mutationOptions} = options ?
+const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
       : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
+      : {mutation: { mutationKey, }, request: undefined};
 
 
 
@@ -455,7 +467,7 @@ const {mutation: mutationOptions} = options ?
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof thoughtsControllerCreate>>, {data: CreateThoughtDto}> = (props) => {
           const {data} = props ?? {};
 
-          return  thoughtsControllerCreate(data,)
+          return  thoughtsControllerCreate(data,requestOptions)
         }
 
 
@@ -470,7 +482,7 @@ const {mutation: mutationOptions} = options ?
     export type ThoughtsControllerCreateMutationError = unknown
 
     export const useThoughtsControllerCreate = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof thoughtsControllerCreate>>, TError,{data: CreateThoughtDto}, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof thoughtsControllerCreate>>, TError,{data: CreateThoughtDto}, TContext>, request?: SecondParameter<typeof apiInstance>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof thoughtsControllerCreate>>,
         TError,
@@ -522,16 +534,16 @@ export const getThoughtsControllerFindOneQueryKey = (id: string,) => {
     }
 
 
-export const getThoughtsControllerFindOneQueryOptions = <TData = Awaited<ReturnType<typeof thoughtsControllerFindOne>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof thoughtsControllerFindOne>>, TError, TData>>, }
+export const getThoughtsControllerFindOneQueryOptions = <TData = Awaited<ReturnType<typeof thoughtsControllerFindOne>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof thoughtsControllerFindOne>>, TError, TData>>, request?: SecondParameter<typeof apiInstance>}
 ) => {
 
-const {query: queryOptions} = options ?? {};
+const {query: queryOptions, request: requestOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getThoughtsControllerFindOneQueryKey(id);
 
 
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof thoughtsControllerFindOne>>> = ({ signal }) => thoughtsControllerFindOne(id, { signal });
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof thoughtsControllerFindOne>>> = ({ signal }) => thoughtsControllerFindOne(id, { signal, ...requestOptions });
 
 
 
@@ -551,7 +563,7 @@ export function useThoughtsControllerFindOne<TData = Awaited<ReturnType<typeof t
           TError,
           Awaited<ReturnType<typeof thoughtsControllerFindOne>>
         > , 'initialData'
-      >, }
+      >, request?: SecondParameter<typeof apiInstance>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useThoughtsControllerFindOne<TData = Awaited<ReturnType<typeof thoughtsControllerFindOne>>, TError = unknown>(
@@ -561,16 +573,16 @@ export function useThoughtsControllerFindOne<TData = Awaited<ReturnType<typeof t
           TError,
           Awaited<ReturnType<typeof thoughtsControllerFindOne>>
         > , 'initialData'
-      >, }
+      >, request?: SecondParameter<typeof apiInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useThoughtsControllerFindOne<TData = Awaited<ReturnType<typeof thoughtsControllerFindOne>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof thoughtsControllerFindOne>>, TError, TData>>, }
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof thoughtsControllerFindOne>>, TError, TData>>, request?: SecondParameter<typeof apiInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
 export function useThoughtsControllerFindOne<TData = Awaited<ReturnType<typeof thoughtsControllerFindOne>>, TError = unknown>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof thoughtsControllerFindOne>>, TError, TData>>, }
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof thoughtsControllerFindOne>>, TError, TData>>, request?: SecondParameter<typeof apiInstance>}
  , queryClient?: QueryClient
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
@@ -622,15 +634,15 @@ export const thoughtsControllerUpdate = async (id: string,
 
 
 export const getThoughtsControllerUpdateMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof thoughtsControllerUpdate>>, TError,{id: string;data: UpdateThoughtDto}, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof thoughtsControllerUpdate>>, TError,{id: string;data: UpdateThoughtDto}, TContext>, request?: SecondParameter<typeof apiInstance>}
 ): UseMutationOptions<Awaited<ReturnType<typeof thoughtsControllerUpdate>>, TError,{id: string;data: UpdateThoughtDto}, TContext> => {
 
 const mutationKey = ['thoughtsControllerUpdate'];
-const {mutation: mutationOptions} = options ?
+const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
       : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
+      : {mutation: { mutationKey, }, request: undefined};
 
 
 
@@ -638,7 +650,7 @@ const {mutation: mutationOptions} = options ?
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof thoughtsControllerUpdate>>, {id: string;data: UpdateThoughtDto}> = (props) => {
           const {id,data} = props ?? {};
 
-          return  thoughtsControllerUpdate(id,data,)
+          return  thoughtsControllerUpdate(id,data,requestOptions)
         }
 
 
@@ -653,7 +665,7 @@ const {mutation: mutationOptions} = options ?
     export type ThoughtsControllerUpdateMutationError = unknown
 
     export const useThoughtsControllerUpdate = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof thoughtsControllerUpdate>>, TError,{id: string;data: UpdateThoughtDto}, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof thoughtsControllerUpdate>>, TError,{id: string;data: UpdateThoughtDto}, TContext>, request?: SecondParameter<typeof apiInstance>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof thoughtsControllerUpdate>>,
         TError,
@@ -698,15 +710,15 @@ export const thoughtsControllerRemove = async (id: string, options?: RequestInit
 
 
 export const getThoughtsControllerRemoveMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof thoughtsControllerRemove>>, TError,{id: string}, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof thoughtsControllerRemove>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof apiInstance>}
 ): UseMutationOptions<Awaited<ReturnType<typeof thoughtsControllerRemove>>, TError,{id: string}, TContext> => {
 
 const mutationKey = ['thoughtsControllerRemove'];
-const {mutation: mutationOptions} = options ?
+const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
       : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
+      : {mutation: { mutationKey, }, request: undefined};
 
 
 
@@ -714,7 +726,7 @@ const {mutation: mutationOptions} = options ?
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof thoughtsControllerRemove>>, {id: string}> = (props) => {
           const {id} = props ?? {};
 
-          return  thoughtsControllerRemove(id,)
+          return  thoughtsControllerRemove(id,requestOptions)
         }
 
 
@@ -729,7 +741,7 @@ const {mutation: mutationOptions} = options ?
     export type ThoughtsControllerRemoveMutationError = unknown
 
     export const useThoughtsControllerRemove = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof thoughtsControllerRemove>>, TError,{id: string}, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof thoughtsControllerRemove>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof apiInstance>}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof thoughtsControllerRemove>>,
         TError,
