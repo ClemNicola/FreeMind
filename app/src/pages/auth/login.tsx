@@ -6,29 +6,68 @@ import { FiEye, FiEyeOff } from "react-icons/fi";
 import mindyLogo from "/img/mindy.webp";
 import { useAuthControllerSignIn } from "../../api/generated";
 import { toast } from "react-hot-toast";
+import { ApiError } from "../../api/api";
+import useAuthStore from "../../hooks/useAuthStore";
+import useSessionStore from "../../hooks/useSessionStore";
+
+const decodeJwt = (token: string): { sub: string; email: string } | null => {
+  try {
+    const [, payload] = token.split(".");
+    const json = atob(payload.replace(/-/g, "+").replace(/_/g, "/"));
+    return JSON.parse(json);
+  } catch {
+    return null;
+  }
+};
 
 export default function LoginPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { mutate: signIn } = useAuthControllerSignIn();
+  const setAuthSession = useAuthStore((s) => s.setSession);
+  const setSessionTokens = useSessionStore((s) => s.setTokens);
+  const [authError, setAuthError] = useState<string | null>(null);
 
   const handleSubmit = async (values: {
     email: string;
     password: string;
     rememberMe: boolean;
   }) => {
-    const storage = values.rememberMe ? localStorage : sessionStorage;
+    setAuthError(null);
     signIn(
       { data: { email: values.email, password: values.password } },
       {
         onSuccess: (response) => {
-          const { accessToken, refreshToken } = response.data;
-          storage.setItem("accessToken", accessToken);
-          storage.setItem("refreshToken", refreshToken);
+          const { accessToken, refreshToken, wrappedMasterKey, salt } =
+            response.data;
+
+          const claims = decodeJwt(accessToken);
+          if (!claims) {
+            setAuthError(t("login.errors.generic"));
+            return;
+          }
+
+          setAuthSession({
+            user: {
+              id: claims.sub,
+              email: claims.email,
+              wrappedMasterKey,
+              salt,
+            },
+            refreshToken,
+            persist: values.rememberMe,
+          });
+          setSessionTokens({ accessToken, refreshToken });
+
           toast.success(t("login.successToast"));
-          navigate("/dashboard");
+          navigate("/thoughts");
         },
         onError: (error) => {
+          if (error instanceof ApiError && error.status === 401) {
+            setAuthError(t("login.errors.invalidCredentials"));
+          } else {
+            setAuthError(t("login.errors.generic"));
+          }
           console.error(error);
         },
       },
@@ -50,6 +89,15 @@ export default function LoginPage() {
             <p className="text-base md:text-lg font-light text-dark_blue md:pt-4">
               {t("login.subtitle")}
             </p>
+            {authError && (
+              <p
+                role="alert"
+                aria-live="polite"
+                className="text-sm md:text-base font-medium text-red-600 mt-2"
+              >
+                {authError}
+              </p>
+            )}
           </div>
         </div>
         <LoginForm handleSubmit={handleSubmit} />
