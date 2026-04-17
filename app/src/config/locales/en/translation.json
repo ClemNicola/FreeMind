@@ -17,6 +17,10 @@
     "validation": {
       "emailRequired": "Required",
       "invalidEmail": "Invalid email address"
+    },
+    "errors": {
+      "invalidCredentials": "Incorrect email or password.",
+      "generic": "Something went wrong. Please try again."
     }
   },
   "signup": {
