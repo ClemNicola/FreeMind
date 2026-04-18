@@ -18,7 +18,6 @@ interface DropDownProps {
   items: DropDownItem[];
   value: string;
   onValueChange: (value: string) => void;
-  color?: string;
   emptyLabel?: string;
 }
 
@@ -27,7 +26,6 @@ export default function DropDown({
   items,
   value,
   onValueChange,
-  color,
   emptyLabel = "No items found.",
 }: DropDownProps) {
   const selected = items.find((item) => item.value === value) ?? null;
@@ -42,28 +40,25 @@ export default function DropDown({
     >
       <ComboboxInput
         placeholder={placeholder}
-        className="font-general"
-        style={
-          color
-            ? {
-                borderColor: color,
-                color,
-                boxShadow: `0 0 0 1px ${color}33`,
-              }
-            : undefined
-        }
+        className="px-4 rounded-full py-6 border-dark_blue [&_input]:font-general [&_input]:text-dark_blue [&_input]:placeholder:text-dark_blue/50"
       />
-      <ComboboxContent>
+      <ComboboxContent className="bg-beige">
         <ComboboxEmpty>{emptyLabel}</ComboboxEmpty>
-        <ComboboxList>
+        <ComboboxList className="bg-beige">
           {(item: DropDownItem) => (
             <ComboboxItem
               key={item.value}
               value={item}
-              className="font-general font-medium"
-              style={item.color ? { color: item.color } : undefined}
+              className="font-general font-semibold text-dark_blue data-highlighted:bg-brown/15"
             >
-              {item.label}
+              {item.color && (
+                <span
+                  aria-hidden
+                  className="inline-block size-2.5 shrink-0 rounded-full"
+                  style={{ backgroundColor: item.color }}
+                />
+              )}
+              <span>{item.label}</span>
             </ComboboxItem>
           )}
         </ComboboxList>
