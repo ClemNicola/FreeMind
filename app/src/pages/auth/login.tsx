@@ -215,7 +215,7 @@ const LoginForm = ({
           </div>
           <button
             type="submit"
-            className="bg-dark_blue p-4 text-white rounded-full font-bold text-lg hover:bg-dark_blue/80 transition-all duration-300 mt-2 md:mt-8"
+            className="cursor-pointer bg-dark_blue p-4 text-white rounded-full font-bold text-lg hover:bg-dark_blue/80 transition-all duration-300 mt-2 md:mt-8"
           >
             {t("login.submit")}
           </button>
