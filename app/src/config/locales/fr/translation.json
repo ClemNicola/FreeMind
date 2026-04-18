@@ -47,6 +47,7 @@
     "stepProgress": "Étape {{current}} sur {{total}}",
     "back": "Retour",
     "next": "Suivant",
+    "cancel": "Annuler",
     "submit": "Enregistrer",
     "successToast": "Pensée enregistrée",
     "errorToast": "Impossible d'enregistrer votre pensée",
@@ -55,7 +56,7 @@
       "subtitle": "Choisissez l'émotion qui vous correspond le mieux maintenant.",
       "placeholder": "Choisir une humeur",
       "empty": "Aucune humeur correspondante.",
-      "timeIndexLabel": "Cette émotion concerne le"
+      "timeIndexLabel": "Cette émotion est liée au"
     }
   },
   "timeIndex": {

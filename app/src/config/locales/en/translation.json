@@ -47,6 +47,7 @@
     "stepProgress": "Step {{current}} of {{total}}",
     "back": "Back",
     "next": "Next",
+    "cancel": "Cancel",
     "submit": "Save",
     "successToast": "Thought saved",
     "errorToast": "Could not save your thought",
@@ -55,7 +56,7 @@
       "subtitle": "Pick the emotion that fits best right now.",
       "placeholder": "Select a mood",
       "empty": "No matching mood.",
-      "timeIndexLabel": "This feeling is about the"
+      "timeIndexLabel": "This emotion is related to the"
     }
   },
   "timeIndex": {
