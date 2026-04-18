@@ -18,7 +18,7 @@ export default function StepMood() {
   const selected = values.mood ? MOOD_ENUM[values.mood] : null;
 
   return (
-    <section className="font-general">
+    <section className="font-general flex flex-col gap-2">
       <h1 className="text-3xl md:text-4xl font-semibold text-dark_blue">
         {t("createThought.mood.title")}
       </h1>
@@ -26,23 +26,19 @@ export default function StepMood() {
         {t("createThought.mood.subtitle")}
       </p>
 
-      <div className="mt-8 max-w-md">
+      <div className="mt-8 max-w-md w-full">
         <DropDown
           placeholder={t("createThought.mood.placeholder")}
           items={items}
           value={values.mood}
           onValueChange={(next) => setFieldValue("mood", next)}
-          color={selected?.color}
           emptyLabel={t("createThought.mood.empty")}
         />
 
         {selected && (
-          <p
-            className="mt-4 text-sm md:text-base font-medium"
-            style={{ color: selected.color }}
-          >
+          <p className="mt-8 text-sm md:text-base font-medium text-dark_blue">
             {t("createThought.mood.timeIndexLabel")}{" "}
-            <span className="font-semibold uppercase tracking-wide">
+            <span className="font-bold text-dark_blue uppercase tracking-wide text-xl">
               {t(`timeIndex.${selected.timeIndex}`, {
                 defaultValue: selected.timeIndex,
               })}

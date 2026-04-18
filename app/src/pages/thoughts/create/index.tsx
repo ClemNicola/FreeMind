@@ -3,6 +3,7 @@ import { Formik, Form } from "formik";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
+import { FiX } from "react-icons/fi";
 import { useThoughtsControllerCreate } from "../../../api/generated";
 import { MOOD_ENUM, LEGITIMATE_ENUM } from "../../../constants/enum";
 import StepMood from "./StepMood";
@@ -61,12 +62,28 @@ export default function ThoughtCreate() {
   return (
     <div className="min-h-screen flex flex-col px-6 py-10 md:px-20 md:py-14 font-general text-dark_blue">
       <header className="mb-8 md:mb-12">
-        <p className="text-sm font-semibold uppercase tracking-wider text-dark_blue/60">
-          {t("createThought.stepProgress", {
-            current: stepIndex + 1,
-            total: TOTAL_STEPS,
-          })}
-        </p>
+        <div className="flex items-center justify-between gap-4">
+          <p className="text-sm font-semibold uppercase tracking-wider text-dark_blue/60">
+            {t("createThought.stepProgress", {
+              current: stepIndex + 1,
+              total: TOTAL_STEPS,
+            })}
+          </p>
+          <button
+            type="button"
+            onClick={() => navigate("/thoughts")}
+            aria-label={t("createThought.cancel")}
+            title={t("createThought.cancel")}
+            className="cursor-pointer p-2 -mr-2 rounded-full text-dark_blue/60 hover:text-dark_blue hover:bg-dark_blue/5 transition-colors"
+          >
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-semibold uppercase tracking-wider text-dark_blue/60">
+                {t("createThought.cancel")}
+              </span>
+              <FiX size={20} />
+            </div>
+          </button>
+        </div>
         <div className="mt-2 h-1 w-full bg-dark_blue/10 rounded-full overflow-hidden">
           <div
             className="h-full bg-dark_blue transition-all duration-300"
@@ -83,8 +100,8 @@ export default function ThoughtCreate() {
           const canContinue = !!values[currentStep.requiredField];
 
           return (
-            <Form className="flex-1 flex flex-col">
-              <div className="flex-1">
+            <Form className="flex-1 flex flex-col text-dark_blue">
+              <div className="flex-1 flex items-center justify-center">
                 {currentStep ? <currentStep.Component /> : null}
               </div>
 

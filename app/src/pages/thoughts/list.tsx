@@ -17,22 +17,24 @@ export default function ThoughtsList() {
   return (
     <div>
       {thoughts?.data && (thoughts?.data as ThoughtDto[]).length < 1 ? (
-        <div className="flex flex-col items-center justify-center h-screen">
-          <h1 className="text-3xl font-bold font-general text-dark_blue">
+        <div className="flex flex-col items-center justify-center min-h-screen px-6 text-center gap-6 md:gap-8">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-general text-dark_blue">
             No thoughts yet !
           </h1>
           <Link
             to="/thoughts/new"
-            className="bg-dark_blue py-4 px-8 text-white rounded-full font-semibold text-3xl hover:bg-dark_blue/80 transition-all duration-300 mt-2 md:mt-8"
+            className="bg-dark_blue py-3 px-6 md:py-4 md:px-8 text-white rounded-full font-semibold text-base sm:text-lg md:text-2xl lg:text-3xl hover:bg-dark_blue/80 transition-all duration-300"
           >
-            <span className="flex items-center gap-4">
-              <FiPlus size={24} />
+            <span className="flex items-center gap-2 md:gap-4">
+              <FiPlus className="w-5 h-5 md:w-6 md:h-6 shrink-0" />
               Add a new thought
             </span>
           </Link>
         </div>
       ) : (
-        <h1 className="text-2xl font-bold font-mogi">ThoughtsList</h1>
+        <h1 className="text-xl md:text-2xl font-bold font-mogi px-6 py-6">
+          ThoughtsList
+        </h1>
       )}
     </div>
   );
