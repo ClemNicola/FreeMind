@@ -8,70 +8,79 @@ export const MOOD_ENUM = {
     label: "DEPRESSION",
     value: "DEPRESSION",
     timeIndex: TIME_ENUM.PAST,
-    color: "#4C6EF5", // indigo vif
-  }, //PAST
+    color: "#364FC7", // bleu profond (plus sombre, distinct)
+  },
+
   ANGER: {
     label: "ANGER",
     value: "ANGER",
     timeIndex: TIME_ENUM.PAST,
-    color: "#FA5252", // rouge corail
-  }, //PAST
+    color: "#D00000", // rouge intense
+  },
+
   SHAME: {
     label: "SHAME",
     value: "SHAME",
     timeIndex: TIME_ENUM.PAST,
-    color: "#BE4BDB", // magenta
-  }, //PAST
+    color: "#9C36B5", // violet prune
+  },
+
   REGRETS: {
     label: "REGRETS",
     value: "REGRETS",
     timeIndex: TIME_ENUM.PAST,
-    color: "#12B886", // émeraude
-  }, //PAST,
+    color: "#2F9E44", // vert forêt
+  },
+
   ADDICTIONS: {
     label: "ADDICTIONS",
     value: "ADDICTIONS",
     timeIndex: TIME_ENUM.PAST,
-    color: "#FD7E14", // orange vif
-  }, //PAST
+    color: "#E8590C", // orange brûlé
+  },
+
   PARANOIA: {
     label: "PARANOIA",
     value: "PARANOIA",
     timeIndex: TIME_ENUM.PAST,
-    color: "#7950F2", // violet électrique
-  }, //PAST
+    color: "#5F3DC4", // violet sombre distinct
+  },
+
   ANXIETY: {
     label: "ANXIETY",
     value: "ANXIETY",
     timeIndex: TIME_ENUM.FUTURE,
-    color: "#15AABF", // cyan
-  }, //FUTURE
+    color: "#0CA678", // vert menthe anxieux (plus unique que cyan)
+  },
+
   FEAR_OF_UNCERTAINTY: {
     label: "FEAR_OF_UNCERTAINTY",
     value: "FEAR_OF_UNCERTAINTY",
     timeIndex: TIME_ENUM.FUTURE,
-    color: "#7048E8", // violet profond
-  }, //FUTURE
+    color: "#F08C00", // orange ambre inquiétude
+  },
+
   ANTICIPATION: {
     label: "ANTICIPATION",
     value: "ANTICIPATION",
     timeIndex: TIME_ENUM.FUTURE,
-    color: "#FAB005", // ambre / soleil
-  }, //FUTURE
+    color: "#FFD43B", // jaune anticipation
+  },
+
   WORRY: {
     label: "WORRY",
     value: "WORRY",
     timeIndex: TIME_ENUM.PAST,
-    color: "#339AF0", // bleu ciel
-  }, //PAST
+    color: "#1971C2", // bleu moyen distinct de depression
+  },
+
   STRESS: {
     label: "STRESS",
     value: "STRESS",
     timeIndex: TIME_ENUM.FUTURE,
-    color: "#E64980", // rose framboise
-  }, //FUTURE
+    color: "#C2255C", // rose stress plus sombre
+  },
 };
-
 export const LEGITIMATE_ENUM = {
   YES: "YES",
   NO: "NO",
