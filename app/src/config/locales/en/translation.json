@@ -4,7 +4,7 @@
     "subtitle": "Please enter your details below.",
     "noAccount": "Don't have an account yet?",
     "createOne": "Create one",
-    "tagline": "Free your mind. Reconnect with the present.",
+    "tagline": "Reconnect with the present, free your mind.",
     "logoAlt": "Mindy logo",
     "email": "Email",
     "password": "Password",
@@ -43,6 +43,16 @@
     "copy": "Copy",
     "copied": "Copied",
     "goToAccount": "Go to your account!"
+  },
+  "thoughts": {
+    "thought": "Thought",
+    "context": "Context",
+    "trigger": "Trigger",
+    "mood": "Mood",
+    "time": "Refers to",
+    "legitimate": "Legit",
+    "createdAt": "Created at",
+    "updatedAt": "Updated at"
   },
   "createThought": {
     "stepProgress": "Step {{current}} of {{total}}",
@@ -86,6 +96,13 @@
       "maybe": "Mixed feelings",
       "empty": "No option selected"
     }
+  },
+  "common": {
+    "back": "Back",
+    "edit": "Edit",
+    "delete": "Delete",
+    "editError": "Could not update this thought",
+    "deleteError": "Could not delete this thought"
   },
   "timeIndex": {
     "PAST": "past",

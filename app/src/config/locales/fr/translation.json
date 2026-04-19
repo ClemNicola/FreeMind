@@ -4,7 +4,7 @@
     "subtitle": "Saisissez vos informations ci-dessous.",
     "noAccount": "Pas encore de compte ?",
     "createOne": "Créer un compte",
-    "tagline": "Libérez votre esprit. Reconnecte-toi avec le présent.",
+    "tagline": "Reconnecte-toi avec le présent, libère ton esprit.",
     "logoAlt": "Logo Mindy",
     "email": "E-mail",
     "password": "Mot de passe",
@@ -43,6 +43,16 @@
     "copy": "Copier",
     "copied": "Copié",
     "goToAccount": "Accéder à mon compte !"
+  },
+  "thoughts": {
+    "thought": "Pensée",
+    "context": "Contexte",
+    "trigger": "Trigger",
+    "mood": "Humeur",
+    "time": "Se réfère à",
+    "legitimate": "Légitime",
+    "createdAt": "Créé le",
+    "updatedAt": "Mis à jour le"
   },
   "createThought": {
     "stepProgress": "Étape {{current}} sur {{total}}",
@@ -86,6 +96,13 @@
       "maybe": "Des sentiments mixtes",
       "empty": "Aucune option sélectionnée"
     }
+  },
+  "common": {
+    "back": "Retour",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "editError": "Impossible de mettre à jour cette pensée",
+    "deleteError": "Impossible de supprimer cette pensée"
   },
   "timeIndex": {
     "PAST": "passé",
