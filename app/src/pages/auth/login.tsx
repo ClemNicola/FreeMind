@@ -9,6 +9,7 @@ import { toast } from "react-hot-toast";
 import { ApiError } from "../../api/api";
 import useAuthStore from "../../hooks/useAuthStore";
 import useSessionStore from "../../hooks/useSessionStore";
+import { deriveMasterKey, fromBase64 } from "../../services/crypto";
 
 const decodeJwt = (token: string): { sub: string; email: string } | null => {
   try {
@@ -23,10 +24,14 @@ const decodeJwt = (token: string): { sub: string; email: string } | null => {
 export default function LoginPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { mutate: signIn } = useAuthControllerSignIn();
+  const { mutate: signIn, isPending } = useAuthControllerSignIn();
   const setAuthSession = useAuthStore((s) => s.setSession);
   const setSessionTokens = useSessionStore((s) => s.setTokens);
+  const setMasterKey = useSessionStore((s) => s.setMasterKey);
   const [authError, setAuthError] = useState<string | null>(null);
+  const [isDeriving, setIsDeriving] = useState(false);
+
+  const isLoading = isPending || isDeriving;
 
   const handleSubmit = async (values: {
     email: string;
@@ -37,7 +42,7 @@ export default function LoginPage() {
     signIn(
       { data: { email: values.email, password: values.password } },
       {
-        onSuccess: (response) => {
+        onSuccess: async (response) => {
           const { accessToken, refreshToken, wrappedMasterKey, salt } =
             response.data;
 
@@ -47,20 +52,34 @@ export default function LoginPage() {
             return;
           }
 
-          setAuthSession({
-            user: {
-              id: claims.sub,
-              email: claims.email,
-              wrappedMasterKey,
-              salt,
-            },
-            refreshToken,
-            persist: values.rememberMe,
-          });
-          setSessionTokens({ accessToken, refreshToken });
+          try {
+            setIsDeriving(true);
+            const masterKey = await deriveMasterKey(
+              values.password,
+              fromBase64(salt),
+            );
 
-          toast.success(t("login.successToast"));
-          navigate("/thoughts");
+            setAuthSession({
+              user: {
+                id: claims.sub,
+                email: claims.email,
+                wrappedMasterKey,
+                salt,
+              },
+              refreshToken,
+              persist: values.rememberMe,
+            });
+            setSessionTokens({ accessToken, refreshToken });
+            setMasterKey(masterKey);
+
+            toast.success(t("login.successToast"));
+            navigate("/thoughts");
+          } catch (err) {
+            console.error(err);
+            setAuthError(t("login.errors.generic"));
+          } finally {
+            setIsDeriving(false);
+          }
         },
         onError: (error) => {
           if (error instanceof ApiError && error.status === 401) {
@@ -100,7 +119,7 @@ export default function LoginPage() {
             )}
           </div>
         </div>
-        <LoginForm handleSubmit={handleSubmit} />
+        <LoginForm handleSubmit={handleSubmit} isLoading={isLoading} />
         <div className="text-center text-dark_blue font-medium">
           <p>
             {t("login.noAccount")}{" "}
@@ -130,12 +149,14 @@ export default function LoginPage() {
 
 const LoginForm = ({
   handleSubmit,
+  isLoading,
 }: {
   handleSubmit: (values: {
     email: string;
     password: string;
     rememberMe: boolean;
   }) => Promise<void>;
+  isLoading: boolean;
 }) => {
   const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
@@ -215,9 +236,10 @@ const LoginForm = ({
           </div>
           <button
             type="submit"
-            className="cursor-pointer bg-dark_blue p-4 text-white rounded-full font-bold text-lg hover:bg-dark_blue/80 transition-all duration-300 mt-2 md:mt-8"
+            disabled={isLoading}
+            className="cursor-pointer bg-dark_blue p-4 text-white rounded-full font-bold text-lg hover:bg-dark_blue/80 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 mt-2 md:mt-8"
           >
-            {t("login.submit")}
+            {isLoading ? t("login.signingIn") : t("login.submit")}
           </button>
         </div>
       </Form>

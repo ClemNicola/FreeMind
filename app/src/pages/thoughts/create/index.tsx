@@ -6,6 +6,9 @@ import { toast } from "react-hot-toast";
 import { FiX } from "react-icons/fi";
 import { useThoughtsControllerCreate } from "../../../api/generated";
 import { MOOD_ENUM, LEGITIMATE_ENUM } from "../../../constants/enum";
+import useSessionStore from "../../../hooks/useSessionStore";
+import useAuthStore from "../../../hooks/useAuthStore";
+import { buildThoughtPayload } from "../../../services/buildThoughtPayload";
 import StepMood from "./StepMood";
 import StepThought from "./StepThought";
 import StepContext from "./StepContext";
@@ -46,6 +49,8 @@ export default function ThoughtCreate() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [stepIndex, setStepIndex] = useState(0);
+  const masterKey = useSessionStore((s) => s.masterKey);
+  const user = useAuthStore((s) => s.user);
 
   const createThought = useThoughtsControllerCreate({
     mutation: {
@@ -63,14 +68,35 @@ export default function ThoughtCreate() {
   const isLastStep = stepIndex === TOTAL_STEPS - 1;
   const isFirstStep = stepIndex === 0;
 
-  const handleSubmit = (values: CreateThoughtFormValues) => {
+  const handleSubmit = async (values: CreateThoughtFormValues) => {
     if (!isLastStep) {
       setStepIndex((s) => s + 1);
       return;
     }
-    // TODO: chiffrement client-side des champs thought/context
-    // avant d’appeler createThought.mutate({ data: toDto(values) }).
-    console.log("submit", values);
+
+    if (!masterKey || !user) {
+      toast.error(t("createThought.errorToast"));
+      return;
+    }
+    if (!values.mood || !values.legitimate) return;
+
+    try {
+      const data = await buildThoughtPayload(
+        {
+          mood: values.mood,
+          legitimate: values.legitimate,
+          thought: values.thought,
+          context: values.context,
+          trigger: values.trigger,
+        },
+        masterKey,
+        user.id,
+      );
+      createThought.mutate({ data });
+    } catch (err) {
+      console.error(err);
+      toast.error(t("createThought.errorToast"));
+    }
   };
 
   return (
