@@ -84,4 +84,5 @@ export const MOOD_ENUM = {
 export const LEGITIMATE_ENUM = {
   YES: "YES",
   NO: "NO",
+  MAYBE: "MAYBE",
 };
