@@ -54,9 +54,9 @@ export default function ThoughtCreate() {
 
   const createThought = useThoughtsControllerCreate({
     mutation: {
-      onSuccess: () => {
+      onSuccess: (response) => {
         toast.success(t("createThought.successToast"));
-        navigate("/thoughts");
+        navigate(`/thoughts/${response.data.id}`);
       },
       onError: () => {
         toast.error(t("createThought.errorToast"));
