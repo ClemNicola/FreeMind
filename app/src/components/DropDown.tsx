@@ -41,8 +41,16 @@ export default function DropDown({
       <ComboboxInput
         placeholder={placeholder}
         className="px-4 rounded-full py-6 border-dark_blue [&_input]:font-general [&_input]:text-dark_blue [&_input]:placeholder:text-dark_blue/50"
+        style={
+          selected?.color
+            ? {
+                borderColor: selected.color,
+                boxShadow: `0 0 0 1px ${selected.color}40`,
+              }
+            : undefined
+        }
       />
-      <ComboboxContent className="bg-beige">
+      <ComboboxContent className="bg-beige ">
         <ComboboxEmpty>{emptyLabel}</ComboboxEmpty>
         <ComboboxList className="bg-beige">
           {(item: DropDownItem) => (
