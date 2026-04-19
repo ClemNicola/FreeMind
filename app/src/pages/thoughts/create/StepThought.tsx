@@ -9,7 +9,7 @@ export default function StepThought() {
 
   return (
     <section className="font-general flex flex-col gap-2">
-      <h1 className="text-3xl md:text-4xl font-semibold text-dark_blue max-w-2xl">
+      <h1 className="text-xl md:text-4xl font-semibold text-dark_blue max-w-2xl">
         {t("createThought.thought.title")}
       </h1>
       <p className="mt-2 text-base md:text-lg font-light text-dark_blue/80 max-w-2xl">
