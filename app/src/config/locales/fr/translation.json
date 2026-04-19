@@ -4,7 +4,7 @@
     "subtitle": "Saisissez vos informations ci-dessous.",
     "noAccount": "Pas encore de compte ?",
     "createOne": "Créer un compte",
-    "tagline": "Libérez votre esprit.",
+    "tagline": "Libérez votre esprit. Reconnecte-toi avec le présent.",
     "logoAlt": "Logo Mindy",
     "email": "E-mail",
     "password": "Mot de passe",
@@ -57,6 +57,33 @@
       "placeholder": "Choisir une humeur",
       "empty": "Aucune humeur correspondante.",
       "timeIndexLabel": "Cette émotion est liée au"
+    },
+    "thought": {
+      "title": "À quoi penses-tu en ce moment ??",
+      "subtitle": "Décris ta pensée en quelques mots.",
+      "placeholder": "Exemple: Je suis inquiet par rapport à mon voyage au Mexique.",
+      "empty": "Aucune pensée."
+    },
+    "context": {
+      "title": "Dans quelle situation es-tu en train d'avoir cette pensée ?",
+      "subtitle": "Décris la situation dans laquelle tu es en train d'avoir cette pensée.",
+      "placeholder": "Exemple: Je suis à la maison, regardant la télévision seul sur le canapé.",
+      "empty": "Aucune situation."
+    },
+    "trigger": {
+      "title": "Quel événement ou situation dans ta vie pourrait avoir causé cette pensée ?",
+      "subtitle": "Décris l'événement ou la situation dans ta vie qui pourrait avoir causé cette pensée.",
+      "placeholder": "Exemple: J'ai voyagé seul dans un pays étranger il y a plusieurs années et ça a aggravé ma anxiété.",
+      "empty": "Aucun événement ou situation."
+    },
+    "legitimate": {
+      "title": "Est-ce que cette pensée est légitime ou ton cerveau joue des tours sur toi ?",
+      "subtitle": "Choisis l'option qui correspond le mieux à ta pensée.",
+      "placeholder": "Select an option",
+      "yes": "Légitime",
+      "no": "Ton cerveau joue des tours sur toi",
+      "maybe": "Des sentiments mixtes",
+      "empty": "Aucune option sélectionnée"
     }
   },
   "timeIndex": {

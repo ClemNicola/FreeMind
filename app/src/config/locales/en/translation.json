@@ -4,7 +4,7 @@
     "subtitle": "Please enter your details below.",
     "noAccount": "Don't have an account yet?",
     "createOne": "Create one",
-    "tagline": "Free your mind.",
+    "tagline": "Free your mind. Reconnect with the present.",
     "logoAlt": "Mindy logo",
     "email": "Email",
     "password": "Password",
@@ -57,6 +57,33 @@
       "placeholder": "Select a mood",
       "empty": "No matching mood.",
       "timeIndexLabel": "This emotion is related to the"
+    },
+    "thought": {
+      "title": "What's in your mind currently?",
+      "subtitle": "Describe your thought in a few words.",
+      "placeholder": "Example: I'm feeling anxious about my trip to Mexico.",
+      "empty": "No thought."
+    },
+    "context": {
+      "title": "In which situation are you thinking about this thought?",
+      "subtitle": "Describe the situation in which you are thinking about this thought.",
+      "placeholder": "Example: I'm at home, watching TV alone on the sofa.",
+      "empty": "No context."
+    },
+    "trigger": {
+      "title": "What event or situation in yout life could have caused this thought?",
+      "subtitle": "Describe the event or situation in your life that could have caused this thought.",
+      "placeholder": "Example: I traveled alone in a foreing country years ago and It worsened my anxiety.",
+      "empty": "No event or situation."
+    },
+    "legitimate": {
+      "title": "Is this thought legitimate or your brain is playing tricks on you?",
+      "subtitle": "Choose the option that best describes your thought.",
+      "placeholder": "Select an option",
+      "yes": "Legitimate",
+      "no": "Brain is playing tricks on me",
+      "maybe": "Mixed feelings",
+      "empty": "No option selected"
     }
   },
   "timeIndex": {
