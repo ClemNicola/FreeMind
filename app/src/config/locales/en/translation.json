@@ -13,6 +13,7 @@
     "rememberMe": "Remember me",
     "forgotPassword": "Forgot password?",
     "submit": "Login",
+    "signingIn": "Signing in...",
     "successToast": "Login successful",
     "validation": {
       "emailRequired": "Required",

@@ -13,6 +13,7 @@
     "rememberMe": "Se souvenir de moi",
     "forgotPassword": "Mot de passe oublié ?",
     "submit": "Connexion",
+    "signingIn": "Connexion...",
     "successToast": "Connexion réussie",
     "validation": {
       "emailRequired": "Obligatoire",
