@@ -32,9 +32,20 @@ export default function ThoughtsList() {
           </Link>
         </div>
       ) : (
-        <h1 className="text-xl md:text-2xl font-bold font-mogi px-6 py-6">
-          ThoughtsList
-        </h1>
+        <>
+          <h1 className="text-xl md:text-2xl font-bold font-mogi px-6 py-6">
+            ThoughtsList
+          </h1>
+          {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 px-6">
+            {(thoughts?.data as ThoughtDto[]).map((thought) => (
+              <div key={thought.id}>
+                <Link to={`/thoughts/${thought.id}`}>
+                  <h2>{thought.ciphertext}</h2>
+                </Link>
+              </div>
+            ))}
+          </div> */}
+        </>
       )}
     </div>
   );
