@@ -7,24 +7,38 @@ import { FiX } from "react-icons/fi";
 import { useThoughtsControllerCreate } from "../../../api/generated";
 import { MOOD_ENUM, LEGITIMATE_ENUM } from "../../../constants/enum";
 import StepMood from "./StepMood";
+import StepThought from "./StepThought";
+import StepContext from "./StepContext";
+import StepTrigger from "./StepTrigger";
+import StepLegitimate from "./StepLegitimate";
 
 export interface CreateThoughtFormValues {
   mood: keyof typeof MOOD_ENUM | "";
   thought: string;
   context: string;
+  trigger: string;
   legitimate: keyof typeof LEGITIMATE_ENUM | "";
 }
 
 const STEPS = [
   { id: "mood", Component: StepMood, requiredField: "mood" as const },
+  { id: "thought", Component: StepThought, requiredField: "thought" as const },
+  { id: "context", Component: StepContext, requiredField: "context" as const },
+  { id: "trigger", Component: StepTrigger, requiredField: "trigger" as const },
+  {
+    id: "legitimate",
+    Component: StepLegitimate,
+    requiredField: "legitimate" as const,
+  },
 ];
 
-const TOTAL_STEPS = 4;
+const TOTAL_STEPS = 5;
 
 const initialValues: CreateThoughtFormValues = {
   mood: "",
   thought: "",
   context: "",
+  trigger: "",
   legitimate: "",
 };
 
@@ -110,7 +124,7 @@ export default function ThoughtCreate() {
                   type="button"
                   onClick={() => setStepIndex((s) => Math.max(0, s - 1))}
                   disabled={isFirstStep}
-                  className="px-6 py-3 rounded-full font-medium border border-dark_blue/30 text-dark_blue hover:bg-dark_blue/5 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+                  className="px-6 py-3 cursor-pointer rounded-full font-medium border border-dark_blue/30 text-dark_blue hover:bg-dark_blue/5 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
                 >
                   {t("createThought.back")}
                 </button>
@@ -118,7 +132,7 @@ export default function ThoughtCreate() {
                 <button
                   type="submit"
                   disabled={!canContinue || createThought.isPending}
-                  className="px-8 py-3 rounded-full font-bold text-white bg-dark_blue hover:bg-dark_blue/85 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+                  className="px-8 py-3 cursor-pointer rounded-full font-bold text-white bg-dark_blue hover:bg-dark_blue/85 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
                 >
                   {isLastStep
                     ? t("createThought.submit")
