@@ -58,6 +58,15 @@ export interface ThoughtDto {
   updatedAt: string;
 }
 
+export interface PaginatedThoughtsDto {
+  data: ThoughtDto[];
+  /**
+     * Cursor to pass back to fetch the next page. `null` when no more results are available.
+     * @nullable
+     */
+  nextCursor: string | null;
+}
+
 export interface CreateThoughtDto {
   ciphertext: string;
   iv: string;
@@ -80,6 +89,8 @@ export type ThoughtsControllerFindAllParams = {
 moodIndex?: string;
 timeIndex?: string;
 legitimateIndex?: string;
+cursor?: string;
+take?: number;
 };
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
@@ -317,7 +328,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     }
 
 export type thoughtsControllerFindAllResponse200 = {
-  data: ThoughtDto[]
+  data: PaginatedThoughtsDto
   status: 200
 }
 
