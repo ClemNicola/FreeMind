@@ -9,8 +9,18 @@ import { FilterThoughtDto } from './dto/filter-thought.dto';
 export class ThoughtsDao {
   constructor(private readonly prisma: PrismaService) {}
 
-  findAllByUserId(userId: string, filters: FilterThoughtDto = {}) {
-    return this.prisma.thought.findMany({
+  async findAllByUserId(
+    userId: string,
+    filters: FilterThoughtDto = {},
+    cursor?: string,
+    take: number = 20,
+  ) {
+    const items = await this.prisma.thought.findMany({
+      take: take + 1,
+      ...(cursor && {
+        cursor: { id: cursor },
+        skip: 1,
+      }),
       where: {
         userId,
         ...(filters.moodIndex && {
@@ -23,8 +33,14 @@ export class ThoughtsDao {
           legitimateIndex: filters.legitimateIndex,
         }),
       },
-      orderBy: { createdAt: 'desc' },
+      orderBy: [{ createdAt: 'desc' }, { id: 'desc' }],
     });
+
+    const hasNext = items.length > take;
+    const data = hasNext ? items.slice(0, take) : items;
+    const nextCursor = hasNext ? data[data.length - 1].id : null;
+
+    return { data, nextCursor };
   }
 
   findById(id: string) {

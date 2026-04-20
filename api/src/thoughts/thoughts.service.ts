@@ -16,8 +16,10 @@ export class ThoughtsService {
   async findAll(
     userId: string,
     filters: FilterThoughtDto = {},
-  ): Promise<Thought[]> {
-    return this.thoughtsDao.findAllByUserId(userId, filters);
+    cursor?: string,
+    take: number = 20,
+  ): Promise<{ data: Thought[]; nextCursor: string | null }> {
+    return this.thoughtsDao.findAllByUserId(userId, filters, cursor, take);
   }
 
   async findOne(id: string, userId: string): Promise<Thought> {
