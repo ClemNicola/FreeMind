@@ -12,7 +12,7 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="bg-beige/60 min-h-screen overscroll-none">
+      <div className="bg-beige/80 min-h-screen overscroll-none">
         <BrowserRouter>
           <Routes>
             <Route path="/*" element={<Auth />} />
