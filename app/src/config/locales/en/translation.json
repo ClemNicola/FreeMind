@@ -101,12 +101,31 @@
     "back": "Back",
     "edit": "Edit",
     "delete": "Delete",
+    "cancel": "Cancel",
     "editError": "Could not update this thought",
-    "deleteError": "Could not delete this thought"
+    "deleteError": "Could not delete this thought",
+    "filterBy": "Filter by",
+    "noThoughts": "No thoughts yet!",
+    "addNewThought": "Add a new thought",
+    "addThought": "Add"
+  },
+  "filters": {
+    "title": "Filters",
+    "reset": "Reset",
+    "apply": "Apply",
+    "dateRange": "Date range",
+    "ranges": {
+      "week": "1 week",
+      "month": "1 month",
+      "year": "1 year"
+    },
+    "yes": "Yes",
+    "no": "No",
+    "maybe": "Maybe"
   },
   "timeIndex": {
-    "PAST": "past",
-    "FUTURE": "future"
+    "PAST": "Past",
+    "FUTURE": "Future"
   },
   "mood": {
     "DEPRESSION": "Depression",

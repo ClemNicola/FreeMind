@@ -101,8 +101,27 @@
     "back": "Retour",
     "edit": "Modifier",
     "delete": "Supprimer",
+    "cancel": "Annuler",
     "editError": "Impossible de mettre à jour cette pensée",
-    "deleteError": "Impossible de supprimer cette pensée"
+    "deleteError": "Impossible de supprimer cette pensée",
+    "filterBy": "Filtrer par",
+    "noThoughts": "Aucune pensée encore !",
+    "addNewThought": "Ajouter une pensée",
+    "addThought": "Ajouter"
+  },
+  "filters": {
+    "title": "Filtres",
+    "reset": "Réinitialiser",
+    "apply": "Appliquer",
+    "dateRange": "Période",
+    "ranges": {
+      "week": "1 semaine",
+      "month": "1 mois",
+      "year": "1 an"
+    },
+    "yes": "Oui",
+    "no": "Non",
+    "maybe": "Peut-être"
   },
   "timeIndex": {
     "PAST": "passé",
