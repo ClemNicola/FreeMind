@@ -66,7 +66,7 @@ export default function FilterButton({ value = {}, onApply }: Props) {
   return (
     <Popover open={open} onOpenChange={handleOpenChange}>
       <PopoverTrigger asChild className="cursor-pointer">
-        <Button className="relative border border-dark_blue  flex items-center gap-2 cursor-pointer py-2 px-6 md:py-4 md:px-8 text-dark_blue bg-transparent rounded-full font-semibold text-base sm:text-lg hover:bg-dark_blue/10 transition-all duration-300">
+        <button className="relative border border-dark_blue flex items-center gap-2 cursor-pointer py-2 px-6 md:py-4 md:px-8 text-dark_blue bg-transparent rounded-full font-semibold text-base sm:text-lg md:text-xl hover:bg-dark_blue/10 transition-all duration-300">
           <FiFilter className="w-4 h-4" />
           {t("common.filterBy")}
           {activeCount > 0 && (
@@ -74,7 +74,7 @@ export default function FilterButton({ value = {}, onApply }: Props) {
               {activeCount}
             </span>
           )}
-        </Button>
+        </button>
       </PopoverTrigger>
 
       <PopoverContent
