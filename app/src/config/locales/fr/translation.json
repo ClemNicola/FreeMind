@@ -102,6 +102,7 @@
     "edit": "Modifier",
     "delete": "Supprimer",
     "cancel": "Annuler",
+    "save": "Enregistrer",
     "editError": "Impossible de mettre à jour cette pensée",
     "deleteError": "Impossible de supprimer cette pensée",
     "filterBy": "Filtrer par",

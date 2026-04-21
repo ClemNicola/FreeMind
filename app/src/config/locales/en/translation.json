@@ -102,6 +102,7 @@
     "edit": "Edit",
     "delete": "Delete",
     "cancel": "Cancel",
+    "save": "Save",
     "editError": "Could not update this thought",
     "deleteError": "Could not delete this thought",
     "filterBy": "Filter by",
