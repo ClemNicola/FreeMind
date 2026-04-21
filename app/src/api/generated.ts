@@ -89,6 +89,7 @@ export type ThoughtsControllerFindAllParams = {
 moodIndex?: string;
 timeIndex?: string;
 legitimateIndex?: string;
+createdAt?: string;
 cursor?: string;
 take?: number;
 };

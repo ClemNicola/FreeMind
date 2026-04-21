@@ -21,6 +21,11 @@ export class FilterThoughtDto {
   @IsOptional()
   @IsString()
   @ApiProperty({ required: false })
+  createdAt?: string;
+
+  @IsOptional()
+  @IsString()
+  @ApiProperty({ required: false })
   cursor?: string;
 
   @IsOptional()
