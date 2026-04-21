@@ -26,7 +26,7 @@ export default function StepMood() {
         {t("createThought.mood.subtitle")}
       </p>
 
-      <div className="mt-8 max-w-md w-full">
+      <div className="mt-8 max-w-lg w-full">
         <DropDown
           placeholder={t("createThought.mood.placeholder")}
           items={items}

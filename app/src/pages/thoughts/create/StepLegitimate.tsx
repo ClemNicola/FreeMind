@@ -22,7 +22,7 @@ export default function StepLegitimate() {
         {t("createThought.legitimate.subtitle")}
       </p>
 
-      <div className="mt-8 max-w-2xl w-full">
+      <div className="mt-8 max-w-lg w-full">
         <DropDown
           placeholder={t("createThought.legitimate.placeholder")}
           items={items}
