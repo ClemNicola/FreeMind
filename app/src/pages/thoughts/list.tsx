@@ -138,10 +138,10 @@ export default function ThoughtsList() {
         </h1>
         <Link
           to="/thoughts/new"
-          className="bg-dark_blue py-2 px-6 md:py-4 md:px-8 text-white rounded-full font-semibold text-base sm:text-lg md:text-2xl lg:text-3xl hover:bg-dark_blue/80 transition-all duration-300"
+          className="bg-dark_blue py-2 px-6 md:py-4 md:px-8 text-white rounded-full font-semibold text-base sm:text-lg md:text-xl hover:bg-dark_blue/80 transition-all duration-300"
         >
           <span className="flex items-center gap-2 md:gap-4">
-            <FiPlus className="w-5 h-5 md:w-6 md:h-6 shrink-0" />
+            <FiPlus className="w-4 h-4 shrink-0" />
             {t("common.addNewThought")}
           </span>
         </Link>

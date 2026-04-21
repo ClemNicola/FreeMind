@@ -300,7 +300,6 @@ function EditableField({
       {editing ? (
         <Textarea
           className="mt-2"
-          style={{ borderColor: mood_color }}
           value={value}
           onChange={(e) => onChange(e.target.value)}
         />
