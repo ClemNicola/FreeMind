@@ -12,6 +12,16 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import useScreenSize from "@/hooks/useScreenSize";
 import { ThoughtCard } from "@/components/ThoughtCard";
 import { CursorPagination } from "@/components/Pagination";
+import { useTranslation } from "react-i18next";
+import FilterButton, { type DateRangeKey } from "@/components/FilterButton";
+import { MOOD_ENUM, TIME_ENUM, LEGITIMATE_ENUM } from "@/constants/enum";
+
+export type FilterThought = {
+  dateRange?: DateRangeKey;
+  mood?: keyof typeof MOOD_ENUM;
+  time?: keyof typeof TIME_ENUM;
+  legitimate?: keyof typeof LEGITIMATE_ENUM;
+};
 
 export type DecryptedThought = PlainThoughtValues & {
   id: string;
@@ -23,15 +33,17 @@ const PAGE_SIZE = 20;
 export default function ThoughtsList() {
   const accessToken = useSessionStore((s) => s.accessToken);
   const masterKey = useSessionStore((s) => s.masterKey);
-
   const screenSize = useScreenSize();
   const isMobile = screenSize.width < 640;
+  const { t } = useTranslation();
+  const [filters, setFilters] = useState<FilterThought>({});
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useInfiniteQuery({
-      queryKey: ["thoughts"],
+      queryKey: ["thoughts", filters],
       queryFn: ({ pageParam }) =>
         thoughtsControllerFindAll({
+          ...filters,
           cursor: pageParam,
           take: PAGE_SIZE,
         }),
@@ -122,15 +134,15 @@ export default function ThoughtsList() {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen px-6 text-center gap-6 md:gap-8">
         <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-general text-dark_blue">
-          No thoughts yet !
+          {t("common.noThoughts")}
         </h1>
         <Link
           to="/thoughts/new"
-          className="bg-dark_blue py-3 px-6 md:py-4 md:px-8 text-white rounded-full font-semibold text-base sm:text-lg md:text-2xl lg:text-3xl hover:bg-dark_blue/80 transition-all duration-300"
+          className="bg-dark_blue py-2 px-6 md:py-4 md:px-8 text-white rounded-full font-semibold text-base sm:text-lg md:text-2xl lg:text-3xl hover:bg-dark_blue/80 transition-all duration-300"
         >
           <span className="flex items-center gap-2 md:gap-4">
             <FiPlus className="w-5 h-5 md:w-6 md:h-6 shrink-0" />
-            Add a new thought
+            {t("common.addNewThought")}
           </span>
         </Link>
       </div>
@@ -140,12 +152,12 @@ export default function ThoughtsList() {
   return (
     <div className="min-h-screen flex flex-col px-6 py-10 md:px-20 md:py-14 font-general text-dark_blue">
       <div className="flex items-center justify-between gap-4">
-        Filters
+        <FilterButton value={filters} onApply={setFilters} />
         <Link
           to="/thoughts/new"
           className="flex items-center gap-2 bg-dark_blue cursor-pointer py-3 px-6 md:py-4 md:px-8 text-white rounded-full font-semibold text-base sm:text-lg hover:bg-dark_blue/80 transition-all duration-300"
         >
-          <FiPlus className="w-5 h-5 md:w-6 md:h-6 shrink-0" />
+          <FiPlus className="w-4 h-4 shrink-0" />
           Add
         </Link>
       </div>

@@ -290,9 +290,12 @@ function EditableField({
 }) {
   const mood_color = MOOD_ENUM[mood].color;
   return (
-    <div>
+    <div
+      className="mt-2 rounded-lg border px-3 py-2"
+      style={{ borderColor: mood_color }}
+    >
       <h2 className="text-sm font-semibold uppercase tracking-wider text-dark_blue/60">
-        {label}
+        {label}:
       </h2>
       {editing ? (
         <Textarea
@@ -302,10 +305,7 @@ function EditableField({
           onChange={(e) => onChange(e.target.value)}
         />
       ) : (
-        <div
-          className="mt-2 rounded-lg border px-3 py-2"
-          style={{ borderColor: mood_color }}
-        >
+        <div className="mt-2 whitespace-pre-wrap">
           <p className="whitespace-pre-wrap">{value}</p>
         </div>
       )}
