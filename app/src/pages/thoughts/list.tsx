@@ -4,9 +4,11 @@ import { Link } from "react-router-dom";
 import { FiPlus } from "react-icons/fi";
 import { TableComponent } from "../../components/Table";
 import {
+  buildThoughtFilterParams,
   decryptThoughtPayload,
   type PlainThoughtValues,
 } from "../../services/buildThoughtPayload";
+import useAuthStore from "../../hooks/useAuthStore";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import useScreenSize from "@/hooks/useScreenSize";
@@ -33,6 +35,7 @@ const PAGE_SIZE = 20;
 export default function ThoughtsList() {
   const accessToken = useSessionStore((s) => s.accessToken);
   const masterKey = useSessionStore((s) => s.masterKey);
+  const user = useAuthStore((s) => s.user);
   const screenSize = useScreenSize();
   const isMobile = screenSize.width < 640;
   const { t } = useTranslation();
@@ -41,15 +44,28 @@ export default function ThoughtsList() {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useInfiniteQuery({
       queryKey: ["thoughts", filters],
-      queryFn: ({ pageParam }) =>
-        thoughtsControllerFindAll({
-          ...filters,
+      queryFn: async ({ pageParam }) => {
+        if (!masterKey || !user?.id) {
+          throw new Error("Session not ready");
+        }
+        const apiFilters = await buildThoughtFilterParams(
+          {
+            mood: filters.mood,
+            time: filters.time,
+            legitimate: filters.legitimate,
+          },
+          masterKey,
+          user.id,
+        );
+        return thoughtsControllerFindAll({
+          ...apiFilters,
           cursor: pageParam,
           take: PAGE_SIZE,
-        }),
+        });
+      },
       initialPageParam: undefined as string | undefined,
       getNextPageParam: (lastPage) => lastPage.data.nextCursor ?? undefined,
-      enabled: !!accessToken,
+      enabled: !!accessToken && !!masterKey && !!user?.id,
     });
 
   const allItems = useMemo(

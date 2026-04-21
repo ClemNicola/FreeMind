@@ -61,3 +61,40 @@ export async function decryptThoughtPayload(
   const plaintext = await decryptData(encrypted, masterKey);
   return JSON.parse(plaintext) as PlainThoughtValues;
 }
+
+export type PlainThoughtFilters = {
+  mood?: MoodKey;
+  time?: TimeKey;
+  legitimate?: LegitimateKey;
+};
+
+export type ThoughtFilterParams = {
+  moodIndex?: string;
+  timeIndex?: string;
+  legitimateIndex?: string;
+};
+
+export async function buildThoughtFilterParams(
+  filters: PlainThoughtFilters,
+  masterKey: CryptoKey,
+  userId: string,
+): Promise<ThoughtFilterParams> {
+  const hasAny = filters.mood || filters.time || filters.legitimate;
+  if (!hasAny) return {};
+
+  const indexKey = await deriveIndexKey(masterKey, userId);
+
+  const [moodIndex, timeIndex, legitimateIndex] = await Promise.all([
+    filters.mood ? computeIndex(indexKey, "mood", filters.mood) : undefined,
+    filters.time ? computeIndex(indexKey, "time", filters.time) : undefined,
+    filters.legitimate
+      ? computeIndex(indexKey, "legitimate", filters.legitimate)
+      : undefined,
+  ]);
+
+  return {
+    ...(moodIndex && { moodIndex }),
+    ...(timeIndex && { timeIndex }),
+    ...(legitimateIndex && { legitimateIndex }),
+  };
+}
