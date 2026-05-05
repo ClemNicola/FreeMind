@@ -75,4 +75,26 @@ export class AuthService {
     }
     await this.usersService.update(userId, { refreshToken: null });
   }
+
+  async verifyUser(userId: string) {
+    const user = await this.usersService.findById(userId);
+    if (!user) {
+      throw new UnauthorizedException('User not found');
+    }
+    return {
+      id: user.id,
+      email: user.email,
+      wrappedMasterKey: user.wrappedMasterKey,
+      salt: user.salt,
+    };
+  }
+
+  async refreshAccessToken(userId: string): Promise<string> {
+    const user = await this.usersService.findById(userId);
+    if (!user) {
+      throw new UnauthorizedException('User not found');
+    }
+    const payload = { sub: user.id, email: user.email };
+    return this.jwtService.signAsync(payload);
+  }
 }
