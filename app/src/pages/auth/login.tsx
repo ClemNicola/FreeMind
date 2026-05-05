@@ -8,25 +8,15 @@ import { useAuthControllerSignIn } from "../../api/generated";
 import { toast } from "react-hot-toast";
 import { ApiError } from "../../api/api";
 import useAuthStore from "../../hooks/useAuthStore";
-import useSessionStore from "../../hooks/useSessionStore";
+import useSessionStore, { persistMasterKey } from "../../hooks/useSessionStore";
 import { deriveMasterKey, fromBase64 } from "../../services/crypto";
-
-const decodeJwt = (token: string): { sub: string; email: string } | null => {
-  try {
-    const [, payload] = token.split(".");
-    const json = atob(payload.replace(/-/g, "+").replace(/_/g, "/"));
-    return JSON.parse(json);
-  } catch {
-    return null;
-  }
-};
 
 export default function LoginPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { mutate: signIn, isPending } = useAuthControllerSignIn();
   const setAuthSession = useAuthStore((s) => s.setSession);
-  const setSessionTokens = useSessionStore((s) => s.setTokens);
+  const setAuthenticated = useSessionStore((s) => s.setAuthenticated);
   const setMasterKey = useSessionStore((s) => s.setMasterKey);
   const [authError, setAuthError] = useState<string | null>(null);
   const [isDeriving, setIsDeriving] = useState(false);
@@ -43,14 +33,7 @@ export default function LoginPage() {
       { data: { email: values.email, password: values.password } },
       {
         onSuccess: async (response) => {
-          const { accessToken, refreshToken, wrappedMasterKey, salt } =
-            response.data;
-
-          const claims = decodeJwt(accessToken);
-          if (!claims) {
-            setAuthError(t("login.errors.generic"));
-            return;
-          }
+          const { wrappedMasterKey, salt } = response.data;
 
           try {
             setIsDeriving(true);
@@ -59,18 +42,20 @@ export default function LoginPage() {
               fromBase64(salt),
             );
 
+            const meRes = await fetch(
+              `${import.meta.env.VITE_API_URL ?? "http://localhost:3000"}/auth/me`,
+              { credentials: "include" },
+            );
+            const user = await meRes.json();
+
             setAuthSession({
-              user: {
-                id: claims.sub,
-                email: claims.email,
-                wrappedMasterKey,
-                salt,
-              },
-              refreshToken,
+              user: { ...user, wrappedMasterKey, salt },
+              refreshToken: "",
               persist: values.rememberMe,
             });
-            setSessionTokens({ accessToken, refreshToken });
+            setAuthenticated(true);
             setMasterKey(masterKey);
+            await persistMasterKey(masterKey);
 
             toast.success(t("login.successToast"));
             navigate("/thoughts");

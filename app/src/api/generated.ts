@@ -30,6 +30,11 @@ export interface SignInDto {
   password: string;
 }
 
+export interface AuthResponseDto {
+  wrappedMasterKey: string;
+  salt: string;
+}
+
 export interface SignUpDto {
   email: string;
   password: string;
@@ -92,7 +97,7 @@ type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
 
 export type authControllerSignInResponse200 = {
-  data: void
+  data: AuthResponseDto
   status: 200
 }
 
@@ -169,7 +174,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     }
 
 export type authControllerSignUpResponse201 = {
-  data: void
+  data: AuthResponseDto
   status: 201
 }
 
