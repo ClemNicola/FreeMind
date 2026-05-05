@@ -89,12 +89,17 @@ export class AuthService {
     };
   }
 
-  async refreshAccessToken(userId: string): Promise<string> {
-    const user = await this.usersService.findById(userId);
+  async refreshAccessToken(refreshToken: string): Promise<string> {
+    const payload = await this.jwtService
+      .verifyAsync(refreshToken)
+      .catch(() => {
+        throw new UnauthorizedException('Invalid refresh token');
+      });
+
+    const user = await this.usersService.findById(payload.sub as string);
     if (!user) {
       throw new UnauthorizedException('User not found');
     }
-    const payload = { sub: user.id, email: user.email };
-    return this.jwtService.signAsync(payload);
+    return this.jwtService.signAsync({ sub: user.id, email: user.email });
   }
 }
