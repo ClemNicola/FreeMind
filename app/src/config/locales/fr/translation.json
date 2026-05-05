@@ -105,6 +105,7 @@
     "save": "Enregistrer",
     "editError": "Impossible de mettre à jour cette pensée",
     "deleteError": "Impossible de supprimer cette pensée",
+    "deleteSuccess": "Supprimé avec succès",
     "filterBy": "Filtrer par",
     "noThoughts": "Aucune pensée encore !",
     "addNewThought": "Ajouter une pensée",

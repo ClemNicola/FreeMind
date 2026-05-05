@@ -10,13 +10,15 @@ import {
 } from "../../services/buildThoughtPayload";
 import useAuthStore from "../../hooks/useAuthStore";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import useScreenSize from "@/hooks/useScreenSize";
 import { ThoughtCard } from "@/components/ThoughtCard";
 import { CursorPagination } from "@/components/Pagination";
 import { useTranslation } from "react-i18next";
 import FilterButton, { type DateRangeKey } from "@/components/FilterButton";
 import { MOOD_ENUM, TIME_ENUM, LEGITIMATE_ENUM } from "@/constants/enum";
+import { toast } from "react-hot-toast";
+import { thoughtsControllerRemove } from "@/api/generated";
 
 export type FilterThought = {
   dateRange?: DateRangeKey;
@@ -40,6 +42,7 @@ export default function ThoughtsList() {
   const isMobile = screenSize.width < 640;
   const { t } = useTranslation();
   const [filters, setFilters] = useState<FilterThought>({});
+  const queryClient = useQueryClient();
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useInfiniteQuery({
@@ -142,8 +145,15 @@ export default function ThoughtsList() {
     return () => observer.disconnect();
   }, [isMobile, fetchNextPage, hasNextPage, isFetchingNextPage]);
 
-  const handleDelete = (id: string) => {
-    console.log(id);
+  const handleDelete = async (id: string) => {
+    try {
+      await thoughtsControllerRemove(id);
+      await queryClient.invalidateQueries({ queryKey: ["thoughts"] });
+      toast.success(t("common.deleteSuccess"));
+    } catch (error) {
+      console.error(error);
+      toast.error(t("common.deleteError"));
+    }
   };
 
   if (!isLoading && allItems.length === 0) {
@@ -201,7 +211,7 @@ export default function ThoughtsList() {
           <>
             <TableComponent
               data={visibleDecrypted}
-              handleDelete={handleDelete}
+              handleDelete={(id: string) => void handleDelete(id)}
             />
             <div className="mt-6">
               <CursorPagination

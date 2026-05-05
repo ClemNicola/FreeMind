@@ -105,6 +105,7 @@
     "save": "Save",
     "editError": "Could not update this thought",
     "deleteError": "Could not delete this thought",
+    "deleteSuccess": "Deleted successfully",
     "filterBy": "Filter by",
     "noThoughts": "No thoughts yet!",
     "addNewThought": "Add a new thought",
