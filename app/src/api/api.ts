@@ -1,5 +1,3 @@
-import useSessionStore from "../hooks/useSessionStore";
-
 const BASE_URL = import.meta.env.VITE_API_URL ?? "http://localhost:3000";
 
 export class ApiError extends Error {
@@ -26,13 +24,11 @@ export const apiInstance = async <T>(
   url: string,
   options?: RequestInit,
 ): Promise<T> => {
-  const token = useSessionStore.getState().accessToken;
-
   const response = await fetch(`${BASE_URL}${url}`, {
     ...options,
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...options?.headers,
     },
   });
