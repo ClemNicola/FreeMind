@@ -4,7 +4,7 @@
     "subtitle": "Please enter your details below.",
     "noAccount": "Don't have an account yet?",
     "createOne": "Create one",
-    "tagline": "Free your mind.",
+    "tagline": "Reconnect with the present, free your mind.",
     "logoAlt": "Mindy logo",
     "email": "Email",
     "password": "Password",
@@ -13,10 +13,15 @@
     "rememberMe": "Remember me",
     "forgotPassword": "Forgot password?",
     "submit": "Login",
+    "signingIn": "Signing in...",
     "successToast": "Login successful",
     "validation": {
       "emailRequired": "Required",
       "invalidEmail": "Invalid email address"
+    },
+    "errors": {
+      "invalidCredentials": "Incorrect email or password.",
+      "generic": "Something went wrong. Please try again."
     }
   },
   "signup": {
@@ -38,5 +43,103 @@
     "copy": "Copy",
     "copied": "Copied",
     "goToAccount": "Go to your account!"
+  },
+  "thoughts": {
+    "thought": "Thought",
+    "context": "Context",
+    "trigger": "Possible cause",
+    "mood": "Mood",
+    "time": "Refers to",
+    "legitimate": "Legit",
+    "createdAt": "Created at",
+    "updatedAt": "Updated at"
+  },
+  "createThought": {
+    "stepProgress": "Step {{current}} of {{total}}",
+    "back": "Back",
+    "next": "Next",
+    "cancel": "Cancel",
+    "submit": "Save",
+    "successToast": "Thought saved",
+    "errorToast": "Could not save your thought",
+    "mood": {
+      "title": "How are you feeling?",
+      "subtitle": "Pick the emotion that fits best right now.",
+      "placeholder": "Select a mood",
+      "empty": "No matching mood.",
+      "timeIndexLabel": "This emotion is related to the"
+    },
+    "thought": {
+      "title": "What's in your mind currently?",
+      "subtitle": "Describe your thought in a few words.",
+      "placeholder": "Example: I'm feeling anxious about my trip to Mexico.",
+      "empty": "No thought."
+    },
+    "context": {
+      "title": "In which situation are you thinking about this thought?",
+      "subtitle": "Describe the situation in which you are thinking about this thought.",
+      "placeholder": "Example: I'm at home, watching TV alone on the sofa.",
+      "empty": "No context."
+    },
+    "trigger": {
+      "title": "What event or situation in yout life could have caused this thought?",
+      "subtitle": "Describe the event or situation in your life that could have caused this thought.",
+      "placeholder": "Example: I traveled alone in a foreing country years ago and It worsened my anxiety.",
+      "empty": "No event or situation."
+    },
+    "legitimate": {
+      "title": "Is this thought legitimate or your brain is playing tricks on you?",
+      "subtitle": "Choose the option that best describes your thought.",
+      "placeholder": "Select an option",
+      "yes": "Legitimate",
+      "no": "Brain is playing tricks on me",
+      "maybe": "Mixed feelings",
+      "empty": "No option selected"
+    }
+  },
+  "common": {
+    "back": "Back",
+    "edit": "Edit",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "save": "Save",
+    "editError": "Could not update this thought",
+    "deleteError": "Could not delete this thought",
+    "deleteSuccess": "Deleted successfully",
+    "filterBy": "Filter by",
+    "noThoughts": "No thoughts yet!",
+    "addNewThought": "Add a new thought",
+    "addThought": "Add"
+  },
+  "filters": {
+    "title": "Filters",
+    "reset": "Reset",
+    "apply": "Apply",
+    "dateRange": "Date range",
+    "ranges": {
+      "week": "1 week",
+      "month": "1 month",
+      "year": "1 year"
+    },
+    "yes": "Yes",
+    "no": "No",
+    "maybe": "Maybe"
+  },
+  "timeIndex": {
+    "PAST": "Past",
+    "FUTURE": "Future"
+  },
+  "mood": {
+    "DEPRESSION": "Depression",
+    "ANGER": "Anger",
+    "SHAME": "Shame",
+    "REGRETS": "Regrets",
+    "ADDICTIONS": "Addictions",
+    "PARANOIA": "Paranoia",
+    "ANXIETY": "Anxiety",
+    "FEAR_OF_UNCERTAINTY": "Fear of uncertainty",
+    "ANTICIPATION": "Anticipation",
+    "WORRY": "Worry",
+    "STRESS": "Stress"
   }
 }

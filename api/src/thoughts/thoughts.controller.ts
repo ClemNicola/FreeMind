@@ -15,9 +15,11 @@ import { ThoughtsService } from './thoughts.service';
 import { CreateThoughtDto } from './dto/create-thought.dto';
 import { UpdateThoughtDto } from './dto/update-thought.dto';
 import { FilterThoughtDto } from './dto/filter-thought.dto';
+import { ThoughtDto } from './dto/thought.dto';
+import { PaginatedThoughtsDto } from './dto/paginated-thoughts.dto';
 import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/auth/auth.guard';
-import { ApiBearerAuth, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 type AuthenticatedRequest = Request & { user: { sub: string; email: string } };
 
@@ -33,15 +35,19 @@ export class ThoughtsController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Get all thoughts successful',
+    type: PaginatedThoughtsDto,
   })
-  @ApiQuery({ name: 'moodIndex', required: false })
-  @ApiQuery({ name: 'timeIndex', required: false })
-  @ApiQuery({ name: 'legitimateIndex', required: false })
   findAll(
     @Request() req: AuthenticatedRequest,
     @Query() filters: FilterThoughtDto,
   ) {
-    return this.thoughtsService.findAll(req.user.sub, filters);
+    const { cursor, take, ...where } = filters;
+    return this.thoughtsService.findAll(
+      req.user.sub,
+      where,
+      cursor,
+      take ?? 20,
+    );
   }
 
   @Get(':id')
@@ -50,6 +56,7 @@ export class ThoughtsController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Get thought successful',
+    type: ThoughtDto,
   })
   findOne(@Param('id') id: string, @Request() req: AuthenticatedRequest) {
     return this.thoughtsService.findOne(id, req.user.sub);
@@ -61,6 +68,7 @@ export class ThoughtsController {
   @ApiResponse({
     status: HttpStatus.CREATED,
     description: 'Create thought successful',
+    type: ThoughtDto,
   })
   create(@Request() req: AuthenticatedRequest, @Body() dto: CreateThoughtDto) {
     return this.thoughtsService.create(req.user.sub, dto);
@@ -72,6 +80,7 @@ export class ThoughtsController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Update thought successful',
+    type: ThoughtDto,
   })
   update(
     @Param('id') id: string,

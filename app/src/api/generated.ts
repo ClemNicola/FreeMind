@@ -45,6 +45,28 @@ export interface SignUpDto {
   seedPhraseHash: string;
 }
 
+export interface ThoughtDto {
+  id: string;
+  ciphertext: string;
+  iv: string;
+  authTag: string;
+  timeIndex: string;
+  legitimateIndex: string;
+  moodIndex: string;
+  userId: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface PaginatedThoughtsDto {
+  data: ThoughtDto[];
+  /**
+     * Cursor to pass back to fetch the next page. `null` when no more results are available.
+     * @nullable
+     */
+  nextCursor: string | null;
+}
+
 export interface CreateThoughtDto {
   ciphertext: string;
   iv: string;
@@ -67,6 +89,9 @@ export type ThoughtsControllerFindAllParams = {
 moodIndex?: string;
 timeIndex?: string;
 legitimateIndex?: string;
+createdAt?: string;
+cursor?: string;
+take?: number;
 };
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
@@ -304,7 +329,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     }
 
 export type thoughtsControllerFindAllResponse200 = {
-  data: void
+  data: PaginatedThoughtsDto
   status: 200
 }
 
@@ -416,7 +441,7 @@ export function useThoughtsControllerFindAll<TData = Awaited<ReturnType<typeof t
 
 
 export type thoughtsControllerCreateResponse201 = {
-  data: void
+  data: ThoughtDto
   status: 201
 }
 
@@ -493,7 +518,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     }
 
 export type thoughtsControllerFindOneResponse200 = {
-  data: void
+  data: ThoughtDto
   status: 200
 }
 
@@ -598,7 +623,7 @@ export function useThoughtsControllerFindOne<TData = Awaited<ReturnType<typeof t
 
 
 export type thoughtsControllerUpdateResponse200 = {
-  data: void
+  data: ThoughtDto
   status: 200
 }
 

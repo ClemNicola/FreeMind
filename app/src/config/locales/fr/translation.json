@@ -4,7 +4,7 @@
     "subtitle": "Saisissez vos informations ci-dessous.",
     "noAccount": "Pas encore de compte ?",
     "createOne": "Créer un compte",
-    "tagline": "Libérez votre esprit.",
+    "tagline": "Reconnecte-toi avec le présent, libère ton esprit.",
     "logoAlt": "Logo Mindy",
     "email": "E-mail",
     "password": "Mot de passe",
@@ -13,10 +13,15 @@
     "rememberMe": "Se souvenir de moi",
     "forgotPassword": "Mot de passe oublié ?",
     "submit": "Connexion",
+    "signingIn": "Connexion...",
     "successToast": "Connexion réussie",
     "validation": {
       "emailRequired": "Obligatoire",
       "invalidEmail": "Adresse e-mail invalide"
+    },
+    "errors": {
+      "invalidCredentials": "E-mail ou mot de passe incorrect.",
+      "generic": "Une erreur est survenue. Veuillez réessayer."
     }
   },
   "signup": {
@@ -38,5 +43,103 @@
     "copy": "Copier",
     "copied": "Copié",
     "goToAccount": "Accéder à mon compte !"
+  },
+  "thoughts": {
+    "thought": "Pensée",
+    "context": "Contexte",
+    "trigger": "Cause possible",
+    "mood": "Humeur",
+    "time": "Se réfère à",
+    "legitimate": "Légitime",
+    "createdAt": "Créé le",
+    "updatedAt": "Mis à jour le"
+  },
+  "createThought": {
+    "stepProgress": "Étape {{current}} sur {{total}}",
+    "back": "Retour",
+    "next": "Suivant",
+    "cancel": "Annuler",
+    "submit": "Enregistrer",
+    "successToast": "Pensée enregistrée",
+    "errorToast": "Impossible d'enregistrer votre pensée",
+    "mood": {
+      "title": "Comment vous sentez-vous ?",
+      "subtitle": "Choisissez l'émotion qui vous correspond le mieux maintenant.",
+      "placeholder": "Choisir une humeur",
+      "empty": "Aucune humeur correspondante.",
+      "timeIndexLabel": "Cette émotion est liée au"
+    },
+    "thought": {
+      "title": "À quoi penses-tu en ce moment ??",
+      "subtitle": "Décris ta pensée en quelques mots.",
+      "placeholder": "Exemple: Je suis inquiet par rapport à mon voyage au Mexique.",
+      "empty": "Aucune pensée."
+    },
+    "context": {
+      "title": "Dans quelle situation es-tu en train d'avoir cette pensée ?",
+      "subtitle": "Décris la situation dans laquelle tu es en train d'avoir cette pensée.",
+      "placeholder": "Exemple: Je suis à la maison, regardant la télévision seul sur le canapé.",
+      "empty": "Aucune situation."
+    },
+    "trigger": {
+      "title": "Quel événement ou situation dans ta vie pourrait avoir causé cette pensée ?",
+      "subtitle": "Décris l'événement ou la situation dans ta vie qui pourrait avoir causé cette pensée.",
+      "placeholder": "Exemple: J'ai voyagé seul dans un pays étranger il y a plusieurs années et ça a aggravé ma anxiété.",
+      "empty": "Aucun événement ou situation."
+    },
+    "legitimate": {
+      "title": "Est-ce que cette pensée est légitime ou ton cerveau joue des tours sur toi ?",
+      "subtitle": "Choisis l'option qui correspond le mieux à ta pensée.",
+      "placeholder": "Select an option",
+      "yes": "Légitime",
+      "no": "Ton cerveau joue des tours sur toi",
+      "maybe": "Des sentiments mixtes",
+      "empty": "Aucune option sélectionnée"
+    }
+  },
+  "common": {
+    "back": "Retour",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "editError": "Impossible de mettre à jour cette pensée",
+    "deleteError": "Impossible de supprimer cette pensée",
+    "deleteSuccess": "Supprimé avec succès",
+    "filterBy": "Filtrer par",
+    "noThoughts": "Aucune pensée encore !",
+    "addNewThought": "Ajouter une pensée",
+    "addThought": "Ajouter"
+  },
+  "filters": {
+    "title": "Filtres",
+    "reset": "Réinitialiser",
+    "apply": "Appliquer",
+    "dateRange": "Période",
+    "ranges": {
+      "week": "1 semaine",
+      "month": "1 mois",
+      "year": "1 an"
+    },
+    "yes": "Oui",
+    "no": "Non",
+    "maybe": "Peut-être"
+  },
+  "timeIndex": {
+    "PAST": "passé",
+    "FUTURE": "futur"
+  },
+  "mood": {
+    "DEPRESSION": "Dépression",
+    "ANGER": "Colère",
+    "SHAME": "Honte",
+    "REGRETS": "Regrets",
+    "ADDICTIONS": "Addictions",
+    "PARANOIA": "Paranoïa",
+    "ANXIETY": "Anxiété",
+    "FEAR_OF_UNCERTAINTY": "Peur de l'incertitude",
+    "ANTICIPATION": "Anticipation",
+    "WORRY": "Inquiétude",
+    "STRESS": "Stress"
   }
 }
