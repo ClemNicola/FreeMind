@@ -35,7 +35,7 @@ export type DecryptedThought = PlainThoughtValues & {
 const PAGE_SIZE = 20;
 
 export default function ThoughtsList() {
-  const accessToken = useSessionStore((s) => s.accessToken);
+  const isAuthenticated = useSessionStore((s) => s.isAuthenticated);
   const masterKey = useSessionStore((s) => s.masterKey);
   const user = useAuthStore((s) => s.user);
   const screenSize = useScreenSize();
@@ -68,7 +68,7 @@ export default function ThoughtsList() {
       },
       initialPageParam: undefined as string | undefined,
       getNextPageParam: (lastPage) => lastPage.data.nextCursor ?? undefined,
-      enabled: !!accessToken && !!masterKey && !!user?.id,
+      enabled: isAuthenticated && !!masterKey && !!user?.id,
     });
 
   const allItems = useMemo(
