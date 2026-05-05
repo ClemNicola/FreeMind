@@ -16,6 +16,7 @@ import { SignUpDto } from './dto/signup.dto';
 import { AuthGuard } from './auth.guard';
 import { Public } from './decorators/public.decorator';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { AuthResponseDto } from './dto/auth-tokens.dto';
 
 const ACCESS_MAX_AGE = 1000 * 60 * 60;
 const REFRESH_MAX_AGE = 1000 * 60 * 60 * 24 * 7;
@@ -35,7 +36,11 @@ export class AuthController {
   @Public()
   @HttpCode(HttpStatus.OK)
   @Post('signin')
-  @ApiResponse({ status: HttpStatus.OK, description: 'Sign in successful' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Sign in successful',
+    type: AuthResponseDto,
+  })
   async signIn(
     @Body() dto: SignInDto,
     @Res({ passthrough: true }) res: express.Response,
@@ -62,6 +67,7 @@ export class AuthController {
   @ApiResponse({
     status: HttpStatus.CREATED,
     description: 'Sign up successful',
+    type: AuthResponseDto,
   })
   async signUp(
     @Body() dto: SignUpDto,
