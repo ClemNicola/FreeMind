@@ -53,11 +53,8 @@ export default function Signup() {
           },
         },
         {
-          onSuccess: (response) => {
+          onSuccess: () => {
             setIsEncrypting(false);
-            const { accessToken, refreshToken } = response.data;
-            sessionStorage.setItem("accessToken", accessToken);
-            sessionStorage.setItem("refreshToken", refreshToken);
             setStep("phrase");
           },
           onError: (error) => {

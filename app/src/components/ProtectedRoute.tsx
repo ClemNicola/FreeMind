@@ -6,10 +6,10 @@ export default function ProtectedRoute({
 }: {
   children: React.ReactNode;
 }) {
-  const accessToken = useSessionStore((s) => s.accessToken);
+  const isAuthenticated = useSessionStore((s) => s.isAuthenticated);
   const location = useLocation();
 
-  if (!accessToken) {
+  if (!isAuthenticated) {
     return <Navigate to="/" replace state={{ from: location }} />;
   }
 
