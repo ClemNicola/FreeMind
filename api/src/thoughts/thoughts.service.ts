@@ -60,7 +60,10 @@ export class ThoughtsService {
     range: '7d' | '30d' | 'all',
   ): Promise<StatsThoughtDto> {
     const startDate = this.startDateFromDateRange(range);
-    return this.thoughtsDao.dataStats(userId, startDate);
+    const stats = await this.thoughtsDao.dataStats(userId, startDate);
+    const allDays = await this.thoughtsDao.thoughtsByDay(userId);
+    const streak = this.computeDayStreak(allDays);
+    return { ...stats, streak };
   }
 
   private startDateFromDateRange(
@@ -71,5 +74,23 @@ export class ThoughtsService {
     const days = range === '7d' ? 7 : 30;
     now.setDate(now.getDate() - days);
     return now;
+  }
+
+  private computeDayStreak(
+    thoughtsByDay: { day: string; count: number }[],
+  ): number {
+    const daySet = new Set(
+      thoughtsByDay.map((t) => String(t.day).split('T')[0]),
+    );
+    let streak = 0;
+    const currentDate = new Date();
+    currentDate.setHours(0, 0, 0, 0);
+    while (true) {
+      const key = currentDate.toISOString().split('T')[0];
+      if (!daySet.has(key)) break;
+      streak++;
+      currentDate.setDate(currentDate.getDate() - 1);
+    }
+    return streak;
   }
 }

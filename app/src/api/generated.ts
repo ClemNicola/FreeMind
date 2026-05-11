@@ -65,6 +65,15 @@ export interface PaginatedThoughtsDto {
   nextCursor: string | null;
 }
 
+export interface StatsThoughtDto {
+  totalThoughts: number;
+  totalMood: string[];
+  totalLegitimate: string[];
+  totalTime: string[];
+  totalThoughtsByDay: string[];
+  streak: number;
+}
+
 export interface CreateThoughtDto {
   ciphertext: string;
   iv: string;
@@ -90,6 +99,10 @@ legitimateIndex?: string;
 createdAt?: string;
 cursor?: string;
 take?: number;
+};
+
+export type ThoughtsControllerGetStatsParams = {
+range: string;
 };
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
@@ -695,6 +708,118 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       > => {
       return useMutation(getThoughtsControllerCreateMutationOptions(options), queryClient);
     }
+
+export type thoughtsControllerGetStatsResponse200 = {
+  data: StatsThoughtDto
+  status: 200
+}
+
+export type thoughtsControllerGetStatsResponseSuccess = (thoughtsControllerGetStatsResponse200) & {
+  headers: Headers;
+};
+;
+
+export type thoughtsControllerGetStatsResponse = (thoughtsControllerGetStatsResponseSuccess)
+
+export const getThoughtsControllerGetStatsUrl = (params: ThoughtsControllerGetStatsParams,) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : value.toString())
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0 ? `/thoughts/stats?${stringifiedParams}` : `/thoughts/stats`
+}
+
+export const thoughtsControllerGetStats = async (params: ThoughtsControllerGetStatsParams, options?: RequestInit): Promise<thoughtsControllerGetStatsResponse> => {
+
+  return apiInstance<thoughtsControllerGetStatsResponse>(getThoughtsControllerGetStatsUrl(params),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getThoughtsControllerGetStatsQueryKey = (params?: ThoughtsControllerGetStatsParams,) => {
+    return [
+    `/thoughts/stats`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+
+export const getThoughtsControllerGetStatsQueryOptions = <TData = Awaited<ReturnType<typeof thoughtsControllerGetStats>>, TError = unknown>(params: ThoughtsControllerGetStatsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof thoughtsControllerGetStats>>, TError, TData>>, request?: SecondParameter<typeof apiInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getThoughtsControllerGetStatsQueryKey(params);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof thoughtsControllerGetStats>>> = ({ signal }) => thoughtsControllerGetStats(params, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof thoughtsControllerGetStats>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type ThoughtsControllerGetStatsQueryResult = NonNullable<Awaited<ReturnType<typeof thoughtsControllerGetStats>>>
+export type ThoughtsControllerGetStatsQueryError = unknown
+
+
+export function useThoughtsControllerGetStats<TData = Awaited<ReturnType<typeof thoughtsControllerGetStats>>, TError = unknown>(
+ params: ThoughtsControllerGetStatsParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof thoughtsControllerGetStats>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof thoughtsControllerGetStats>>,
+          TError,
+          Awaited<ReturnType<typeof thoughtsControllerGetStats>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiInstance>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useThoughtsControllerGetStats<TData = Awaited<ReturnType<typeof thoughtsControllerGetStats>>, TError = unknown>(
+ params: ThoughtsControllerGetStatsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof thoughtsControllerGetStats>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof thoughtsControllerGetStats>>,
+          TError,
+          Awaited<ReturnType<typeof thoughtsControllerGetStats>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiInstance>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useThoughtsControllerGetStats<TData = Awaited<ReturnType<typeof thoughtsControllerGetStats>>, TError = unknown>(
+ params: ThoughtsControllerGetStatsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof thoughtsControllerGetStats>>, TError, TData>>, request?: SecondParameter<typeof apiInstance>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useThoughtsControllerGetStats<TData = Awaited<ReturnType<typeof thoughtsControllerGetStats>>, TError = unknown>(
+ params: ThoughtsControllerGetStatsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof thoughtsControllerGetStats>>, TError, TData>>, request?: SecondParameter<typeof apiInstance>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getThoughtsControllerGetStatsQueryOptions(params,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
 
 export type thoughtsControllerFindOneResponse200 = {
   data: ThoughtDto

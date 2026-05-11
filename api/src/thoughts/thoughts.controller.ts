@@ -51,18 +51,6 @@ export class ThoughtsController {
     );
   }
 
-  @Get(':id')
-  @UseGuards(AuthGuard)
-  @HttpCode(HttpStatus.OK)
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'Get thought successful',
-    type: ThoughtDto,
-  })
-  findOne(@Param('id') id: string, @Request() req: AuthenticatedRequest) {
-    return this.thoughtsService.findOne(id, req.user.sub);
-  }
-
   @Get('stats')
   @UseGuards(AuthGuard)
   @HttpCode(HttpStatus.OK)
@@ -76,6 +64,18 @@ export class ThoughtsController {
     @Query('range') range: '7d' | '30d' | 'all' = 'all',
   ) {
     return this.thoughtsService.dataStats(req.user.sub, range);
+  }
+
+  @Get(':id')
+  @UseGuards(AuthGuard)
+  @HttpCode(HttpStatus.OK)
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Get thought successful',
+    type: ThoughtDto,
+  })
+  findOne(@Param('id') id: string, @Request() req: AuthenticatedRequest) {
+    return this.thoughtsService.findOne(id, req.user.sub);
   }
 
   @Post()

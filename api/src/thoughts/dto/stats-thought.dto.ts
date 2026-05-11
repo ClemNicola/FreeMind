@@ -25,4 +25,8 @@ export class StatsThoughtDto {
   @IsArray()
   @IsObject({ each: true })
   totalThoughtsByDay: { day: string; count: number }[];
+
+  @ApiProperty()
+  @IsNumber()
+  streak: number;
 }

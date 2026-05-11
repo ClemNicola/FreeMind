@@ -4,7 +4,13 @@ import { PrismaService } from '../prisma/prisma.service';
 import { CreateThoughtDto } from './dto/create-thought.dto';
 import { UpdateThoughtDto } from './dto/update-thought.dto';
 import { FilterThoughtDto } from './dto/filter-thought.dto';
-import { StatsThoughtDto } from './dto/stats-thought.dto';
+export type DaoStats = {
+  totalThoughts: number;
+  totalMood: { moodIndex: string; _count: number }[];
+  totalLegitimate: { legitimateIndex: string; _count: number }[];
+  totalTime: { timeIndex: string; _count: number }[];
+  totalThoughtsByDay: { day: string; count: number }[];
+};
 
 @Injectable()
 export class ThoughtsDao {
@@ -75,7 +81,7 @@ export class ThoughtsDao {
     return this.prisma.thought.delete({ where: { id } });
   }
 
-  async dataStats(userId: string, startDate?: Date): Promise<StatsThoughtDto> {
+  async dataStats(userId: string, startDate?: Date): Promise<DaoStats> {
     const where = {
       userId,
       ...(startDate && {
@@ -112,7 +118,7 @@ export class ThoughtsDao {
     };
   }
 
-  private async thoughtsByDay(userId: string, startDate?: Date) {
+  async thoughtsByDay(userId: string, startDate?: Date) {
     return this.prisma.$queryRaw<{ day: string; count: number }[]>`
       SELECT DATE("createdAt") as day, COUNT(*)::int as count
       FROM "Thought"
