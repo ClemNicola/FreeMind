@@ -20,6 +20,7 @@ import { PaginatedThoughtsDto } from './dto/paginated-thoughts.dto';
 import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { StatsThoughtDto } from './dto/stats-thought.dto';
 
 type AuthenticatedRequest = Request & { user: { sub: string; email: string } };
 
@@ -60,6 +61,21 @@ export class ThoughtsController {
   })
   findOne(@Param('id') id: string, @Request() req: AuthenticatedRequest) {
     return this.thoughtsService.findOne(id, req.user.sub);
+  }
+
+  @Get('stats')
+  @UseGuards(AuthGuard)
+  @HttpCode(HttpStatus.OK)
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Get stats successful',
+    type: StatsThoughtDto,
+  })
+  getStats(
+    @Request() req: AuthenticatedRequest,
+    @Query('range') range: '7d' | '30d' | 'all' = 'all',
+  ) {
+    return this.thoughtsService.dataStats(req.user.sub, range);
   }
 
   @Post()

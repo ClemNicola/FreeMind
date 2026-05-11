@@ -8,6 +8,7 @@ import { ThoughtsDao } from './thoughts.dao';
 import { CreateThoughtDto } from './dto/create-thought.dto';
 import { UpdateThoughtDto } from './dto/update-thought.dto';
 import { FilterThoughtDto } from './dto/filter-thought.dto';
+import { StatsThoughtDto } from './dto/stats-thought.dto';
 
 @Injectable()
 export class ThoughtsService {
@@ -52,5 +53,23 @@ export class ThoughtsService {
       throw new ForbiddenException(`Thought ${id} not found`);
     }
     return this.thoughtsDao.delete(id);
+  }
+
+  async dataStats(
+    userId: string,
+    range: '7d' | '30d' | 'all',
+  ): Promise<StatsThoughtDto> {
+    const startDate = this.startDateFromDateRange(range);
+    return this.thoughtsDao.dataStats(userId, startDate);
+  }
+
+  private startDateFromDateRange(
+    range: '7d' | '30d' | 'all',
+  ): Date | undefined {
+    if (range === 'all') return undefined;
+    const now = new Date();
+    const days = range === '7d' ? 7 : 30;
+    now.setDate(now.getDate() - days);
+    return now;
   }
 }

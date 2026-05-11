@@ -4,6 +4,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { CreateThoughtDto } from './dto/create-thought.dto';
 import { UpdateThoughtDto } from './dto/update-thought.dto';
 import { FilterThoughtDto } from './dto/filter-thought.dto';
+import { StatsThoughtDto } from './dto/stats-thought.dto';
 
 @Injectable()
 export class ThoughtsDao {
@@ -72,5 +73,53 @@ export class ThoughtsDao {
 
   delete(id: string) {
     return this.prisma.thought.delete({ where: { id } });
+  }
+
+  async dataStats(userId: string, startDate?: Date): Promise<StatsThoughtDto> {
+    const where = {
+      userId,
+      ...(startDate && {
+        createdAt: {
+          gte: startDate,
+        },
+      }),
+    };
+    const totalThoughts = await this.prisma.thought.count({
+      where,
+    });
+    const totalMood = await this.prisma.thought.groupBy({
+      by: ['moodIndex'],
+      _count: true,
+      where,
+    });
+    const totalLegitimate = await this.prisma.thought.groupBy({
+      by: ['legitimateIndex'],
+      _count: true,
+      where,
+    });
+    const totalTime = await this.prisma.thought.groupBy({
+      by: ['timeIndex'],
+      _count: true,
+      where,
+    });
+    const totalThoughtsByDay = await this.thoughtsByDay(userId, startDate);
+    return {
+      totalThoughts,
+      totalMood,
+      totalLegitimate,
+      totalTime,
+      totalThoughtsByDay,
+    };
+  }
+
+  private async thoughtsByDay(userId: string, startDate?: Date) {
+    return this.prisma.$queryRaw<{ day: string; count: number }[]>`
+      SELECT DATE("createdAt") as day, COUNT(*)::int as count
+      FROM "Thought"
+      WHERE "userId" = ${userId}
+        AND (${startDate}::timestamp IS NULL OR "createdAt" >= ${startDate})
+      GROUP BY DATE("createdAt")
+      ORDER BY day ASC
+    `;
   }
 }
