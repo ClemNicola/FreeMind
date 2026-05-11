@@ -7,6 +7,7 @@ import Auth from "./pages/auth";
 import Thoughts from "./pages/thoughts";
 import ProtectedRoute from "./components/ProtectedRoute";
 import useAuthBootstrap from "./hooks/useAuthBootstrap";
+import Dashboard from "./pages/dashboard/index.tsx";
 
 function App() {
   const [queryClient] = useState(() => new QueryClient());
@@ -26,6 +27,14 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/*" element={<Auth />} />
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            />
             <Route
               path="/thoughts/*"
               element={

@@ -76,7 +76,7 @@ export default function Signup() {
         onConfirm={() => {
           setStep(null);
           toast.success(t("signup.successToast"));
-          navigate("/dashboard");
+          navigate("/thoughts");
         }}
       />
     );

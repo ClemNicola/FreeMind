@@ -58,7 +58,7 @@ export default function LoginPage() {
             await persistMasterKey(masterKey);
 
             toast.success(t("login.successToast"));
-            navigate("/thoughts");
+            navigate("/dashboard");
           } catch (err) {
             console.error(err);
             setAuthError(t("login.errors.generic"));
