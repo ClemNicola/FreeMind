@@ -5,6 +5,9 @@ import clsx from "clsx";
 import useIndexLookUp from "@/hooks/useIndexLookUp";
 import { MOOD_ENUM } from "@/constants/enum";
 
+const FONT_SIZE_MIN = 14;
+const FONT_SIZE_MAX = 64;
+
 export default function Dashboard() {
   const [range, setRange] = useState<"7d" | "30d" | "all">("all");
   const { data: statsData } = useQuery({
@@ -26,6 +29,17 @@ export default function Dashboard() {
   //   const decodeLegitimate = (legitimateIndex: string) => {
   //     return lookup?.legitimate.get(legitimateIndex) || legitimateIndex;
   //   };
+
+  function computeFontSize(count: number, min: number, max: number) {
+    if (max === min) return (FONT_SIZE_MAX + FONT_SIZE_MIN) / 2;
+    const ratio = (count - min) / (max - min);
+    return FONT_SIZE_MIN + ratio * (FONT_SIZE_MAX - FONT_SIZE_MIN);
+  }
+
+  const moods = statsData?.data.totalMood ?? [];
+  const counts = moods.map((mood) => mood._count);
+  const minCount = Math.min(...counts);
+  const maxCount = Math.max(...counts);
 
   return (
     <div className="flex flex-col min-h-screen p-6 gap-6 md:gap-8">
@@ -113,24 +127,23 @@ export default function Dashboard() {
           What have you been feeling
         </h3>
         <div className="flex items-center gap-2">
-          {statsData?.data.totalMood.map((mood) => (
-            <div key={mood.moodIndex} className="flex items-start gap-2">
+          {moods.map((mood) => {
+            const moodKey = decodeMood(mood.moodIndex);
+            const moodInfo = MOOD_ENUM[moodKey as keyof typeof MOOD_ENUM];
+            const fontSize = computeFontSize(mood._count, minCount, maxCount);
+            return (
               <span
-                className="text-sm sm:text-base md:text-lg font-general"
-                style={{
-                  color:
-                    MOOD_ENUM[
-                      decodeMood(mood.moodIndex) as keyof typeof MOOD_ENUM
-                    ].color,
-                }}
+                key={mood.moodIndex}
+                className="font-general font-semibold lowercase"
+                style={{ fontSize, color: moodInfo?.color ?? "#1a1a2e" }}
               >
-                {decodeMood(mood.moodIndex)}
+                {moodKey}
+                <sup className="ml-0.5 text-xs font-normal opacity-70">
+                  {mood._count}
+                </sup>
               </span>
-              <span className="text-sm sm:text-base md:text-lg font-general text-dark_blue">
-                {mood._count}
-              </span>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </section>
     </div>
