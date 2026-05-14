@@ -5,8 +5,8 @@ import clsx from "clsx";
 import useIndexLookUp from "@/hooks/useIndexLookUp";
 import { MOOD_ENUM } from "@/constants/enum";
 
-const FONT_SIZE_MIN = 14;
-const FONT_SIZE_MAX = 64;
+const FONT_SIZE_MIN = 1.25;
+const FONT_SIZE_MAX = 4;
 
 export default function Dashboard() {
   const [range, setRange] = useState<"7d" | "30d" | "all">("all");
@@ -30,16 +30,19 @@ export default function Dashboard() {
   //     return lookup?.legitimate.get(legitimateIndex) || legitimateIndex;
   //   };
 
-  function computeFontSize(count: number, min: number, max: number) {
-    if (max === min) return (FONT_SIZE_MAX + FONT_SIZE_MIN) / 2;
-    const ratio = (count - min) / (max - min);
-    return FONT_SIZE_MIN + ratio * (FONT_SIZE_MAX - FONT_SIZE_MIN);
+  function computeFontSize(count: number, maxCount: number) {
+    if (maxCount === 0) return `${FONT_SIZE_MIN}rem`;
+    const ratio = count / maxCount;
+    const targetRem = FONT_SIZE_MIN + ratio * (FONT_SIZE_MAX - FONT_SIZE_MIN);
+    const minRem = targetRem * 0.55;
+    const vwSize = targetRem * 1.8;
+    return `clamp(${minRem.toFixed(2)}rem, ${vwSize.toFixed(2)}vw, ${targetRem.toFixed(2)}rem)`;
   }
 
-  const moods = statsData?.data.totalMood ?? [];
-  const counts = moods.map((mood) => mood._count);
-  const minCount = Math.min(...counts);
-  const maxCount = Math.max(...counts);
+  const moods = [...(statsData?.data.totalMood ?? [])].sort(
+    (a, b) => b._count - a._count,
+  );
+  const maxCount = moods[0]?._count ?? 0;
 
   return (
     <div className="flex flex-col min-h-screen p-6 gap-6 md:gap-8">
@@ -130,18 +133,22 @@ export default function Dashboard() {
           {moods.map((mood) => {
             const moodKey = decodeMood(mood.moodIndex);
             const moodInfo = MOOD_ENUM[moodKey as keyof typeof MOOD_ENUM];
-            const fontSize = computeFontSize(mood._count, minCount, maxCount);
+            const fontSize = computeFontSize(mood._count, maxCount);
             return (
-              <span
-                key={mood.moodIndex}
-                className="font-general font-semibold lowercase"
-                style={{ fontSize, color: moodInfo?.color ?? "#1a1a2e" }}
-              >
-                {moodKey}
-                <sup className="ml-0.5 text-xs font-normal opacity-70">
+              <div key={mood.moodIndex} className="flex items-start gap-2">
+                <span
+                  className="font-general font-semibold lowercase leading-none"
+                  style={{ fontSize, color: moodInfo?.color ?? "#1a1a2e" }}
+                >
+                  {moodKey}
+                </span>
+                <span
+                  className="font-general font-normal opacity-60 text-brown leading-none"
+                  style={{ fontSize: `calc(${fontSize} * 0.4)` }}
+                >
                   {mood._count}
-                </sup>
-              </span>
+                </span>
+              </div>
             );
           })}
         </div>
