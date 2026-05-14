@@ -1,32 +1,53 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsArray, IsNumber, IsObject } from 'class-validator';
+
+export class MoodCountDto {
+  @ApiProperty()
+  moodIndex: string;
+
+  @ApiProperty()
+  _count: number;
+}
+
+export class LegitimateCountDto {
+  @ApiProperty()
+  legitimateIndex: string;
+
+  @ApiProperty()
+  _count: number;
+}
+
+export class TimeCountDto {
+  @ApiProperty()
+  timeIndex: string;
+
+  @ApiProperty()
+  _count: number;
+}
+
+export class DayCountDto {
+  @ApiProperty()
+  day: string;
+
+  @ApiProperty()
+  count: number;
+}
 
 export class StatsThoughtDto {
   @ApiProperty()
-  @IsNumber()
   totalThoughts: number;
 
-  @ApiProperty()
-  @IsArray()
-  @IsObject({ each: true })
-  totalMood: { moodIndex: string; _count: number }[];
+  @ApiProperty({ type: [MoodCountDto] })
+  totalMood: MoodCountDto[];
+
+  @ApiProperty({ type: [LegitimateCountDto] })
+  totalLegitimate: LegitimateCountDto[];
+
+  @ApiProperty({ type: [TimeCountDto] })
+  totalTime: TimeCountDto[];
+
+  @ApiProperty({ type: [DayCountDto] })
+  totalThoughtsByDay: DayCountDto[];
 
   @ApiProperty()
-  @IsArray()
-  @IsObject({ each: true })
-  totalLegitimate: { legitimateIndex: string; _count: number }[];
-
-  @ApiProperty()
-  @IsArray()
-  @IsObject({ each: true })
-  totalTime: { timeIndex: string; _count: number }[];
-
-  @ApiProperty()
-  @IsArray()
-  @IsObject({ each: true })
-  totalThoughtsByDay: { day: string; count: number }[];
-
-  @ApiProperty()
-  @IsNumber()
   streak: number;
 }
