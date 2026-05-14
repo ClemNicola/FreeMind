@@ -65,12 +65,32 @@ export interface PaginatedThoughtsDto {
   nextCursor: string | null;
 }
 
+export interface MoodCountDto {
+  moodIndex: string;
+  _count: number;
+}
+
+export interface LegitimateCountDto {
+  legitimateIndex: string;
+  _count: number;
+}
+
+export interface TimeCountDto {
+  timeIndex: string;
+  _count: number;
+}
+
+export interface DayCountDto {
+  day: string;
+  count: number;
+}
+
 export interface StatsThoughtDto {
   totalThoughts: number;
-  totalMood: string[];
-  totalLegitimate: string[];
-  totalTime: string[];
-  totalThoughtsByDay: string[];
+  totalMood: MoodCountDto[];
+  totalLegitimate: LegitimateCountDto[];
+  totalTime: TimeCountDto[];
+  totalThoughtsByDay: DayCountDto[];
   streak: number;
 }
 
