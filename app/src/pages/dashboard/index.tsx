@@ -39,6 +39,10 @@ export default function Dashboard() {
     return `clamp(${minRem.toFixed(2)}rem, ${vwSize.toFixed(2)}vw, ${targetRem.toFixed(2)}rem)`;
   }
 
+  function capitalize(str: string) {
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  }
+
   const moods = [...(statsData?.data.totalMood ?? [])].sort(
     (a, b) => b._count - a._count,
   );
@@ -137,10 +141,10 @@ export default function Dashboard() {
             return (
               <div key={mood.moodIndex} className="flex items-start gap-2">
                 <span
-                  className="font-general font-semibold lowercase leading-none"
+                  className="font-general font-semibold leading-none"
                   style={{ fontSize, color: moodInfo?.color ?? "#1a1a2e" }}
                 >
-                  {moodKey}
+                  {capitalize(moodKey)}
                 </span>
                 <span
                   className="font-general font-normal opacity-60 text-brown leading-none"
@@ -152,6 +156,13 @@ export default function Dashboard() {
             );
           })}
         </div>
+        <p className="text-sm sm:text-base md:text-lg font-general text-brown mt-4">
+          <span className="font-semibold">
+            {capitalize(decodeMood(moods[0]?.moodIndex))}
+          </span>{" "}
+          showed up <span className="font-semibold">{moods[0]?._count}</span>{" "}
+          times.
+        </p>
       </section>
     </div>
   );
